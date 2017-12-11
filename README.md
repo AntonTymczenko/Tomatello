@@ -7,8 +7,8 @@
 
 ### Team
 <ul>
-  <li> (Project Manager)</li>
-  <li></li>
+  <li>  (Project Manager)</li>
+  <li><a href="https://github.com/Dar0n">Ilya</a> Dar0n</li>
   <li></li>
   <li></li>
 </ul>
