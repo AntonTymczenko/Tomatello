@@ -50,9 +50,11 @@ export default {
   components: {
     appList: List
   },
-  data: () => ({
-    drawer: null
-  }),
+  data () {
+    return {
+      drawer: null
+    }
+  },
   props: {
     source: String
   }
