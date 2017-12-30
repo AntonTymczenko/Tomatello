@@ -34,7 +34,7 @@
         justify-center
         align-center
       >
-        <p> List goes here </p>
+        <app-list/>
       </v-layout>
     </v-container>
   </v-content>
@@ -45,7 +45,11 @@
 </template>
 
 <script>
+import List from './List.vue'
 export default {
+  components: {
+    appList: List
+  },
   data: () => ({
     drawer: null
   }),
