@@ -14,9 +14,9 @@ export default {
   data () {
     return {
       todos: [
-        {task: "Walk a dog"},
-        {task: "Go groceries"},
-        {task: "Do dishes"}
+        {task: 'Walk a dog'},
+        {task: 'Go groceries'},
+        {task: 'Do dishes'}
       ]
     }
   }
