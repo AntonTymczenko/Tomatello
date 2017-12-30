@@ -26,7 +26,7 @@
   </v-navigation-drawer>
   <v-toolbar color="indigo" dark fixed app>
     <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-    <v-toolbar-title>Application</v-toolbar-title>
+    <v-toolbar-title>Turbo Trello</v-toolbar-title>
   </v-toolbar>
   <v-content>
     <v-container fluid fill-height>
@@ -34,7 +34,7 @@
         justify-center
         align-center
       >
-        <h1>{{ msg }}</h1>
+        <app-list/>
       </v-layout>
     </v-container>
   </v-content>
@@ -45,11 +45,16 @@
 </template>
 
 <script>
+import List from './List.vue'
 export default {
-  data: () => ({
-    drawer: null,
-    msg: 'Welcome to Turbo Trello App'
-  }),
+  components: {
+    appList: List
+  },
+  data () {
+    return {
+      drawer: null
+    }
+  },
   props: {
     source: String
   }
