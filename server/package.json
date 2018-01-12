@@ -1,0 +1,27 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Server side Turbo trello",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/chingu-voyage3/geckos-17.git"
+  },
+  "author": "Geckos-17",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chingu-voyage3/geckos-17/issues"
+  },
+  "homepage": "https://github.com/chingu-voyage3/geckos-17#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "dotenv": "^4.0.0",
+    "express": "^4.16.2",
+    "mongoose": "^4.13.9"
+  }
+}
