@@ -2,6 +2,9 @@
 const express = require('express'),
   bodyParser = require('body-parser')
 
+// models:
+const {List, Task} = require('./models')
+
 // configuration:
 require('dotenv').config()
 const mode = process.env.NODE_ENV || 'development',
