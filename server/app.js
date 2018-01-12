@@ -30,6 +30,18 @@ app.get('/', (req, res) => {
   res.send('Hello World! This is Turbo Trello App')
 })
 
+app.get('/list', (req, res) => {
+  List.findOne({})
+  .populate('tasks', '_id task done')
+  .exec((err, foundList) => {
+    if (err) {
+      console.log(err)
+    } else {
+      res.send(foundList)
+    }
+  })
+})
+
 // fire application:
 app.listen(port, ()=>{
   console.log(`Your application is running in ${mode} mode here: ${url}:${port}`)
