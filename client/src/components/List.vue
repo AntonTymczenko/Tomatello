@@ -25,6 +25,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   data () {
     return {
@@ -32,6 +34,15 @@ export default {
       addingItem: false,
       newItemText: ''
     }
+  },
+  created () {
+    axios.get('/list')
+      .then(res => {
+        this.tasks = res.data.tasks
+      })
+      .catch(err => {
+        console.log(err)
+      })
   },
   methods: {
     toggleDone (taskIndex) {
