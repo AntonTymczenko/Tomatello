@@ -1,6 +1,6 @@
 <template>
 <div>
-  <h3>Do today</h3>
+  <h3>{{ listName }}</h3>
   <ul class="todo-list">
     <li v-for="(task, index) in tasks">
       <button @click="toggleDone(index)">
@@ -30,6 +30,7 @@ import axios from 'axios'
 export default {
   data () {
     return {
+      listName: '',
       tasks: [],
       addingItem: false,
       newItemText: ''
@@ -38,6 +39,7 @@ export default {
   created () {
     axios.get('/list')
       .then(res => {
+        this.listName = res.data.listName
         this.tasks = res.data.tasks
       })
       .catch(err => {
