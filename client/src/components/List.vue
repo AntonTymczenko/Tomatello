@@ -1,15 +1,15 @@
 <template>
 <div>
-  <h3>Do today</h3>
+  <h3>{{ listName }}</h3>
   <ul class="todo-list">
-    <li v-for="(todo, index) in todos">
+    <li v-for="(task, index) in tasks">
       <button @click="toggleDone(index)">
         <v-icon
-          v-if="todo.done">check_box</v-icon>
+          v-if="task.done">check_box</v-icon>
         <v-icon
           v-else>check_box_outline_blank</v-icon>
       </button>
-      {{ todo.task }}
+      {{ task.task }}
     </li>
     <li class="new-list-item">
       <button @click="toggleAddingItem"><v-icon>add</v-icon></button>
@@ -25,21 +25,30 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   data () {
     return {
-      todos: [
-        {task: 'Walk a dog', done: false},
-        {task: 'Go groceries', done: true},
-        {task: 'Do dishes', done: false}
-      ],
+      listName: '',
+      tasks: [],
       addingItem: false,
       newItemText: ''
     }
   },
+  created () {
+    axios.get('/list')
+      .then(res => {
+        this.listName = res.data.listName
+        this.tasks = res.data.tasks
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  },
   methods: {
-    toggleDone (todoIndex) {
-      this.todos[todoIndex].done = !this.todos[todoIndex].done
+    toggleDone (taskIndex) {
+      this.tasks[taskIndex].done = !this.tasks[taskIndex].done
     },
     toggleAddingItem () {
       this.addingItem = !this.addingItem
@@ -51,7 +60,7 @@ export default {
     },
     addItem () {
       if (this.newItemText !== '') {
-        this.todos.push({task: this.newItemText, done: false})
+        this.tasks.push({task: this.newItemText, done: false})
       }
       this.newItemText = ''
       this.addingItem = false

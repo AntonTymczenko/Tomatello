@@ -1,6 +1,7 @@
 // dependencies:
 const express = require('express'),
-  bodyParser = require('body-parser')
+  bodyParser = require('body-parser'),
+  cors = require('cors')
 
 // models:
 const {List, Task} = require('./models')
@@ -14,6 +15,7 @@ const mode = process.env.NODE_ENV || 'development',
 // middleware:
 const app = express()
 app.use(bodyParser.urlencoded({extended: true}))
+app.use(cors())
 
 // database:
 const mongoose = require('mongoose')
