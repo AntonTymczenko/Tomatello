@@ -29,8 +29,12 @@ mongoose.connect(dburl, {useMongoClient: true})
 
 // reset and seed database:
 app.delete('/reset', (req, res) => {
-  require('./seed')
-  res.send('Database reset')
+  if (mode == 'development') {
+    require('./seed')
+    res.status(200).send('Database reset done')
+  } else {
+    res.status(403).send('Can\'t do this in non-development mode')
+  }
 })
 
 // list SHOW:
