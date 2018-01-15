@@ -1,6 +1,10 @@
 <template>
 <div>
-  <h3>{{ list.listName }}</h3>
+  <h3 contenteditable="true"
+    ref="listName"
+    @focus="backupListName()"
+    @blur="renameList()">
+    {{ list.listName }} </h3>
   <ul class="todo-list">
     <li v-for="(task, index) in list.tasks">
       <button @click="toggleDone(index)">
@@ -34,7 +38,8 @@ export default {
       tasks: []
     },
     addingItem: false,
-    newItemText: ''
+    newItemText: '',
+    backupedListName: ''
   }),
   created () {
     axios.get(`/list/1`)
@@ -70,6 +75,18 @@ export default {
       }
       this.newItemText = ''
       this.addingItem = false
+    },
+    backupListName () {
+      this.backupedListName = this.list.listName
+    },
+    renameList () {
+      const newName = this.$refs.listName.innerHTML.trim()
+      this.list.listName = newName
+      axios.put(`/list/${this.list._id}`, {listName: newName})
+        .catch(err => {
+          console.log(err.message)
+          this.list.listName = this.backupedListName
+        })
     }
   }
 }

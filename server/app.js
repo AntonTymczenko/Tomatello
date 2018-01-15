@@ -46,6 +46,17 @@ app.get('/list/1', (req, res) => {
   })
 })
 
+// list UPDATE:
+app.put('/list/:id', (req, res) => {
+  List.findByIdAndUpdate(req.params.id, req.body)
+    .then(updatedList => {
+      res.status(200).send(updatedList)
+    })
+    .catch(err => {
+      res.status(304).send(err)
+    })
+})
+
 // task UPDATE:
 app.put('/task/:id', (req, res) => {
   Task.findByIdAndUpdate(req.params.id, req.body)
