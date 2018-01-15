@@ -33,7 +33,8 @@ app.delete('/reset', (req, res) => {
   res.send('Database reset')
 })
 
-app.get('/list', (req, res) => {
+// list SHOW:
+app.get('/list/1', (req, res) => {
   List.findOne({})
   .populate('tasks', '_id task done')
   .exec((err, foundList) => {
