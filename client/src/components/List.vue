@@ -37,7 +37,7 @@ export default {
     newItemText: ''
   }),
   created () {
-    axios.get('/list')
+    axios.get(`/list/1`)
       .then(res => {
         this.list = res.data
       })
