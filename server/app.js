@@ -46,6 +46,17 @@ app.get('/list/1', (req, res) => {
   })
 })
 
+// task UPDATE:
+app.put('/task/:id', (req, res) => {
+  Task.findByIdAndUpdate(req.params.id, req.body)
+    .then(updatedTask => {
+      res.send(updatedTask)
+    })
+    .catch(err => {
+      res.send(err)
+    })
+})
+
 // fire application:
 app.listen(port, ()=>{
   console.log(`Your application is running in ${mode} mode here: ${url}:${port}`)
