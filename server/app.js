@@ -26,8 +26,11 @@ console.log('connecting to database ' + dburl)
 mongoose.connect(dburl, {useMongoClient: true})
 
 // routes:
-app.get('/', (req, res) => {
-  res.send('Hello World! This is Turbo Trello App')
+
+// reset and seed database:
+app.delete('/reset', (req, res) => {
+  require('./seed')
+  res.send('Database reset')
 })
 
 app.get('/list', (req, res) => {
