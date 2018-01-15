@@ -1,8 +1,8 @@
 <template>
 <div>
-  <h3>{{ listName }}</h3>
+  <h3>{{ list.listName }}</h3>
   <ul class="todo-list">
-    <li v-for="(task, index) in tasks">
+    <li v-for="(task, index) in list.tasks">
       <button @click="toggleDone(index)">
         <v-icon
           v-if="task.done">check_box</v-icon>
@@ -28,19 +28,18 @@
 import axios from 'axios'
 
 export default {
-  data () {
-    return {
+  data: () => ({
+    list: {
       listName: '',
-      tasks: [],
-      addingItem: false,
-      newItemText: ''
-    }
-  },
+      tasks: []
+    },
+    addingItem: false,
+    newItemText: ''
+  }),
   created () {
     axios.get('/list')
       .then(res => {
-        this.listName = res.data.listName
-        this.tasks = res.data.tasks
+        this.list = res.data
       })
       .catch(err => {
         console.log(err)
@@ -60,7 +59,7 @@ export default {
     },
     addItem () {
       if (this.newItemText !== '') {
-        this.tasks.push({task: this.newItemText, done: false})
+        this.list.tasks.push({task: this.newItemText, done: false})
       }
       this.newItemText = ''
       this.addingItem = false
