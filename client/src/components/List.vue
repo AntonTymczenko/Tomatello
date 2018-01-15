@@ -47,7 +47,14 @@ export default {
   },
   methods: {
     toggleDone (taskIndex) {
-      this.tasks[taskIndex].done = !this.tasks[taskIndex].done
+      const task = this.list.tasks[taskIndex]
+      axios.put(`/task/${task._id}`, {done: !task.done})
+        .then(res => {
+          task.done = !task.done
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
     toggleAddingItem () {
       this.addingItem = !this.addingItem
