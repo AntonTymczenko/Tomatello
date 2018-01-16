@@ -14,6 +14,11 @@
           v-else>check_box_outline_blank</v-icon>
       </button>
       {{ task.task }}
+      <button
+        @click="deleteTask(index)"
+        class="delete-task">
+        <v-icon>clear</v-icon>
+      </button>
     </li>
     <li class="new-list-item">
       <button @click="toggleAddingItem"><v-icon>add</v-icon></button>
@@ -76,6 +81,16 @@ export default {
       this.newItemText = ''
       this.addingItem = false
     },
+    deleteTask (index) {
+      const id = this.list.tasks[index]._id
+      this.list.tasks.splice(index, 1)
+      axios.delete(`/task/${id}`)
+        .catch(err => {
+          console.log(err)
+          // TODO: add some error handling.
+          // Undo the change in data() if back-end returned an error
+        })
+    },
     backupListName () {
       this.backupedListName = this.list.listName
     },
@@ -95,6 +110,12 @@ export default {
 <style scoped>
 .todo-list li {
   list-style: none;
+}
+.todo-list li .delete-task {
+  visibility: hidden;
+}
+.todo-list li:hover .delete-task {
+  visibility: visible;
 }
 .new-list-item input {
   border-bottom: 1px solid black

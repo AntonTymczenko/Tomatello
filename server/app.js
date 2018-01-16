@@ -72,6 +72,36 @@ app.put('/task/:id', (req, res) => {
     })
 })
 
+// task DESTROY:
+app.delete('/task/:id', (req, res) => {
+  Task.findByIdAndRemove(req.params.id)
+    .then(async function (task) {
+      try {
+        const list = await List.findById(task._list)
+        return Promise.resolve({
+          listId: list._id,
+          newTasks: list.tasks.filter(x => x.toString() != task._id.toString())
+        })
+      } catch (err) {
+        return Promise.reject(new Error(err))
+      }
+    })
+    .then(async function ({listId, newTasks}) {
+      try {
+        await List.findByIdAndUpdate(listId, {tasks: newTasks})
+        return Promise.resolve()
+      } catch (err) {
+        return Promise.reject(new Error(err))
+      }
+    })
+    .then(() => {
+      res.status(200).send('Task destroyed')
+    })
+    .catch(err => {
+      res.status(304).send(err)
+    })
+})
+
 // fire application:
 app.listen(port, ()=>{
   console.log(`Your application is running in ${mode} mode here: ${url}:${port}`)
