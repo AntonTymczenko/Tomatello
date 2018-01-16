@@ -101,6 +101,7 @@ export default {
         .catch(err => {
           console.log(err.message)
           this.list.listName = this.backupedListName
+          this.backupedListName = ''
         })
     }
   }
