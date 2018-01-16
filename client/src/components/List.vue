@@ -81,6 +81,14 @@ export default {
       this.newItemText = ''
       this.addingItem = false
     },
+    deleteTask (index) {
+      const id = this.list.tasks[index]._id
+      this.list.tasks.splice(index, 1)
+      axios.delete(`/task/${id}`)
+        .catch(err => {
+          console.log(err)
+        })
+    },
     backupListName () {
       this.backupedListName = this.list.listName
     },
