@@ -64,12 +64,17 @@ export default {
   methods: {
     toggleDone (taskIndex) {
       const task = this.list.tasks[taskIndex]
-      axios.put(`/task/${task._id}`, {done: !task.done})
+      const newState = !task.done
+      task.done = newState
+      axios.put(`/task/${task._id}`, {done: newState})
         .then(res => {
-          task.done = !task.done
+          if (res.data.done !== newState) {
+            return Promise.reject(new Error('304 Not modified'))
+          }
         })
         .catch(err => {
           console.log(err)
+          task.done = !newState
         })
     },
     toggleAddingItem () {
@@ -107,6 +112,7 @@ export default {
         .catch(err => {
           console.log(err.message)
           this.list.listName = this.backupedListName
+          this.backupedListName = ''
         })
     },
     backupTaskText (index) {
