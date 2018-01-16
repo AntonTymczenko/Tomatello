@@ -87,6 +87,8 @@ export default {
       axios.delete(`/task/${id}`)
         .catch(err => {
           console.log(err)
+          // TODO: add some error handling.
+          // Undo the change in data() if back-end returned an error
         })
     },
     backupListName () {
