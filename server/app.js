@@ -63,7 +63,7 @@ app.put('/list/:id', (req, res) => {
 
 // task UPDATE:
 app.put('/task/:id', (req, res) => {
-  Task.findByIdAndUpdate(req.params.id, req.body)
+  Task.findByIdAndUpdate(req.params.id, req.body, {new: true})
     .then(updatedTask => {
       res.send(updatedTask)
     })

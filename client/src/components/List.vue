@@ -13,7 +13,12 @@
         <v-icon
           v-else>check_box_outline_blank</v-icon>
       </button>
-      {{ task.task }}
+      <span contenteditable="true"
+        ref="tasks"
+        @focus="backupTaskText(index)"
+        @blur="renameTask(index)">
+        {{ task.task }}
+      </span>
       <button
         @click="deleteTask(index)"
         class="delete-task">
@@ -44,7 +49,8 @@ export default {
     },
     addingItem: false,
     newItemText: '',
-    backupedListName: ''
+    backupedListName: '',
+    backupedTaskText: ''
   }),
   created () {
     axios.get(`/list/1`)
@@ -107,6 +113,25 @@ export default {
           console.log(err.message)
           this.list.listName = this.backupedListName
           this.backupedListName = ''
+        })
+    },
+    backupTaskText (index) {
+      this.backupedTaskText = this.list.tasks[index].task
+    },
+    renameTask (index) {
+      const newText = this.$refs.tasks[index].innerHTML.trim()
+      const id = this.list.tasks[index]._id
+      this.list.tasks[index].task = newText
+      axios.put(`/task/${id}`, {task: newText})
+        .then(res => {
+          if (res.data.task !== newText) {
+            return Promise.reject(new Error('304 Not modified'))
+          }
+        })
+        .catch(err => {
+          console.log(err.message)
+          this.list.tasks[index].task = this.backupedTaskText
+          this.backupedTaskText = ''
         })
     }
   }
