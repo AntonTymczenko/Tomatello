@@ -93,13 +93,17 @@ export default {
       this.addingItem = false
     },
     deleteTask (index) {
-      const id = this.list.tasks[index]._id
+      const task = this.list.tasks[index]
       this.list.tasks.splice(index, 1)
-      axios.delete(`/task/${id}`)
+      axios.delete(`/task/${task._id}`)
+        .then(res => {
+          if (res.status !== 200) {
+            throw new Error('Something went wrong')
+          }
+        })
         .catch(err => {
           console.log(err)
-          // TODO: add some error handling.
-          // Undo the change in data() if back-end returned an error
+          this.list.tasks.splice(index, 0, task)
         })
     },
     backupListName () {
