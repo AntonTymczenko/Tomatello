@@ -69,7 +69,7 @@ export default {
       axios.put(`/task/${task._id}`, {done: newState})
         .then(res => {
           if (res.data.done !== newState) {
-            return Promise.reject(new Error('304 Not modified'))
+            throw new Error('Something went wrong at server trying to toggle task\'s Completed state')
           }
         })
         .catch(err => {
@@ -97,7 +97,7 @@ export default {
         axios.post(`/task`, {task})
           .then(res => {
             if (res.status !== 200) {
-              return Promise.reject(new Error('304 not modified'))
+              throw new Error('Something went wrong at server trying to add task')
             } else {
               this.list.tasks[index]._id = res.data
             }
@@ -116,7 +116,7 @@ export default {
       axios.delete(`/task/${task._id}`)
         .then(res => {
           if (res.status !== 200) {
-            throw new Error('Something went wrong')
+            throw new Error('Something went wrong trying to delete task')
           }
         })
         .catch(err => {
@@ -147,7 +147,7 @@ export default {
       axios.put(`/task/${id}`, {task: newText})
         .then(res => {
           if (res.data.task !== newText) {
-            return Promise.reject(new Error('304 Not modified'))
+            throw new Error('Something went wrong at server trying to rename task')
           }
         })
         .catch(err => {
