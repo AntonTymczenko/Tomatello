@@ -87,7 +87,25 @@ export default {
     },
     addItem () {
       if (this.newItemText !== '') {
-        this.list.tasks.push({task: this.newItemText, done: false})
+        const task = {
+          task: this.newItemText,
+          done: false
+        }
+        const index = this.list.tasks.length
+        this.list.tasks.push(task)
+        task._list = this.list._id
+        axios.post(`/task`, {task})
+          .then(res => {
+            if (res.status !== 200) {
+              return Promise.reject(new Error('304 not modified'))
+            } else {
+              this.list.tasks[index]._id = res.data
+            }
+          })
+          .catch(err => {
+            console.log(err.message)
+            this.list.tasks = this.list.tasks.filter(t => t !== task)
+          })
       }
       this.newItemText = ''
       this.addingItem = false

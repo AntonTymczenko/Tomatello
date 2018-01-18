@@ -61,6 +61,28 @@ app.put('/list/:id', (req, res) => {
     })
 })
 
+// task CREATE:
+app.post('/task', (req, res) => {
+  Task.create(req.body.task)
+    .then(async function (task) {
+      try {
+        const list = await List.findById(task._list)
+        list.tasks.push(task._id)
+        await List.findByIdAndUpdate(list._id, {tasks: list.tasks})
+        return Promise.resolve(task._id)
+      } catch (err) {
+        return Promise.reject(new Error(err))
+      }
+    })
+    .then(id => {
+      res.status(200).send(id)
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(304).send(err)
+    })
+})
+
 // task UPDATE:
 app.put('/task/:id', (req, res) => {
   Task.findByIdAndUpdate(req.params.id, req.body, {new: true})
