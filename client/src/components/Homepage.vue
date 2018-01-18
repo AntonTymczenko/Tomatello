@@ -22,6 +22,14 @@
           <v-list-tile-title>Contact</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
+      <v-list-tile @click="resetDatabase()">
+        <v-list-tile-action>
+          <v-icon>settings_backup_restore</v-icon>
+        </v-list-tile-action>
+        <v-list-tile-content>
+          <v-list-tile-title>Reset Database</v-list-tile-title>
+        </v-list-tile-content>
+      </v-list-tile>
     </v-list>
   </v-navigation-drawer>
   <v-toolbar color="indigo" dark fixed app>
@@ -46,6 +54,8 @@
 
 <script>
 import List from './List.vue'
+import axios from 'axios'
+
 export default {
   components: {
     appList: List
@@ -53,6 +63,17 @@ export default {
   data () {
     return {
       drawer: null
+    }
+  },
+  methods: {
+    resetDatabase () {
+      axios.delete('/reset')
+        .then(res => {
+          location.reload(true)
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
   },
   props: {
