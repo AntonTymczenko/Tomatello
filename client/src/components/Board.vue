@@ -2,7 +2,10 @@
 <div>
   <h2>{{ boardName }}</h2>
   <div v-for="listId in lists">
-    <app-list :listId="listId"></app-list>
+    <app-list
+      :listId="listId"
+      :user="user"
+      ></app-list>
   </div>
 </div>
 </template>
