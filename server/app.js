@@ -37,6 +37,17 @@ app.delete('/reset', (req, res) => {
   }
 })
 
+// board SHOW:
+app.get('/board/1', (req, res) => {
+  Board.findOne({})
+    .then(foundBoard => {
+      res.send(foundBoard)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+})
+
 // list SHOW:
 app.get('/list/:id', (req, res) => {
   List.findById(req.params.id)
