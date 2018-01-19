@@ -1,10 +1,6 @@
 <template>
 <v-app id="inspire">
-  <v-navigation-drawer
-    fixed
-    v-model="drawer"
-    app
-  >
+  <v-navigation-drawer fixed v-model="drawer" app >
     <app-navigation/>
   </v-navigation-drawer>
   <v-toolbar color="indigo" dark fixed app>
@@ -13,10 +9,7 @@
   </v-toolbar>
   <v-content>
     <v-container fluid fill-height>
-      <v-layout
-        justify-center
-        align-center
-      >
+      <v-layout justify-center align-center >
         <app-list/>
       </v-layout>
     </v-container>
