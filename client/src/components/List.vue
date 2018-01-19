@@ -42,6 +42,7 @@
 import axios from 'axios'
 
 export default {
+  props: ['listId'],
   data: () => ({
     list: {},
     addingItem: false,
