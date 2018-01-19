@@ -1,0 +1,16 @@
+{
+  "login": "user",
+  "password": "password",
+  "publicName": "John Doe",
+  "boards": [{
+    "boardName": "Main board",
+    "lists": [{
+        "listName": "Do everyday",
+        "tasks": ["Walk a dog", "Go groceries", "Do dishes"]
+      },
+      {
+        "listName": "Do this month",
+        "tasks": ["Visit Bob", "Call parents"]
+    }]
+  }]
+}

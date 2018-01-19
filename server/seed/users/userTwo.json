@@ -1,0 +1,12 @@
+{
+  "login": "test",
+  "password": "test",
+  "publicName": "Bob Nihilist",
+  "boards": [{
+    "boardName": "Burden of the world board",
+    "lists": [{
+      "listName": "Never to do",
+      "tasks": ["Be happy", "Love everyone", "Respond to John's calls"]
+    }]
+  }]
+}
