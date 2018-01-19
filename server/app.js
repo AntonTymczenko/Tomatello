@@ -38,16 +38,15 @@ app.delete('/reset', (req, res) => {
 })
 
 // list SHOW:
-app.get('/list/1', (req, res) => {
-  List.findOne({})
-  .populate('tasks', '_id task done')
-  .exec((err, foundList) => {
-    if (err) {
-      console.log(err)
-    } else {
+app.get('/list/:id', (req, res) => {
+  List.findById(req.params.id)
+    .populate('tasks', '_id task done')
+    .then(foundList => {
       res.send(foundList)
-    }
-  })
+    })
+    .catch(err => {
+      console.log(err)
+    })
 })
 
 // list UPDATE:
