@@ -10,7 +10,7 @@
   <v-content>
     <v-container fluid fill-height>
       <v-layout justify-center align-center >
-        <app-list/>
+        <app-board></app-board>
       </v-layout>
     </v-container>
   </v-content>
@@ -22,11 +22,11 @@
 
 <script>
 import Navigation from './Navigation.vue'
-import List from './List.vue'
+import Board from './Board.vue'
 
 export default {
   components: {
-    appList: List,
+    appBoard: Board,
     appNavigation: Navigation
   },
   data () {
