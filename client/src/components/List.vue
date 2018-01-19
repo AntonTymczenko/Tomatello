@@ -42,7 +42,14 @@
 import axios from 'axios'
 
 export default {
-  props: ['listId'],
+  props: {
+    listId: {
+      required: true
+    },
+    user: {
+      required: true
+    }
+  },
   data: () => ({
     list: null,
     addingItem: false,
@@ -90,7 +97,8 @@ export default {
       if (this.newItemText !== '') {
         const task = {
           task: this.newItemText,
-          done: false
+          done: false,
+          _user: this.user
         }
         const index = this.list.tasks.length
         this.list.tasks.push(task)
