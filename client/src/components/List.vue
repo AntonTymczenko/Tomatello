@@ -51,15 +51,18 @@ export default {
     backupedTaskText: ''
   }),
   created () {
-    axios.get(`/list/1`)
-      .then(res => {
-        this.list = res.data
-      })
-      .catch(err => {
-        console.log(err)
-      })
+    this.fetchList(this.listId)
   },
   methods: {
+    fetchList (id) {
+      axios.get(`/list/${id}`)
+        .then(res => {
+          this.list = res.data
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
     toggleDone (taskIndex) {
       const task = this.list.tasks[taskIndex]
       const newState = !task.done
