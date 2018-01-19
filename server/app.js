@@ -4,7 +4,7 @@ const express = require('express'),
   cors = require('cors')
 
 // models:
-const {List, Task} = require('./models')
+const {User, Board, List, Task} = require('./models')
 
 // configuration:
 require('dotenv').config()
