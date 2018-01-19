@@ -1,5 +1,5 @@
 <template>
-<div>
+<div v-if="list">
   <h3 contenteditable="true"
     ref="listName"
     @focus="backupListName()"
@@ -43,10 +43,7 @@ import axios from 'axios'
 
 export default {
   data: () => ({
-    list: {
-      listName: '',
-      tasks: []
-    },
+    list: {},
     addingItem: false,
     newItemText: '',
     backupedListName: '',
