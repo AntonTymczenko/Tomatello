@@ -37,6 +37,17 @@ app.delete('/reset', (req, res) => {
   }
 })
 
+// user SHOW:
+app.get('/user/1', (req, res) => {
+  User.findOne({})
+    .then(foundUser => {
+      res.send(foundUser)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+})
+
 // board SHOW:
 app.get('/board/1', (req, res) => {
   Board.findOne({})
