@@ -45,9 +45,6 @@ export default {
   props: {
     listId: {
       required: true
-    },
-    user: {
-      required: true
     }
   },
   data: () => ({
@@ -98,7 +95,7 @@ export default {
         const task = {
           task: this.newItemText,
           done: false,
-          _user: this.user
+          _user: this.list._user
         }
         const index = this.list.tasks.length
         this.list.tasks.push(task)
