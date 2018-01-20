@@ -9,7 +9,7 @@
     </v-list-tile-content>
   </v-list-tile>
   <v-divider></v-divider>
-  <v-list-tile v-for="item in items" :key="item.title" @click="">
+  <v-list-tile v-for="item in items" :key="item.title" :to="item.link">
     <v-list-tile-action>
       <v-icon>{{ item.icon }}</v-icon>
     </v-list-tile-action>
@@ -26,9 +26,8 @@ import axios from 'axios'
 export default {
   data: () => ({
     items: [
-      {title: 'Home', icon: 'home'},
-      {title: 'Contacts', icon: 'contact_mail'},
-      {title: 'Reset Database', icon: 'settings_backup_restore', click: 'poop()'}
+      {title: 'Home', icon: 'home', link: '/'},
+      {title: 'Contacts', icon: 'contact_mail', link: '/profile'}
     ]
   }),
   methods: {
