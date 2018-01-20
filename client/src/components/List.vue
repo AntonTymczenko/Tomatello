@@ -1,5 +1,5 @@
 <template>
-<div>
+<div v-if="list">
   <h3 contenteditable="true"
     ref="listName"
     @focus="backupListName()"
@@ -42,26 +42,34 @@
 import axios from 'axios'
 
 export default {
-  data: () => ({
-    list: {
-      listName: '',
-      tasks: []
+  props: {
+    listId: {
+      required: true
     },
+    user: {
+      required: true
+    }
+  },
+  data: () => ({
+    list: null,
     addingItem: false,
     newItemText: '',
     backupedListName: '',
     backupedTaskText: ''
   }),
   created () {
-    axios.get(`/list/1`)
-      .then(res => {
-        this.list = res.data
-      })
-      .catch(err => {
-        console.log(err)
-      })
+    this.fetchList(this.listId)
   },
   methods: {
+    fetchList (id) {
+      axios.get(`/list/${id}`)
+        .then(res => {
+          this.list = res.data
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
     toggleDone (taskIndex) {
       const task = this.list.tasks[taskIndex]
       const newState = !task.done
@@ -89,7 +97,8 @@ export default {
       if (this.newItemText !== '') {
         const task = {
           task: this.newItemText,
-          done: false
+          done: false,
+          _user: this.user
         }
         const index = this.list.tasks.length
         this.list.tasks.push(task)

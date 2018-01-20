@@ -4,7 +4,7 @@ const express = require('express'),
   cors = require('cors')
 
 // models:
-const {List, Task} = require('./models')
+const {User, Board, List, Task} = require('./models')
 
 // configuration:
 require('dotenv').config()
@@ -37,17 +37,27 @@ app.delete('/reset', (req, res) => {
   }
 })
 
-// list SHOW:
-app.get('/list/1', (req, res) => {
-  List.findOne({})
-  .populate('tasks', '_id task done')
-  .exec((err, foundList) => {
-    if (err) {
+// board SHOW:
+app.get('/board/1', (req, res) => {
+  Board.findOne({})
+    .then(foundBoard => {
+      res.send(foundBoard)
+    })
+    .catch(err => {
       console.log(err)
-    } else {
+    })
+})
+
+// list SHOW:
+app.get('/list/:id', (req, res) => {
+  List.findById(req.params.id)
+    .populate('tasks', '_id task done')
+    .then(foundList => {
       res.send(foundList)
-    }
-  })
+    })
+    .catch(err => {
+      console.log(err)
+    })
 })
 
 // list UPDATE:
