@@ -38,16 +38,20 @@ app.delete('/reset', (req, res) => {
 })
 
 // login
-app.get('/login', (req, res) => {
+app.post('/login', (req, res) => {
   const {login, password} = req.body
-  console.log(`reqesting user ${login}, ${password}`)
   User.findOne({login, password})
     .then(foundUser => {
-      res.send(foundUser)
+      if (foundUser) {
+        console.log(foundUser._id)
+        res.status(200).send(foundUser)
+      } else {
+        throw new Error('Wrong credentials')
+      }
     })
     .catch(err => {
       console.log(err)
-      res.status(404).send(new Error('User not found'))
+      res.status(403).send(err.message)
     })
 })
 
