@@ -1,5 +1,5 @@
 <template>
-<v-app>
+<v-app v-if="user">
   <v-navigation-drawer fixed v-model="drawer" app >
     <app-navigation
       :user="user"
@@ -13,6 +13,7 @@
     <v-container fluid fill-height>
       <v-layout justify-center align-center >
         <app-board
+          v-if="board"
           :board="board"
         ></app-board>
       </v-layout>
