@@ -21,8 +21,8 @@ const shortenId = id => id.toString().substring(20)
 const populateUsers = async users => {
   try {
     for (let user of users) {
-      const {login, password, publicName} = user
-      const userSaved = await User({login, password, publicName}).save()
+      const {login, password, publicName, userpic} = user
+      const userSaved = await User({login, password, publicName, userpic}).save()
       const id = shortenId(userSaved._id)
       console.log(`+ user "${userSaved.publicName}" ..${id}`)
       await populateBoards(userSaved._id, user.boards)
