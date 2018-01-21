@@ -54,6 +54,11 @@ export default {
     backupedListName: '',
     backupedTaskText: ''
   }),
+  computed: {
+    _user () {
+      return this.$store.state.user._id
+    }
+  },
   created () {
     this.fetchList(this.listId)
   },
@@ -95,7 +100,7 @@ export default {
         const task = {
           task: this.newItemText,
           done: false,
-          _user: this.list._user
+          _user: this._user
         }
         const index = this.list.tasks.length
         this.list.tasks.push(task)
