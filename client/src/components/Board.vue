@@ -1,7 +1,7 @@
 <template>
 <div>
-  <h2>{{ boardName }}</h2>
-  <div v-for="listId in lists">
+  <h2>{{ board.boardName }}</h2>
+  <div v-for="listId in board.lists">
     <app-list
       :listId="listId"
       ></app-list>
@@ -11,26 +11,15 @@
 
 <script>
 import List from './List.vue'
-import axios from 'axios'
 
 export default {
+  props: {
+    board: {
+      required: true
+    }
+  },
   components: {
     appList: List
-  },
-  data: () => ({
-    boardName: '',
-    lists: [],
-  }),
-  created () {
-    axios.get(`/board/1`)
-      .then(res => {
-        this.boardName = res.data.boardName
-        this.lists = res.data.lists
-        this.user = res.data._user
-      })
-      .catch(err => {
-        console.log(err)
-      })
   }
 }
 </script>
