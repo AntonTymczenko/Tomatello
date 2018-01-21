@@ -44,13 +44,17 @@ export default {
     appBoard: Board
   },
   created () {
-    axios.get(`/board/${this.user.boards[0]}`)
-      .then(res => {
-        this.board = res.data
-      })
-      .catch(err => {
-        console.log(err)
-      })
+    if (this.user._id) {
+      axios.get(`/board/${this.user.boards[0]}`)
+        .then(res => {
+          this.board = res.data
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    } else {
+      this.$router.push({name: 'Login'})
+    }
   }
 }
 </script>
