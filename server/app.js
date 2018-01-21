@@ -43,7 +43,6 @@ app.post('/login', (req, res) => {
   User.findOne({login, password})
     .then(foundUser => {
       if (foundUser) {
-        console.log(foundUser._id)
         res.status(200).send(foundUser)
       } else {
         throw new Error('Wrong credentials')
