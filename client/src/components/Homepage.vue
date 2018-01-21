@@ -36,6 +36,7 @@ export default {
     }
   },
   data: () => ({
+    drawer: null,
     board: null
   }),
   components: {
