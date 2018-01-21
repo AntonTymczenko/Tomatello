@@ -40,12 +40,15 @@ export default {
   methods: {
     submit () {
       if (this.$refs.form.validate()) {
-        axios.get('/login', {
+        axios.post('/login', {
           login: this.login,
           password: this.password
         })
           .then(res => {
-            console.log(res.data)
+            this.$router.push({
+              name: 'Homepage',
+              params: {user: res.data}
+            })
           })
           .catch(err => {
             console.log(err)
