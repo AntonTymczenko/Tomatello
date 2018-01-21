@@ -24,6 +24,7 @@
 </v-app>
 </template>
 <script>
+import Navigation from './Navigation.vue'
 import Board from './Board.vue'
 import axios from 'axios'
 
@@ -38,6 +39,7 @@ export default {
     board: null
   }),
   components: {
+    appNavigation: Navigation,
     appBoard: Board
   },
   created () {
