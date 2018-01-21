@@ -4,7 +4,6 @@
   <div v-for="listId in lists">
     <app-list
       :listId="listId"
-      :user="user"
       ></app-list>
   </div>
 </div>
@@ -21,7 +20,6 @@ export default {
   data: () => ({
     boardName: '',
     lists: [],
-    user: ''
   }),
   created () {
     axios.get(`/board/1`)
