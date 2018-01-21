@@ -23,7 +23,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: false,
     trim: true
-  }
+  },
   boards: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Board'
