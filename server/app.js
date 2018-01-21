@@ -49,8 +49,8 @@ app.get('/user/1', (req, res) => {
 })
 
 // board SHOW:
-app.get('/board/1', (req, res) => {
-  Board.findOne({})
+app.get('/board/:id', (req, res) => {
+  Board.findById(req.params.id)
     .then(foundBoard => {
       res.send(foundBoard)
     })
