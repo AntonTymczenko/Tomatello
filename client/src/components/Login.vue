@@ -46,7 +46,7 @@ export default {
         })
           .then(res => {
             this.$store.state.user = res.data
-            this.$router.push({ name: 'Homepage' })
+            this.$router.push({name: 'Homepage'})
           })
           .catch(err => {
             console.log(err)
