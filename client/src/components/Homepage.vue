@@ -1,5 +1,5 @@
 <template>
-<v-app v-if="user">
+<v-app v-if="user._id">
   <v-navigation-drawer fixed v-model="drawer" app >
     <app-navigation
       :user="user"
