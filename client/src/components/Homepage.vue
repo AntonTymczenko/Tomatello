@@ -30,16 +30,15 @@ import Board from './Board.vue'
 import axios from 'axios'
 
 export default {
-  props: {
-    user: {
-      type: Object,
-      required: true
-    }
-  },
   data: () => ({
     drawer: null,
     board: null
   }),
+  computed: {
+    user () {
+      return this.$store.state.user
+    }
+  },
   components: {
     appNavigation: Navigation,
     appBoard: Board
