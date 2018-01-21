@@ -45,10 +45,8 @@ export default {
           password: this.password
         })
           .then(res => {
-            this.$router.push({
-              name: 'Homepage',
-              params: {user: res.data}
-            })
+            this.$store.state.user = res.data
+            this.$router.push({ name: 'Homepage' })
           })
           .catch(err => {
             console.log(err)
