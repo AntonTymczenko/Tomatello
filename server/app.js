@@ -37,14 +37,17 @@ app.delete('/reset', (req, res) => {
   }
 })
 
-// user SHOW:
-app.get('/user/1', (req, res) => {
-  User.findOne({})
+// login
+app.get('/login', (req, res) => {
+  const {login, password} = req.body
+  console.log(`reqesting user ${login}, ${password}`)
+  User.findOne({login, password})
     .then(foundUser => {
       res.send(foundUser)
     })
     .catch(err => {
       console.log(err)
+      res.status(404).send(new Error('User not found'))
     })
 })
 
