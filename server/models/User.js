@@ -19,6 +19,11 @@ const UserSchema = new mongoose.Schema({
     default: '',
     trim: true
   },
+  userpic: {
+    type: String,
+    required: false,
+    trim: true
+  }
   boards: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Board'
