@@ -44,7 +44,6 @@ export default {
     appBoard: Board
   },
   created () {
-    console.log(this.user)
     axios.get(`/board/${this.user.boards[0]}`)
       .then(res => {
         this.board = res.data
