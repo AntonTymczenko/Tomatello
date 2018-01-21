@@ -29,7 +29,10 @@ import axios from 'axios'
 
 export default {
   props: {
-    user: {required: true}
+    user: {
+      type: Object,
+      required: true
+    }
   },
   data: () => ({
     board: null
