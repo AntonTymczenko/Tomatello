@@ -46,7 +46,7 @@ export default {
   data: () => ({
     items: [
       {title: 'Home', icon: 'home', link: '/'},
-      {title: 'Contacts', icon: 'contact_mail', link: '/profile'}
+      {title: 'Contacts', icon: 'contact_mail'}
     ],
     devItems: [
       {title: 'Reset Database',
