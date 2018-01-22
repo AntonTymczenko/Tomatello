@@ -59,6 +59,19 @@ app.post('/login', (req, res) => {
     })
 })
 
+// boards INDEX:
+app.get('/boards/:userId', (req, res) => {
+  User.findById(req.params.userId)
+    .populate('boards', '_id _user lists boardName')
+    .then(user => {
+      res.status(200).send(user.boards)
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(404).send(err)
+    })
+})
+
 // board SHOW:
 app.get('/board/:id', (req, res) => {
   Board.findById(req.params.id)
