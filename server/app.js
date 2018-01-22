@@ -37,6 +37,28 @@ app.delete('/reset', (req, res) => {
   }
 })
 
+// Signup
+
+app.post('/signup', (req, res) => {
+  const {login, password} = req.body
+  User.create({login, password, boards: []})
+    .then(user => {
+      if (!user) {
+        throw new Error('Not saved')
+      }
+      const userToSend = {
+        _id: user._id,
+        boards: user.boards
+      }
+      console.log(`send user: ${userToSend._id} ${userToSend.boards}`)
+      res.status(200).send(userToSend)
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(304).send(err)
+    })
+})
+
 // login
 app.post('/login', (req, res) => {
   const {login, password} = req.body
