@@ -1,7 +1,9 @@
 <template>
-<v-app id="inspire">
+<v-app v-if="user._id">
   <v-navigation-drawer fixed v-model="drawer" app >
-    <app-navigation/>
+    <app-navigation
+      :user="user"
+    ></app-navigation>
   </v-navigation-drawer>
   <v-toolbar color="indigo" dark fixed app>
     <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
@@ -10,7 +12,10 @@
   <v-content>
     <v-container fluid fill-height>
       <v-layout justify-center align-center >
-        <app-board></app-board>
+        <app-board
+          v-if="board"
+          :board="board"
+        ></app-board>
       </v-layout>
     </v-container>
   </v-content>
@@ -19,26 +24,37 @@
   </v-footer>
 </v-app>
 </template>
-
 <script>
 import Navigation from './Navigation.vue'
 import Board from './Board.vue'
+import axios from 'axios'
 
 export default {
-  components: {
-    appBoard: Board,
-    appNavigation: Navigation
-  },
-  data () {
-    return {
-      drawer: null
+  data: () => ({
+    drawer: null,
+    board: null
+  }),
+  computed: {
+    user () {
+      return this.$store.state.user
     }
   },
-  props: {
-    source: String
+  components: {
+    appNavigation: Navigation,
+    appBoard: Board
+  },
+  created () {
+    if (this.user._id) {
+      axios.get(`/board/${this.user.boards[0]}`)
+        .then(res => {
+          this.board = res.data
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    } else {
+      this.$router.push({name: 'Login'})
+    }
   }
 }
 </script>
-
-<style scoped>
-</style>

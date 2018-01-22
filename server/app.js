@@ -37,9 +37,48 @@ app.delete('/reset', (req, res) => {
   }
 })
 
+// Signup
+
+app.post('/signup', (req, res) => {
+  const {login, password} = req.body
+  User.create({login, password, boards: []})
+    .then(user => {
+      if (!user) {
+        throw new Error('Not saved')
+      }
+      const userToSend = {
+        _id: user._id,
+        boards: user.boards
+      }
+      console.log(`send user: ${userToSend._id} ${userToSend.boards}`)
+      res.status(200).send(userToSend)
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(304).send(err)
+    })
+})
+
+// login
+app.post('/login', (req, res) => {
+  const {login, password} = req.body
+  User.findOne({login, password})
+    .then(foundUser => {
+      if (foundUser) {
+        res.status(200).send(foundUser)
+      } else {
+        throw new Error('Wrong credentials')
+      }
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(403).send(err.message)
+    })
+})
+
 // board SHOW:
-app.get('/board/1', (req, res) => {
-  Board.findOne({})
+app.get('/board/:id', (req, res) => {
+  Board.findById(req.params.id)
     .then(foundBoard => {
       res.send(foundBoard)
     })

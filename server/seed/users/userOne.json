@@ -2,6 +2,7 @@
   "login": "user",
   "password": "password",
   "publicName": "John Doe",
+  "userpic": "https://randomuser.me/api/portraits/men/85.jpg",
   "boards": [{
     "boardName": "Main board",
     "lists": [{
