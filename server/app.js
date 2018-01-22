@@ -37,8 +37,7 @@ app.delete('/reset', (req, res) => {
   }
 })
 
-// Signup
-
+// signup
 app.post('/signup', (req, res) => {
   const {login, password} = req.body
   User.create({login, password, boards: []})
