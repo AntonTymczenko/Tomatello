@@ -2,6 +2,7 @@
 
 ## Usage
 `npm run seed` to populate database with some dummy data
+
 `npm run dev` to start application
 
 ## configuration
