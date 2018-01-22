@@ -1,4 +1,5 @@
-const {ObjectID} = require('mongodb')
+const {ObjectID} = require('mongodb'),
+  mongoose = require('../mongoose')
 
 const {User, Board, List, Task} = require('../models')
 
@@ -122,8 +123,10 @@ const registerBoardsToUser = async (_user, boards) => {
   }
 }
 
-module.exports = async () => {
-  console.log('Running /seed/index.js')
+console.log('Running /seed/index.js')
+;(async () => {
   await resetAllCollections()
   await populateUsers(users)
-}
+  console.log('Seeding done')
+  process.exit(0)
+})()

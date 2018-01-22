@@ -51,6 +51,9 @@ export default {
     password: '',
     showPasswordTrigger: false
   }),
+  created () {
+    this.$store.state.user = {}
+  },
   computed: {
     showPassword () {
       return this.showPasswordTrigger ? 'text' : 'password'

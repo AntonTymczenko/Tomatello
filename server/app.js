@@ -10,7 +10,8 @@ const {User, Board, List, Task} = require('./models')
 require('dotenv').config()
 const mode = process.env.NODE_ENV || 'development',
   port = process.env.PORT || '8081',
-  url = process.env.URL || 'http://localhost'
+  url = process.env.URL || 'http://localhost',
+  mongoose = require('./mongoose')
 
 // middleware:
 const app = express()
@@ -18,27 +19,9 @@ app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 
-// database:
-const mongoose = require('mongoose')
-mongoose.Promise = global.Promise;
-const dburl = process.env.DATABASEURL || 'mongodb://127.0.0.1:27017/turbo-trello'
-console.log('connecting to database ' + dburl)
-mongoose.connect(dburl, {useMongoClient: true})
-
 // routes:
 
-// reset and seed database:
-app.delete('/reset', (req, res) => {
-  if (mode == 'development') {
-    require('./seed')()
-    res.status(200).send('Database reset done')
-  } else {
-    res.status(403).send('Can\'t do this in non-development mode')
-  }
-})
-
-// Signup
-
+// signup
 app.post('/signup', (req, res) => {
   const {login, password} = req.body
   User.create({login, password, boards: []})

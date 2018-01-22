@@ -12,7 +12,7 @@
     </v-list-tile-content>
   </v-list-tile>
   <v-divider v-if="user"></v-divider>
-  <v-list-tile v-for="item in items" :key="item.title" :to="item.link">
+  <v-list-tile v-for="item in items" :key="item.title" :to="item.route">
     <v-list-tile-action>
       <v-icon>{{ item.icon }}</v-icon>
     </v-list-tile-action>
@@ -20,54 +20,19 @@
       <v-list-tile-title>{{ item.title }}</v-list-tile-title>
     </v-list-tile-content>
   </v-list-tile>
-  <div v-if="devItems">
-    <v-divider></v-divider>
-    <v-list-tile
-      v-for="(item, index) in devItems"
-      :key="item.title"
-      @click="devTools(index)">
-      <v-list-tile-action>
-        <v-icon>{{ item.icon }}</v-icon>
-      </v-list-tile-action>
-      <v-list-tile-content>
-        <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-      </v-list-tile-content>
-    </v-list-tile>
-  </div>
-  <v-list-tile></v-list-tile>
 </v-list>
 </template>
 
 <script>
-import axios from 'axios'
-
 export default {
   props: ['user'],
   data: () => ({
     items: [
-      {title: 'Home', icon: 'home', link: '/'},
-      {title: 'Contacts', icon: 'contact_mail'}
-    ],
-    devItems: [
-      {title: 'Reset Database',
-        icon: 'settings_backup_restore',
-        click: () => {
-          axios.delete('/reset')
-            .then(res => {
-              location.reload(true)
-            })
-            .catch(err => {
-              console.log(err)
-            })
-        }
-      }
+      {title: 'Home', icon: 'home', route: {name: 'Homepage'}},
+      {title: 'Contacts', icon: 'contact_mail'},
+      {title: 'Log out', icon: 'exit_to_app', route: {name: 'Auth'}}
     ]
-  }),
-  methods: {
-    devTools (index) {
-      this.devItems[index].click()
-    }
-  }
+  })
 }
 </script>
 
