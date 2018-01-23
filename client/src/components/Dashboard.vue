@@ -18,7 +18,7 @@
             </v-btn>
           </v-list-tile-action> -->
         </v-list-tile>
-        <v-divider inset></v-divider>
+        <!-- <v-divider inset></v-divider>
         <v-subheader inset>Shared with me</v-subheader>
         <v-list-tile v-for="item in items2" v-bind:key="item.title" avatar @click="">
           <v-list-tile-avatar>
@@ -33,7 +33,7 @@
               <v-icon color="grey lighten-1">info</v-icon>
             </v-btn>
           </v-list-tile-action>
-        </v-list-tile>
+        </v-list-tile> -->
       </v-list>
     </v-card>
   </v-flex>
@@ -43,7 +43,6 @@
 import axios from 'axios'
 
 export default {
-  props: ['user'],
   data: () => ({
     boards: null,
     items2: [
@@ -51,7 +50,13 @@ export default {
       { icon: 'call_to_action', iconClass: 'amber white--text', title: 'Kitchen remodel', subtitle: 'Jan 10, 2014' }
     ]
   }),
+  computed: {
+    user () {
+      return this.$store.state.user
+    }
+  },
   created () {
+    this.$store.state.board = null
     if (this.user._id) {
       axios.get(`/boards/${this.user._id}`)
         .then(res => {
