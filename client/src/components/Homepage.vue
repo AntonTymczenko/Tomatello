@@ -10,6 +10,7 @@
     <v-toolbar-title>Turbo Trello</v-toolbar-title>
   </v-toolbar>
   <v-content>
+    <app-breadcrumbs></app-breadcrumbs>
     <v-container fluid fill-height>
       <v-layout justify-center align-center >
         <app-boards-index
@@ -27,6 +28,7 @@
 <script>
 import Navigation from './Navigation'
 import BoardsIndex from './BoardsIndex'
+import Breadcrumbs from './Breadcrumbs'
 
 export default {
   data: () => ({
@@ -41,6 +43,7 @@ export default {
   components: {
     appNavigation: Navigation,
     appBoardsIndex: BoardsIndex
+    appBreadcrumbs: Breadcrumbs
   }
 }
 </script>
