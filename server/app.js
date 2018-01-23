@@ -72,6 +72,30 @@ app.get('/boards/:userId', (req, res) => {
     })
 })
 
+// board CREATE:
+app.post('/board/new', (req, res) => {
+  const {boardName, _user} = req.body,
+    boardToSave = {boardName, _user}
+  Board.create(boardToSave)
+    .then(async function (board) {
+      try {
+        const user = await User.findById(board._user)
+        user.boards.push(board._id)
+        await User.findByIdAndUpdate(user._id, {boards: user.boards})
+        return Promise.resolve(board._id)
+      } catch (err) {
+        return Promise.reject(new Error(err))
+      }
+    })
+    .then(id => {
+      res.status(200).send(id)
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(304).send(err)
+    })
+})
+
 // board SHOW:
 app.get('/board/:id', (req, res) => {
   Board.findById(req.params.id)
