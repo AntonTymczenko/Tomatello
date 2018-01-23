@@ -13,9 +13,6 @@
     <app-breadcrumbs></app-breadcrumbs>
     <v-container fluid fill-height>
       <v-layout justify-center align-center >
-        <app-boards-index
-          :user="user"
-        ></app-boards-index>
         <router-view></router-view>
       </v-layout>
     </v-container>
@@ -27,7 +24,6 @@
 </template>
 <script>
 import Navigation from './Navigation'
-import BoardsIndex from './BoardsIndex'
 import Breadcrumbs from './Breadcrumbs'
 
 export default {
@@ -42,7 +38,6 @@ export default {
   },
   components: {
     appNavigation: Navigation,
-    appBoardsIndex: BoardsIndex
     appBreadcrumbs: Breadcrumbs
   }
 }
