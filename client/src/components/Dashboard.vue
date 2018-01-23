@@ -18,6 +18,14 @@
             </v-btn>
           </v-list-tile-action> -->
         </v-list-tile>
+        <v-list-tile avatar @click.stop="dialog = true">
+          <v-list-tile-action>
+            <v-icon>add</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-sub-title>create new board</v-list-tile-sub-title>
+          </v-list-tile-content>
+        </v-list-tile>
         <!-- <v-divider inset></v-divider>
         <v-subheader inset>Shared with me</v-subheader>
         <v-list-tile v-for="item in items2" v-bind:key="item.title" avatar @click="">
