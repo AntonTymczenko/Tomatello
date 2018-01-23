@@ -45,6 +45,23 @@
       </v-list>
     </v-card>
   </v-flex>
+  <v-dialog v-model="dialog" max-width="500px">
+    <v-card>
+      <v-card-text>
+        <v-form ref="form" lazy-validation>
+          <v-text-field
+            label="New board's name"
+            v-model="newBoardName"
+            required
+          ></v-text-field>
+        </v-form>
+      </v-card-text>
+      <v-card-actions>
+        <v-btn color="primary" @click.stop="createBoard">Save</v-btn>
+        <v-btn color="primary" flat @click.stop="closeDialog">Close</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </v-layout>
 </template>
 <script>
@@ -56,7 +73,9 @@ export default {
     items2: [
       { icon: 'assignment', iconClass: 'blue white--text', title: 'Vacation itinerary', subtitle: 'Jan 20, 2014' },
       { icon: 'call_to_action', iconClass: 'amber white--text', title: 'Kitchen remodel', subtitle: 'Jan 10, 2014' }
-    ]
+    ],
+    dialog: false,
+    newBoardName: ''
   }),
   computed: {
     user () {
@@ -83,6 +102,10 @@ export default {
   methods: {
     boardRoute (id) {
       return {name: 'Board', params: {id}}
+    },
+    closeDialog () {
+      this.dialog = false
+      this.newBoardName = ''
     }
   }
 }
