@@ -107,6 +107,29 @@ app.get('/board/:id', (req, res) => {
     })
 })
 
+// board UPDATE:
+
+// board DESTROY:
+app.get('/board/:id', (req, res) => {
+  Board.findByIdAndRemove(req.params.id)
+    .then(async function (board) {
+      try {
+        const user = await User.findById(board._user)
+        user.boards = user.boards.filter(x => x.toString() != board._id.toString())
+        await User.findByIdAndUpdate(user._id, {boards: user.boards})
+        return Promise.resolve(board._id)
+      } catch (err) {
+        return Promise.reject(new Error(err))
+      }
+    })
+    .then(id => {
+      res.status(200).send(id)
+    })
+    .catch(err => {
+      res.status(304).send(err)
+    })
+})
+
 // list SHOW:
 app.get('/list/:id', (req, res) => {
   List.findById(req.params.id)
