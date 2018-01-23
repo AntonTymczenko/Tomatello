@@ -103,6 +103,22 @@ export default {
     boardRoute (id) {
       return {name: 'Board', params: {id}}
     },
+    createBoard () {
+      axios.post('/board/new', {
+        boardName: this.newBoardName,
+        _user: this.user._id
+      })
+        .then(id => {
+          if (!id) {
+            throw new Error()
+          }
+          this.fetchBoards()
+          this.closeDialog()
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
     closeDialog () {
       this.dialog = false
       this.newBoardName = ''
