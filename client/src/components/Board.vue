@@ -15,12 +15,12 @@ import List from './List.vue'
 
 export default {
   props: ['id'],
-  data: () => ({
-    board: null
-  }),
   computed: {
     user () {
       return this.$store.state.user
+    },
+    board () {
+      return this.$store.state.board
     }
   },
   created () {
@@ -29,7 +29,7 @@ export default {
         if (!res) {
           throw new Error()
         }
-        this.board = res.data
+        this.$store.state.board = res.data
       })
       .catch(err => {
         console.log(err)
