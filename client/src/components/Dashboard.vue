@@ -85,6 +85,13 @@ export default {
   created () {
     this.$store.state.board = null
     if (this.user._id) {
+      this.fetchBoards()
+    } else {
+      this.$router.push({name: 'Auth'})
+    }
+  },
+  methods: {
+    fetchBoards () {
       axios.get(`/boards/${this.user._id}`)
         .then(res => {
           if (!res) {
@@ -95,11 +102,7 @@ export default {
         .catch(err => {
           console.log(err)
         })
-    } else {
-      this.$router.push({name: 'Auth'})
-    }
-  },
-  methods: {
+    },
     boardRoute (id) {
       return {name: 'Board', params: {id}}
     },
