@@ -24,7 +24,7 @@ module.exports = (prefix, router) => {
   })
 
   // task UPDATE:
-  router.put('/task/:id', (req, res) => {
+  router.put(`${prefix}/:id`, (req, res) => {
     Task.findByIdAndUpdate(req.params.id, req.body, {new: true})
       .then(updatedTask => {
         res.send(updatedTask)
@@ -35,7 +35,7 @@ module.exports = (prefix, router) => {
   })
 
   // task DESTROY:
-  router.delete('/task/:id', (req, res) => {
+  router.delete(`${prefix}/:id`, (req, res) => {
     Task.findByIdAndRemove(req.params.id)
       .then(async function (task) {
         try {

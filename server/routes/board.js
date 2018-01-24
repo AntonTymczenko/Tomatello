@@ -26,7 +26,7 @@ module.exports = (prefix, router) => {
   })
 
   // board SHOW:
-  router.get('/board/:id', (req, res) => {
+  router.get(`${prefix}/:id`, (req, res) => {
     Board.findById(req.params.id)
       .then(foundBoard => {
         res.status(200).send(foundBoard)
@@ -37,7 +37,7 @@ module.exports = (prefix, router) => {
   })
 
   // board UPDATE:
-  router.put('/board/:id', (req, res) => {
+  router.put(`${prefix}/:id`, (req, res) => {
     Board.findByIdAndUpdate(req.params.id, req.body, {new: true})
       .then(updatedBoard => {
         res.status(200).send(updatedBoard)
@@ -49,7 +49,7 @@ module.exports = (prefix, router) => {
   })
 
   // board DESTROY:
-  router.delete('/board/:id', (req, res) => {
+  router.delete(`${prefix}/:id`, (req, res) => {
     Board.findByIdAndRemove(req.params.id)
       .then(async function (board) {
         try {
