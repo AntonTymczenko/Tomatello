@@ -4,7 +4,11 @@
     <v-card>
       <v-list two-line subheader>
         <v-subheader inset>My boards</v-subheader>
-        <v-list-tile avatar v-for="item in boards" v-bind:key="item.title" :to="boardRoute(item._id)">
+        <v-list-tile avatar
+          v-for="(item, index) in boards"
+          v-bind:key="item.title"
+          @click="goRoute(item._id)"
+        >
           <v-list-tile-avatar>
             <v-icon class="grey lighten-1 white--text">folder</v-icon>
           </v-list-tile-avatar>
