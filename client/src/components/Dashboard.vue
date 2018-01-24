@@ -40,7 +40,6 @@
           <v-text-field
             label="New board's name"
             v-model="newBoardName"
-            required
           ></v-text-field>
         </v-form>
       </v-card-text>
