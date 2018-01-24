@@ -163,6 +163,27 @@ app.put('/list/:id', (req, res) => {
     })
 })
 
+// list DESTROY:
+app.delete('/list/:id', (req, res) => {
+  List.findByIdAndRemove(req.params.id)
+    .then(async function (list) {
+      try {
+        const board = await Board.findById(list._board)
+        board.lists = board.lists.filter(x => x.toString() != list._id.toString())
+        await Board.findByIdAndUpdate(board._id, {lists: board.lists})
+        return Promise.resolve(list._id)
+      } catch (err) {
+        return Promise.reject(new Error(err))
+      }
+    })
+    .then(id => {
+      res.status(200).send(id)
+    })
+    .catch(err => {
+      res.status(304).send(err)
+    })
+})
+
 // task CREATE:
 app.post('/task', (req, res) => {
   Task.create(req.body.task)
