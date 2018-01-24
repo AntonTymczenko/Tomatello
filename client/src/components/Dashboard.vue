@@ -148,8 +148,10 @@ export default {
           console.log(err)
         })
     },
-    editBoard (index, event) {
-      console.log(`edit ${index} board`)
+    editBoard (index) {
+      this.newBoardName = this.boards[index].boardName
+      this.renamingBoardIndex = index
+      this.openDialog('edit')
     },
     openDialog () {
       this.dialog = true
