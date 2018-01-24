@@ -93,6 +93,9 @@ export default {
       return {name: 'Board', params: {id}}
     },
     createBoard () {
+      if (this.newBoardName === '') {
+        return this.closeDialog()
+      }
       axios.post('/board/new', {
         boardName: this.newBoardName,
         _user: this.user._id
