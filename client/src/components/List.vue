@@ -1,10 +1,16 @@
 <template>
-<div v-if="list">
-  <h3 contenteditable="true"
+<v-card v-if="list">
+  <h3>
+    <span
+    contenteditable="true"
     ref="listName"
     @focus="backupListName()"
-    @blur="renameList()">
-    {{ list.listName }} </h3>
+    @blur="renameList()"
+    >
+      {{ list.listName }}
+    </span>
+    <v-btn icon @click.stop="deleteList"><v-icon>delete</v-icon></v-btn>
+  </h3>
   <ul class="todo-list">
     <li v-for="(task, index) in list.tasks">
       <button @click="toggleDone(index)">
@@ -35,7 +41,7 @@
         @blur="addItem()">
     </li>
   </ul>
-</div>
+</v-card>
 </template>
 
 <script>
@@ -147,6 +153,9 @@ export default {
           this.list.listName = this.backupedListName
           this.backupedListName = ''
         })
+    },
+    deleteList () {
+      console.log('delete list ' + this.list.listName)
     },
     backupTaskText (index) {
       this.backupedTaskText = this.list.tasks[index].task
