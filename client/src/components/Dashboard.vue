@@ -104,7 +104,7 @@ export default {
           if (!id) {
             throw new Error()
           }
-          this.fetchBoards()
+          this.boards.push({boardName: this.newBoardName, _id: res.data})
           this.closeDialog()
         })
         .catch(err => {
