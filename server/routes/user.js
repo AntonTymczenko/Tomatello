@@ -18,7 +18,7 @@ module.exports = (prefix, router) => {
       })
   })
 
-  // login
+  // login by credentials
   router.post('/login', (req, res) => {
     const {login, password} = req.body
     User.findOne({login, password})
@@ -30,7 +30,7 @@ module.exports = (prefix, router) => {
         }
       })
       .catch(err => {
-        res.status(403).send(err.message)
+        res.status(403).send(err)
       })
   })
 
