@@ -5,10 +5,10 @@ const express = require('express'),
 
 // configuration:
 require('dotenv').config()
-const mode = process.env.NODE_ENV || 'development',
-  port = process.env.PORT || '8081',
-  url = process.env.URL || 'http://localhost',
-  mongoose = require('./mongoose')
+const {NODE_ENV, PORT, URL, MONGODB_URI} = process.env
+
+// connect to database:
+require('./mongoose')(MONGODB_URI)
 
 // middleware:
 const app = express()
@@ -21,6 +21,5 @@ const routes = require('./routes')
 app.use('/', routes)
 
 // fire application:
-app.listen(port, ()=>{
-  console.log(`Your application is running in ${mode} mode here: ${url}:${port}`)
-})
+app.listen(PORT, () => console.log(`Your application \
+is running in ${NODE_ENV} mode here: ${URL}:${PORT}`))

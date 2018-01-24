@@ -1,7 +1,11 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose'),
+  options = {
+    useMongoClient: true
+  }
 mongoose.Promise = global.Promise
-const dburl = process.env.DATABASEURL || 'mongodb://127.0.0.1:27017/turbo-trello'
-console.log('connecting to database ' + dburl)
-mongoose.connect(dburl, {useMongoClient: true})
 
-module.exports = mongoose
+module.exports = dburl => {
+  mongoose.connect(dburl, options)
+    .then(() => console.log(`Connected to database ${dburl}`))
+    .catch(err => console.log(err))
+}
