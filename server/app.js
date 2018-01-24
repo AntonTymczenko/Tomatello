@@ -108,7 +108,7 @@ app.get('/board/:id', (req, res) => {
 // board UPDATE:
 
 // board DESTROY:
-app.get('/board/:id', (req, res) => {
+app.delete('/board/:id', (req, res) => {
   Board.findByIdAndRemove(req.params.id)
     .then(async function (board) {
       try {
