@@ -98,7 +98,6 @@ export default {
     },
     submitBoardName (mode) {
       if (this.newBoardName === '') {
-        return this.closeDialog()
       }
       switch (mode) {
         case 'create': return this.createBoard()
