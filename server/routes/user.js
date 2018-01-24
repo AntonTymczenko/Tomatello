@@ -4,16 +4,13 @@ module.exports = (prefix, router) => {
   // signup
   router.post('/signup', (req, res) => {
     const {login, password} = req.body
-    User.create({login, password, boards: []})
+    User.create({login, password})
       .then(user => {
         if (!user) {
           throw new Error('Not saved')
         }
-        const userToSend = {
-          _id: user._id,
-          boards: user.boards
-        }
-        res.status(200).send(userToSend)
+        const {_id, boards} = user
+        res.status(200).send({_id, boards})
       })
       .catch(err => {
         console.log(err)
