@@ -139,6 +139,30 @@ app.delete('/board/:id', (req, res) => {
     })
 })
 
+// list CREATE:
+app.post('/list/new', (req, res) => {
+  const {listName, _user, _board} = req.body,
+    listToSave = {listName, _user, _board}
+  List.create(listToSave)
+    .then(async function (list) {
+      try {
+        const board = await Board.findById(list._board)
+        board.lists.push(list._id)
+        await Board.findByIdAndUpdate(board._id, {lists: board.lists})
+        return Promise.resolve(list._id)
+      } catch (err) {
+        return Promise.reject(new Error(err))
+      }
+    })
+    .then(id => {
+      res.status(200).send(id)
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(304).send(err)
+    })
+})
+
 // list SHOW:
 app.get('/list/:id', (req, res) => {
   List.findById(req.params.id)
