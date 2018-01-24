@@ -124,6 +124,9 @@ export default {
           console.log(err)
         })
     },
+    editBoard (index, event) {
+      console.log(`edit ${index} board`)
+    },
     openDialog () {
       this.dialog = true
     },
