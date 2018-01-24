@@ -54,7 +54,6 @@ app.post('/login', (req, res) => {
       }
     })
     .catch(err => {
-      console.log(err)
       res.status(403).send(err.message)
     })
 })
@@ -67,7 +66,6 @@ app.get('/boards/:userId', (req, res) => {
       res.status(200).send(user.boards)
     })
     .catch(err => {
-      console.log(err)
       res.status(404).send(err)
     })
 })
@@ -100,10 +98,10 @@ app.post('/board/new', (req, res) => {
 app.get('/board/:id', (req, res) => {
   Board.findById(req.params.id)
     .then(foundBoard => {
-      res.send(foundBoard)
+      res.status(200).send(foundBoard)
     })
     .catch(err => {
-      console.log(err)
+      res.status(404).send(err)
     })
 })
 
@@ -126,6 +124,7 @@ app.get('/board/:id', (req, res) => {
       res.status(200).send(id)
     })
     .catch(err => {
+      console.log(err)
       res.status(304).send(err)
     })
 })
@@ -135,10 +134,10 @@ app.get('/list/:id', (req, res) => {
   List.findById(req.params.id)
     .populate('tasks', '_id task done')
     .then(foundList => {
-      res.send(foundList)
+      res.status(200).send(foundList)
     })
     .catch(err => {
-      console.log(err)
+      res.status(404).send(err)
     })
 })
 
@@ -149,6 +148,7 @@ app.put('/list/:id', (req, res) => {
       res.status(200).send(updatedList)
     })
     .catch(err => {
+      console.log(err)
       res.status(304).send(err)
     })
 })
