@@ -16,11 +16,13 @@
             <v-list-tile-title>{{ item.boardName }}</v-list-tile-title>
             <v-list-tile-sub-title>Jan 9, 2014</v-list-tile-sub-title>
           </v-list-tile-content>
-          <!-- <v-list-tile-action>
-            <v-btn icon ripple>
-              <v-icon color="grey lighten-1">info</v-icon>
-            </v-btn>
-          </v-list-tile-action> -->
+          <v-list-tile-action @click.stop="">
+            <app-board-controls
+              :index="index"
+              :deleteBoard="deleteBoard"
+              :editBoard="editBoard"
+            ></app-board-controls>
+          </v-list-tile-action>
         </v-list-tile>
         <v-list-tile avatar @click.stop="openDialog">
           <v-list-tile-action>
@@ -51,8 +53,10 @@
   </v-dialog>
 </v-layout>
 </template>
+
 <script>
 import axios from 'axios'
+import BoardControls from './Dashboard/BoardControls'
 
 export default {
   data: () => ({
@@ -60,6 +64,9 @@ export default {
     dialog: false,
     newBoardName: ''
   }),
+  components: {
+    appBoardControls: BoardControls
+  },
   computed: {
     user () {
       return this.$store.state.user
