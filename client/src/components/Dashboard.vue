@@ -67,11 +67,7 @@ export default {
   },
   created () {
     this.$store.state.board = null
-    if (this.user._id) {
-      this.fetchBoards()
-    } else {
-      this.$router.push({name: 'Auth'})
-    }
+    this.fetchBoards()
   },
   methods: {
     fetchBoards () {
