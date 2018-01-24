@@ -46,7 +46,7 @@
         </v-form>
       </v-card-text>
       <v-card-actions>
-        <v-btn color="primary" @click.stop="createBoard">Save</v-btn>
+        <v-btn color="primary" @click.stop="submitBoardName(dialogMode)">Save</v-btn>
         <v-btn color="primary" flat @click.stop="closeDialog">Close</v-btn>
       </v-card-actions>
     </v-card>
