@@ -80,7 +80,7 @@ export default {
   },
   methods: {
     fetchBoards () {
-      axios.get(`/boards/${this.user._id}`)
+      axios.get(`/user/${this.user._id}/boards`)
         .then(res => {
           if (!res) {
             throw new Error()

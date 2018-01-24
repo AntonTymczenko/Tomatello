@@ -42,9 +42,9 @@ router.post('/login', (req, res) => {
 })
 
 // boards INDEX:
-router.get('/boards/:userId', (req, res) => {
+router.get('/user/:userId/boards', (req, res) => {
   User.findById(req.params.userId)
-    .populate('boards', '_id _user lists boardName')
+    .populate('boards', '_id _user boardName')
     .then(user => {
       res.status(200).send(user.boards)
     })
