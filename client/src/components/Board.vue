@@ -84,8 +84,18 @@ export default {
       if (this.newListName === '') {
         return console.log('Trying to save empty name')
       }
-      console.log('create new list ' + this.newListName)
-      this.closeDialog()
+      axios.post('/list/new', {
+        listName: this.newListName,
+        _user: this.user._id,
+        _board: this.board._id
+      })
+        .then(res => {
+          this.board.lists.push(res.data)
+          this.closeDialog()
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
     closeDialog () {
       this.dialog = false
