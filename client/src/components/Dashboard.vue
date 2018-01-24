@@ -97,10 +97,17 @@ export default {
     boardRoute (id) {
       return {name: 'Board', params: {id}}
     },
-    createBoard () {
+    submitBoardName (mode) {
       if (this.newBoardName === '') {
         return this.closeDialog()
       }
+      switch (mode) {
+        case 'create': return this.createBoard()
+        case 'edit': return this.updateBoard()
+        default: this.closeDialog()
+      }
+    },
+    createBoard () {
       axios.post('/board/new', {
         boardName: this.newBoardName,
         _user: this.user._id
