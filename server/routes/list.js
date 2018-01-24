@@ -2,27 +2,19 @@ const {Board, List} = require('../models')
 
 module.exports = (prefix, router) => {
   // list CREATE:
-  router.post(`${prefix}/new`, (req, res) => {
+  router.post(`${prefix}/new`, async (req, res) => {
     const {listName, _user, _board} = req.body,
       listToSave = {listName, _user, _board}
-    List.create(listToSave)
-      .then(async function (list) {
-        try {
-          const board = await Board.findById(list._board)
-          board.lists.push(list._id)
-          await Board.findByIdAndUpdate(board._id, {lists: board.lists})
-          return Promise.resolve(list._id)
-        } catch (err) {
-          return Promise.reject(new Error(err))
-        }
-      })
-      .then(id => {
-        res.status(200).send(id)
-      })
-      .catch(err => {
-        console.log(err)
-        res.status(304).send(err)
-      })
+    try {
+      const list = await List.create(listToSave)
+      const board = await Board.findById(list._board)
+      board.lists.push(list._id)
+      await Board.findByIdAndUpdate(board._id, {lists: board.lists})
+      res.status(200).send(list._id)
+    } catch (err) {
+      console.log(err)
+      res.status(304).send(err)
+    }
   })
 
   // list SHOW:
@@ -50,23 +42,15 @@ module.exports = (prefix, router) => {
   })
 
   // list DESTROY:
-  router.delete(`${prefix}/:id`, (req, res) => {
-    List.findByIdAndRemove(req.params.id)
-      .then(async function (list) {
-        try {
-          const board = await Board.findById(list._board)
-          board.lists = board.lists.filter(x => x.toString() != list._id.toString())
-          await Board.findByIdAndUpdate(board._id, {lists: board.lists})
-          return Promise.resolve(list._id)
-        } catch (err) {
-          return Promise.reject(new Error(err))
-        }
-      })
-      .then(id => {
-        res.status(200).send(id)
-      })
-      .catch(err => {
-        res.status(304).send(err)
-      })
+  router.delete(`${prefix}/:id`, async (req, res) => {
+    try {
+      const list = await List.findByIdAndRemove(req.params.id)
+      const board = await Board.findById(list._board)
+      board.lists = board.lists.filter(x => x.toString() != list._id.toString())
+      await Board.findByIdAndUpdate(board._id, {lists: board.lists})
+      res.status(200).send(list._id)
+    } catch (err) {
+      res.status(304).send(err)
+    }
   })
 }
