@@ -36,6 +36,11 @@ export default {
       return this.$store.state.user
     }
   },
+  created () {
+    if (!this.user) {
+      this.$router.push({name: 'Auth'})
+    }
+  },
   components: {
     appNavigation: Navigation,
     appBreadcrumbs: Breadcrumbs
