@@ -1,6 +1,6 @@
 <template>
 <v-list dense class="pt-0">
-  <v-list-tile avatar v-if="user" :to="'/profile'">
+  <v-list-tile avatar v-if="user" :to="profileRoute">
     <v-list-tile-avatar v-if="user.userpic">
       <img :src="user.userpic">
     </v-list-tile-avatar>
@@ -27,9 +27,9 @@
 export default {
   props: ['user'],
   data: () => ({
+    profileRoute: null,
     items: [
       {title: 'Home', icon: 'home', route: {name: 'Homepage'}},
-      {title: 'Contacts', icon: 'contact_mail'},
       {title: 'Log out', icon: 'exit_to_app', route: {name: 'Auth'}}
     ]
   })

@@ -54,8 +54,43 @@ app.post('/login', (req, res) => {
       }
     })
     .catch(err => {
-      console.log(err)
       res.status(403).send(err.message)
+    })
+})
+
+// boards INDEX:
+app.get('/boards/:userId', (req, res) => {
+  User.findById(req.params.userId)
+    .populate('boards', '_id _user lists boardName')
+    .then(user => {
+      res.status(200).send(user.boards)
+    })
+    .catch(err => {
+      res.status(404).send(err)
+    })
+})
+
+// board CREATE:
+app.post('/board/new', (req, res) => {
+  const {boardName, _user} = req.body,
+    boardToSave = {boardName, _user}
+  Board.create(boardToSave)
+    .then(async function (board) {
+      try {
+        const user = await User.findById(board._user)
+        user.boards.push(board._id)
+        await User.findByIdAndUpdate(user._id, {boards: user.boards})
+        return Promise.resolve(board._id)
+      } catch (err) {
+        return Promise.reject(new Error(err))
+      }
+    })
+    .then(id => {
+      res.status(200).send(id)
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(304).send(err)
     })
 })
 
@@ -63,10 +98,44 @@ app.post('/login', (req, res) => {
 app.get('/board/:id', (req, res) => {
   Board.findById(req.params.id)
     .then(foundBoard => {
-      res.send(foundBoard)
+      res.status(200).send(foundBoard)
+    })
+    .catch(err => {
+      res.status(404).send(err)
+    })
+})
+
+// board UPDATE:
+app.put('/board/:id', (req, res) => {
+  Board.findByIdAndUpdate(req.params.id, req.body, {new: true})
+    .then(updatedBoard => {
+      res.status(200).send(updatedBoard)
     })
     .catch(err => {
       console.log(err)
+      res.status(304).send(err)
+    })
+})
+
+// board DESTROY:
+app.delete('/board/:id', (req, res) => {
+  Board.findByIdAndRemove(req.params.id)
+    .then(async function (board) {
+      try {
+        const user = await User.findById(board._user)
+        user.boards = user.boards.filter(x => x.toString() != board._id.toString())
+        await User.findByIdAndUpdate(user._id, {boards: user.boards})
+        return Promise.resolve(board._id)
+      } catch (err) {
+        return Promise.reject(new Error(err))
+      }
+    })
+    .then(id => {
+      res.status(200).send(id)
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(304).send(err)
     })
 })
 
@@ -75,10 +144,10 @@ app.get('/list/:id', (req, res) => {
   List.findById(req.params.id)
     .populate('tasks', '_id task done')
     .then(foundList => {
-      res.send(foundList)
+      res.status(200).send(foundList)
     })
     .catch(err => {
-      console.log(err)
+      res.status(404).send(err)
     })
 })
 
@@ -89,6 +158,7 @@ app.put('/list/:id', (req, res) => {
       res.status(200).send(updatedList)
     })
     .catch(err => {
+      console.log(err)
       res.status(304).send(err)
     })
 })

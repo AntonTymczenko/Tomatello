@@ -10,12 +10,10 @@
     <v-toolbar-title>Turbo Trello</v-toolbar-title>
   </v-toolbar>
   <v-content>
+    <app-breadcrumbs></app-breadcrumbs>
     <v-container fluid fill-height>
       <v-layout justify-center align-center >
-        <app-board
-          v-if="board"
-          :board="board"
-        ></app-board>
+        <router-view></router-view>
       </v-layout>
     </v-container>
   </v-content>
@@ -25,9 +23,8 @@
 </v-app>
 </template>
 <script>
-import Navigation from './Navigation.vue'
-import Board from './Board.vue'
-import axios from 'axios'
+import Navigation from './Navigation'
+import Breadcrumbs from './Breadcrumbs'
 
 export default {
   data: () => ({
@@ -39,22 +36,14 @@ export default {
       return this.$store.state.user
     }
   },
+  created () {
+    if (!this.user) {
+      this.$router.push({name: 'Auth'})
+    }
+  },
   components: {
     appNavigation: Navigation,
-    appBoard: Board
-  },
-  created () {
-    if (this.user._id) {
-      axios.get(`/board/${this.user.boards[0]}`)
-        .then(res => {
-          this.board = res.data
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    } else {
-      this.$router.push({name: 'Login'})
-    }
+    appBreadcrumbs: Breadcrumbs
   }
 }
 </script>

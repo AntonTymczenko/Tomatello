@@ -1,5 +1,5 @@
 <template>
-<div>
+<div v-if="board">
   <h2>{{ board.boardName }}</h2>
   <div v-for="listId in board.lists">
     <app-list
@@ -10,13 +10,31 @@
 </template>
 
 <script>
+import axios from 'axios'
 import List from './List.vue'
 
 export default {
-  props: {
-    board: {
-      required: true
+  props: ['id'],
+  computed: {
+    user () {
+      return this.$store.state.user
+    },
+    board () {
+      return this.$store.state.board
     }
+  },
+  created () {
+    axios.get(`/board/${this.id}`)
+      .then(res => {
+        if (!res) {
+          throw new Error()
+        }
+        this.$store.state.board = res.data
+      })
+      .catch(err => {
+        console.log(err)
+        this.$router.push({name: 'Homepage'})
+      })
   },
   components: {
     appList: List
