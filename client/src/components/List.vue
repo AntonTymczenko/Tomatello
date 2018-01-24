@@ -155,7 +155,14 @@ export default {
         })
     },
     deleteList () {
-      console.log('delete list ' + this.list.listName)
+      axios.delete(`/list/${this.list._id}`)
+        .then(res => {
+          this.$store.state.board.lists = this.$store.state.board.lists.filter(x => x !== res.data)
+          this.list = null
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
     backupTaskText (index) {
       this.backupedTaskText = this.list.tasks[index].task
