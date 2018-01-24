@@ -2,7 +2,7 @@ const {List, Task} = require('../models')
 
 module.exports = (prefix, router) => {
   // task CREATE:
-  router.post('/task', (req, res) => {
+  router.post(`${prefix}/new`, (req, res) => {
     Task.create(req.body.task)
       .then(async function (task) {
         try {

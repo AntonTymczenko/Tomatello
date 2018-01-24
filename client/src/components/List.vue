@@ -111,7 +111,7 @@ export default {
         const index = this.list.tasks.length
         this.list.tasks.push(task)
         task._list = this.list._id
-        axios.post(`/task`, {task})
+        axios.post(`/task/new`, {task})
           .then(res => {
             if (res.status !== 200) {
               throw new Error('Something went wrong at server trying to add task')
