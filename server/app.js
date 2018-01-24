@@ -33,7 +33,6 @@ app.post('/signup', (req, res) => {
         _id: user._id,
         boards: user.boards
       }
-      console.log(`send user: ${userToSend._id} ${userToSend.boards}`)
       res.status(200).send(userToSend)
     })
     .catch(err => {
