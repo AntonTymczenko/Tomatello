@@ -41,7 +41,7 @@ router.post('/login', (req, res) => {
     })
 })
 
-// boards INDEX:
+// user's boards list:
 router.get('/user/:userId/boards', (req, res) => {
   User.findById(req.params.userId)
     .populate('boards', '_id _user boardName')
