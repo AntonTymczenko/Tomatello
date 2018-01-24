@@ -96,8 +96,8 @@ export default {
         boardName: this.newBoardName,
         _user: this.user._id
       })
-        .then(id => {
-          if (!id) {
+        .then(res => {
+          if (!res.data) {
             throw new Error()
           }
           this.boards.push({boardName: this.newBoardName, _id: res.data})
