@@ -62,6 +62,8 @@ export default {
   data: () => ({
     boards: null,
     dialog: false,
+    dialogMode: '',
+    renamingBoardIndex: null,
     newBoardName: ''
   }),
   components: {
@@ -108,6 +110,19 @@ export default {
             throw new Error()
           }
           this.boards.push({boardName: this.newBoardName, _id: res.data})
+          this.closeDialog()
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    updateBoard () {
+      const id = this.boards[this.renamingBoardIndex]._id
+      axios.put(`/board/${id}`, {
+        boardName: this.newBoardName
+      })
+        .then(res => {
+          this.boards[this.renamingBoardIndex].boardName = res.data.boardName
           this.closeDialog()
         })
         .catch(err => {
