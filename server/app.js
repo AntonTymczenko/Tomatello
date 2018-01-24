@@ -1,5 +1,6 @@
 // dependencies:
 const express = require('express'),
+  app = express(),
   bodyParser = require('body-parser'),
   cors = require('cors')
 
@@ -11,7 +12,6 @@ const {NODE_ENV, PORT, URL, MONGODB_URI} = process.env
 require('./mongoose')(MONGODB_URI)
 
 // middleware:
-const app = express()
 app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
