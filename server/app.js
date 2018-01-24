@@ -106,6 +106,16 @@ app.get('/board/:id', (req, res) => {
 })
 
 // board UPDATE:
+app.put('/board/:id', (req, res) => {
+  Board.findByIdAndUpdate(req.params.id, req.body, {new: true})
+    .then(updatedBoard => {
+      res.status(200).send(updatedBoard)
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(304).send(err)
+    })
+})
 
 // board DESTROY:
 app.delete('/board/:id', (req, res) => {
