@@ -24,7 +24,6 @@
             ></app-board-controls>
           </v-list-tile-action>
         </v-list-tile>
-        <v-list-tile avatar @click.stop="openDialog">
           <v-list-tile-action>
             <v-icon>add</v-icon>
           </v-list-tile-action>
