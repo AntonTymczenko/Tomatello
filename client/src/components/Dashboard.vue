@@ -86,6 +86,9 @@ export default {
           console.log(err)
         })
     },
+    goRoute (id) {
+      this.$router.push(this.boardRoute(id))
+    },
     boardRoute (id) {
       return {name: 'Board', params: {id}}
     },
