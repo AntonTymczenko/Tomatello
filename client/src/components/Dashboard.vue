@@ -111,6 +111,19 @@ export default {
           console.log(err)
         })
     },
+    deleteBoard (index) {
+      const id = this.boards[index]._id
+      axios.delete(`/board/${id}`)
+        .then(res => {
+          if (!res.data) {
+            throw new Error()
+          }
+          this.boards.splice(index, 1)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
     openDialog () {
       this.dialog = true
     },
