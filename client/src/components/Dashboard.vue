@@ -24,6 +24,7 @@
             ></app-board-controls>
           </v-list-tile-action>
         </v-list-tile>
+        <v-list-tile avatar @click.stop="openDialog('create')">
           <v-list-tile-action>
             <v-icon>add</v-icon>
           </v-list-tile-action>
@@ -98,6 +99,7 @@ export default {
     },
     submitBoardName (mode) {
       if (this.newBoardName === '') {
+        return console.log('Trying to save empty name')
       }
       switch (mode) {
         case 'create': return this.createBoard()
@@ -152,11 +154,13 @@ export default {
       this.renamingBoardIndex = index
       this.openDialog('edit')
     },
-    openDialog () {
+    openDialog (mode) {
+      this.dialogMode = mode
       this.dialog = true
     },
     closeDialog () {
       this.dialog = false
+      this.renamingBoardIndex = null
       this.newBoardName = ''
     }
   }
