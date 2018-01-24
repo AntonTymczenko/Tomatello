@@ -2,25 +2,17 @@ const {List, Task} = require('../models')
 
 module.exports = (prefix, router) => {
   // task CREATE:
-  router.post(`${prefix}/new`, (req, res) => {
-    Task.create(req.body.task)
-      .then(async function (task) {
-        try {
-          const list = await List.findById(task._list)
-          list.tasks.push(task._id)
-          await List.findByIdAndUpdate(list._id, {tasks: list.tasks})
-          return Promise.resolve(task._id)
-        } catch (err) {
-          return Promise.reject(new Error(err))
-        }
-      })
-      .then(id => {
-        res.status(200).send(id)
-      })
-      .catch(err => {
-        console.log(err)
-        res.status(304).send(err)
-      })
+  router.post(`${prefix}/new`, async (req, res) => {
+    try {
+      const task = await Task.create(req.body.task)
+      const list = await List.findById(task._list)
+      list.tasks.push(task._id)
+      await List.findByIdAndUpdate(list._id, {tasks: list.tasks})
+      res.status(200).send(task._id)
+    } catch (err) {
+      console.log(err)
+      res.status(304).send(err)
+    }
   })
 
   // task UPDATE:
@@ -35,23 +27,16 @@ module.exports = (prefix, router) => {
   })
 
   // task DESTROY:
-  router.delete(`${prefix}/:id`, (req, res) => {
-    Task.findByIdAndRemove(req.params.id)
-      .then(async function (task) {
-        try {
-          const list = await List.findById(task._list)
-          list.tasks = list.tasks.filter(x => x.toString() != task._id.toString())
-          await List.findByIdAndUpdate(list._id, {tasks: list.tasks})
-          return Promise.resolve(task._id)
-        } catch (err) {
-          return Promise.reject(new Error(err))
-        }
-      })
-      .then(id => {
-        res.status(200).send(id)
-      })
-      .catch(err => {
-        res.status(304).send(err)
-      })
+  router.delete(`${prefix}/:id`, async (req, res) => {
+    try {
+      const task = await Task.findByIdAndRemove(req.params.id)
+      const list = await List.findById(task._list)
+      list.tasks = list.tasks.filter(x => x.toString() != task._id.toString())
+      await List.findByIdAndUpdate(list._id, {tasks: list.tasks})
+      res.status(200).send(task._id)
+    } catch (err) {
+      console.log(err)
+      res.status(304).send(err)
+    }
   })
 }
