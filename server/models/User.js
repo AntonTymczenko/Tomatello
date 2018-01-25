@@ -56,7 +56,7 @@ UserSchema.statics.findByCredentials = function (login, password) {
 UserSchema.pre('save', function (next) {
   const user = this
 
-  if (user.publicName === '') {
+  if (user.publicName === '' && !user.isModified('publicName')) {
     user.publicName = user.login
   }
 
