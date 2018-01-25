@@ -29,6 +29,18 @@ module.exports = (prefix, router) => {
       })
   })
 
+  // user UPDATE:
+  router.put(`${prefix}/:id`, (req, res) => {
+    const {publicName, userpic} = req.body
+    User.findByIdAndUpdate(req.params.id, {publicName, userpic}, {new: true})
+      .then(user => {
+        res.status(200).send(user)
+      })
+      .catch(err => {
+        res.status(304).send()
+      })
+  })
+
   // user's boards list:
   router.get(`${prefix}/:userId/boards`, (req, res) => {
     User.findById(req.params.userId)
