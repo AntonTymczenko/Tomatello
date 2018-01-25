@@ -9,12 +9,11 @@ module.exports = (prefix, router) => {
         if (!user) {
           throw new Error('Not saved')
         }
-        const {_id, boards} = user
-        res.status(200).send({_id, boards})
+        res.status(200).send(user)
       })
       .catch(err => {
-        console.log(err)
-        res.status(304).send(err)
+        console.error(err)
+        res.status(304).send(err.message)
       })
   })
 
