@@ -1,6 +1,6 @@
 const fs = require('fs'),
   path = require('path'),
-  pattern = /^[A-Z][A-z]+\.js$/
+  pattern = /^[A-Z][A-z]*\.js$/
   models = {}
 
 fs
