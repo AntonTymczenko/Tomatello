@@ -1,9 +1,3 @@
-// dependencies:
-const express = require('express'),
-  app = express(),
-  bodyParser = require('body-parser'),
-  cors = require('cors')
-
 // configuration:
 require('dotenv').config()
 const {NODE_ENV, PORT, URL, MONGODB_URI} = process.env
@@ -11,10 +5,13 @@ const {NODE_ENV, PORT, URL, MONGODB_URI} = process.env
 // connect to database:
 require('./mongoose')(MONGODB_URI)
 
-// middleware:
+const app = require('express')()
+
+// application-level middleware:
+const bodyParser = require('body-parser'),
+  cors = require('cors')
 app.use(cors())
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({extended: true}))
 
 // routes:
 const routes = require('./routes')
