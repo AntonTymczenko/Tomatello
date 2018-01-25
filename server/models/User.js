@@ -61,15 +61,12 @@ UserSchema.pre('save', function (next) {
   }
 
   if (user.isModified('password')) {
-    bcrypt.genSalt(10, (err, salt) =>{
-      bcrypt.hash(user.password, salt, (err, hash) => {
-        user.password = hash
-        next()
-      })
-    })
-  } else {
-    next()
+    const salt = bcrypt.genSaltSync(10)
+    const hash = bcrypt.hashSync(user.password, salt)
+    user.password = hash
   }
+
+  next()
 })
 
 module.exports = mongoose.model('User', UserSchema)
