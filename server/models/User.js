@@ -5,6 +5,7 @@ const UserSchema = new mongoose.Schema({
   login: {
     type: String,
     required: true,
+    unique: true,
     minLength: 1,
     trim: true
   },
