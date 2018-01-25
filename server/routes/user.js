@@ -21,16 +21,12 @@ module.exports = (prefix, router) => {
   // login by credentials
   router.post('/login', (req, res) => {
     const {login, password} = req.body
-    User.findOne({login, password})
-      .then(foundUser => {
-        if (foundUser) {
-          res.status(200).send(foundUser)
-        } else {
-          throw new Error('Wrong credentials')
-        }
+    User.findByCredentials(login, password)
+      .then(user => {
+        res.status(200).send(user)
       })
       .catch(err => {
-        res.status(403).send(err)
+        res.status(403).send('Error: Wrong credentials')
       })
   })
 
