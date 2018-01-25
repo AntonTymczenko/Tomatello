@@ -18,7 +18,7 @@
     </v-container>
   </v-content>
   <v-footer color="indigo" app>
-    <span class="white--text">&copy; 2017</span>
+    <span class="white--text">&copy; {{ currentYear }}</span>
   </v-footer>
 </v-app>
 </template>
@@ -28,12 +28,14 @@ import Breadcrumbs from './Breadcrumbs'
 
 export default {
   data: () => ({
-    drawer: null,
-    board: null
+    drawer: null
   }),
   computed: {
     user () {
       return this.$store.state.user
+    },
+    currentYear () {
+      return (new Date()).getFullYear()
     }
   },
   created () {

@@ -19,10 +19,11 @@ module.exports = (prefix, router) => {
   router.put(`${prefix}/:id`, (req, res) => {
     Task.findByIdAndUpdate(req.params.id, req.body, {new: true})
       .then(updatedTask => {
-        res.send(updatedTask)
+        res.status(200).send(updatedTask)
       })
       .catch(err => {
-        res.send(err)
+        console.log(err)
+        res.status(304).send(err)
       })
   })
 
