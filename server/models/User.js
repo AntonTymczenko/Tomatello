@@ -32,8 +32,7 @@ const UserSchema = new mongoose.Schema({
 })
 
 UserSchema.methods.toJSON = function () {
-  const user = this.toObject()
-  const {_id, publicName, boards, login} = user
+  const {_id, publicName, boards, login} = this
   return {_id, publicName, boards, login}
 }
 
