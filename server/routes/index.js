@@ -2,7 +2,7 @@ const express = require('express'),
   router = express.Router(),
   fs = require('fs'),
   path = require('path'),
-  pattern = /^[a-z].*\.js$/
+  pattern = /^[a-z]+\.js$/
 
 fs
   .readdirSync(__dirname)
