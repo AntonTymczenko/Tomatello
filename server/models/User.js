@@ -31,6 +31,12 @@ const UserSchema = new mongoose.Schema({
   }]
 })
 
+UserSchema.methods.toJSON = function () {
+  const user = this.toObject()
+  const {_id, publicName, boards, login} = user
+  return {_id, publicName, boards, login}
+}
+
 UserSchema.pre('save', function (next) {
   let user = this
 
