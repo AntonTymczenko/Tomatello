@@ -28,8 +28,7 @@ import Breadcrumbs from './Breadcrumbs'
 
 export default {
   data: () => ({
-    drawer: null,
-    board: null
+    drawer: null
   }),
   computed: {
     user () {
