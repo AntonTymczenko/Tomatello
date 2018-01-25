@@ -32,8 +32,8 @@ const UserSchema = new mongoose.Schema({
 })
 
 UserSchema.methods.toJSON = function () {
-  const {_id, publicName, boards, login} = this
-  return {_id, publicName, boards, login}
+  const {_id, publicName, boards, login, userpic} = this
+  return {_id, publicName, boards, login, userpic}
 }
 
 UserSchema.statics.findByCredentials = function (login, password) {
