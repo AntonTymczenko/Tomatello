@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/chingu-voyage3/geckos-17#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
     "dotenv": "^4.0.0",
