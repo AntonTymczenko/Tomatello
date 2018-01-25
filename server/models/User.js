@@ -37,6 +37,22 @@ UserSchema.methods.toJSON = function () {
   return {_id, publicName, boards, login}
 }
 
+UserSchema.statics.findByCredentials = function (login, password) {
+  const User = this
+  return User.findOne({login})
+    .then(user => {
+      if (!user) {
+        return Promise.reject()
+      }
+      return new Promise((resolve, reject) => {
+        bcrypt.compare(password, user.password)
+          .then (res => {
+            res ? resolve(user) : reject()
+          })
+      })
+    })
+}
+
 UserSchema.pre('save', function (next) {
   let user = this
 
