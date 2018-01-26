@@ -73,6 +73,23 @@ UserSchema.methods.removeAuthToken = function (token) {
   })
 }
 
+UserSchema.statics.findByToken = function (token) {
+  const User = this
+  let decoded
+  try {
+    decoded = jwt.verify(token, JWT_SECRET)
+  } catch (err) {
+    return Promise.reject(err)
+  }
+  // TODO: add expiration check
+
+  return User.findOne({
+    '_id': decoded._id,
+    'tokens.token': token,
+    'tokens.access': 'auth'
+  })
+}
+
 UserSchema.statics.findByCredentials = function (login, password) {
   const User = this
   return User.findOne({login})
