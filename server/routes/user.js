@@ -25,7 +25,7 @@ module.exports = (prefix, router) => {
         res.status(200).send(user)
       })
       .catch(err => {
-        res.status(403).send('Error: Wrong credentials')
+        res.status(403).send('Wrong credentials')
       })
   })
 
