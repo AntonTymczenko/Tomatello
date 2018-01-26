@@ -1,5 +1,5 @@
 <template>
-<v-app>
+<v-app v-if="!authToken">
   <v-content>
     <v-container fluid fill-height>
       <v-layout justify-center align-center >
@@ -36,6 +36,7 @@ import axios from 'axios'
 
 export default {
   data: () => ({
+    authToken: null,
     valid: true,
     mode: 'login',
     modes: {
@@ -54,6 +55,15 @@ export default {
     errorMessage: ''
   }),
   created () {
+    this.authToken = localStorage.getItem('authToken')
+    if (this.authToken) {
+      this.getUserByToken(this.authToken)
+        .then(res => this.enterApp(res.data))
+        .catch(err => {
+          console.log(err.response.data)
+          this.authToken = localStorage.removeItem('authToken')
+        })
+    }
   },
   computed: {
     showPassword () {
