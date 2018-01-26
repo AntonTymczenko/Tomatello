@@ -48,13 +48,19 @@ module.exports = (prefix, router) => {
   // login by credentials
   router.post('/login', (req, res) => {
     const {login, password} = req.body
-    User.findByCredentials(login, password)
-      .then(user => {
-        res.status(200).send(user)
-      })
-      .catch(err => {
-        res.status(403).send('Wrong credentials')
-      })
+      User.findByCredentials(login, password)
+        .then(async user => {
+          const token = await user.giveAuthToken()
+          if (token) {
+            res.header('x-auth', token)
+          } else {
+            console.error('No Auth token generated')
+          }
+          res.status(200).send(user)
+        })
+        .catch(err => {
+          res.status(403).send('Wrong credentials')
+        })
   })
 
   // user UPDATE:
