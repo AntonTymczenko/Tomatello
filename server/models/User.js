@@ -33,6 +33,16 @@ const UserSchema = new mongoose.Schema({
   boards: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Board'
+  }],
+  tokens: [{
+    access: {
+      type: String,
+      required: true
+    },
+    token: {
+      type: String,
+      required: true
+    }
   }]
 })
 
