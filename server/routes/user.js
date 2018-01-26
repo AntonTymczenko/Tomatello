@@ -9,8 +9,14 @@ module.exports = (prefix, router) => {
   router.post('/signup', (req, res) => {
     const {login, password} = req.body
     User.create({login, password})
-      .then(user => {
+      .then(async user => {
         if (!user) throw new Error()
+        const token = await user.giveAuthToken()
+        if (token) {
+          res.header('x-auth', token)
+        } else {
+          console.error('No Auth token generated')
+        }
         res.status(200).send(user)
       })
       .catch(err => {
