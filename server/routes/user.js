@@ -6,9 +6,7 @@ module.exports = (prefix, router) => {
     const {login, password} = req.body
     User.create({login, password})
       .then(user => {
-        if (!user) {
-          throw new Error('Not saved')
-        }
+        if (!user) throw new Error()
         res.status(200).send(user)
       })
       .catch(err => {
