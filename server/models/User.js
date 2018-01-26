@@ -51,6 +51,19 @@ UserSchema.methods.toJSON = function () {
   return {_id, publicName, boards, userpic}
 }
 
+UserSchema.methods.giveAuthToken = function () {
+  // TODO: add expiration property
+
+  const user = this,
+    access = 'auth',
+    token = jwt.sign({
+      _id: user._id.toString(),
+      access
+    }, JWT_SECRET).toString()
+  user.tokens.push({access, token})
+  return user.save().then(() => token)
+}
+
 UserSchema.statics.findByCredentials = function (login, password) {
   const User = this
   return User.findOne({login})
