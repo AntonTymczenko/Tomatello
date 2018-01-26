@@ -23,6 +23,7 @@
             {{ modes[this.mode].button }}
           </v-btn>
           <p> <a @click="changeMode()">{{ modes[this.mode].transfer }}</a> </p>
+          <p v-if="errorMessage"> {{ errorMessage }}</p>
         </v-form>
       </v-layout>
     </v-container>
@@ -49,7 +50,8 @@ export default {
     },
     login: '',
     password: '',
-    showPasswordTrigger: false
+    showPasswordTrigger: false,
+    errorMessage: ''
   }),
   created () {
     this.$store.state.user = {}
@@ -78,7 +80,7 @@ export default {
           })
           .catch(err => {
             this.clear()
-            console.log(err.message)
+            this.errorMessage = err.response.data
           })
       }
     },
