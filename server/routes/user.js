@@ -15,6 +15,10 @@ module.exports = (prefix, router) => {
           loginRegistered: 'This login is already registered',
           passwordRequired: 'Password is required'
         }
+        const worstScenario = (err, res) => {
+          console.log(err)
+          res.status(500).send('Internal server error')
+        }
         if (err.errors) {
           if (err.errors.login) {
             if (err.errors.login.kind == 'required') {
@@ -24,13 +28,14 @@ module.exports = (prefix, router) => {
             if (err.errors.password.kind == 'required') {
               res.status(400).send(errors.passwordRequired)
             }
+          } else {
+            worstScenario(err, res)
           }
         } else if (err.code == 11000) {
           res.status(400).send(errors.loginRegistered)
         } else {
-          console.log(err)
+          worstScenario(err, res)
         }
-        res.status(500).send('Internal server error')
       })
   })
 
