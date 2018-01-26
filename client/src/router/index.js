@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Auth from '@/components/Auth'
+import Logout from '@/components/Logout'
 import Homepage from '@/components/Homepage'
 import Dashboard from '@/components/Dashboard'
 import Board from '@/components/Board'
@@ -13,6 +14,11 @@ export default new Router({
       path: '/',
       name: 'Auth',
       component: Auth
+    },
+    {
+      path: '/logout',
+      name: 'Logout',
+      component: Logout
     },
     {
       path: '/home',
