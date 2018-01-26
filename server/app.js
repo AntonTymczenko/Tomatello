@@ -10,7 +10,7 @@ const app = require('express')()
 // application-level middleware:
 const bodyParser = require('body-parser'),
   cors = require('cors')
-app.use(cors())
+app.use(cors({ exposedHeaders: ['x-auth'] }))
 app.use(bodyParser.json())
 
 // routes:
