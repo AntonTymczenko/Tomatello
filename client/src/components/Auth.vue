@@ -84,8 +84,8 @@ export default {
             if (!res) {
               throw new Error()
             }
-            this.$store.state.user = res.data
-            this.$router.push({name: 'Homepage'})
+            localStorage.setItem('authToken', res.headers['x-auth'])
+            this.enterApp(res.data)
           })
           .catch(err => {
             this.clear()
@@ -102,6 +102,10 @@ export default {
         url: '/login',
         headers: {'x-auth': token}
       })
+    },
+    enterApp (user) {
+      this.$store.state.user = user
+      this.$router.push({name: 'Homepage'})
     }
   }
 }
