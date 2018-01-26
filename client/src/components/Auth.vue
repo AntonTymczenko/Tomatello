@@ -95,6 +95,13 @@ export default {
     },
     clear () {
       this.$refs.form.reset()
+    },
+    getUserByToken (token) {
+      return axios({
+        method: 'post',
+        url: '/login',
+        headers: {'x-auth': token}
+      })
     }
   }
 }
