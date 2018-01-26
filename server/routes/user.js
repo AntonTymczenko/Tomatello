@@ -70,7 +70,7 @@ module.exports = (prefix, router) => {
         User.findByToken(token)
           .then(user => {
             if (!user) {
-              res.status(401).send('Wrong Auth Token')
+              res.status(403).send('Wrong Auth Token')
             } else {
               res.status(200).send(user)
             }
