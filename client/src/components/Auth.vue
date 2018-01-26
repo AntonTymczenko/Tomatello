@@ -89,7 +89,9 @@ export default {
           })
           .catch(err => {
             this.clear()
-            this.errorMessage = err.response.data
+            this.errorMessage = err.response
+              ? err.response.data
+              : 'Connection error'
           })
       }
     },
