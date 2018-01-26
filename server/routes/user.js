@@ -75,7 +75,13 @@ module.exports = (prefix, router) => {
               res.status(200).send(user)
             }
           })
-          .catch(err => worstScenario(err, res))
+          .catch(err => {
+            if (err == 403) {
+              res.status(403).send('JWT invalid signature')
+            } else {
+              worstScenario(err, res)
+            }
+          })
       } else {
         res.status(403).send('Access denied')
       }
