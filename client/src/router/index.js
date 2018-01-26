@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Auth from '@/components/Auth'
+import Logout from '@/components/Logout'
 import Homepage from '@/components/Homepage'
 import Dashboard from '@/components/Dashboard'
 import Board from '@/components/Board'
@@ -10,23 +11,27 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/login',
       name: 'Auth',
       component: Auth
     },
     {
-      path: '/home',
+      path: '/logout',
+      name: 'Logout',
+      component: Logout
+    },
+    {
+      path: '/',
       component: Homepage,
       props: true,
       children: [
         {
-          path: '/',
+          path: 'home',
           name: 'Homepage',
-          props: true,
           component: Dashboard
         },
         {
-          path: '/board/:id',
+          path: 'board/:id',
           name: 'Board',
           props: true,
           component: Board

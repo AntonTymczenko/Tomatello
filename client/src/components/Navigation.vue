@@ -30,7 +30,7 @@ export default {
     profileRoute: null,
     items: [
       {title: 'Home', icon: 'home', route: {name: 'Homepage'}},
-      {title: 'Log out', icon: 'exit_to_app', route: {name: 'Auth'}}
+      {title: 'Log out', icon: 'exit_to_app', route: {name: 'Logout'}}
     ]
   })
 }

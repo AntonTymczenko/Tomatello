@@ -1,5 +1,5 @@
 <template>
-<v-app>
+<v-app v-if="!authToken">
   <v-content>
     <v-container fluid fill-height>
       <v-layout justify-center align-center >
@@ -23,6 +23,7 @@
             {{ modes[this.mode].button }}
           </v-btn>
           <p> <a @click="changeMode()">{{ modes[this.mode].transfer }}</a> </p>
+          <p v-if="errorMessage"> {{ errorMessage }}</p>
         </v-form>
       </v-layout>
     </v-container>
@@ -35,6 +36,7 @@ import axios from 'axios'
 
 export default {
   data: () => ({
+    authToken: null,
     valid: true,
     mode: 'login',
     modes: {
@@ -49,10 +51,24 @@ export default {
     },
     login: '',
     password: '',
-    showPasswordTrigger: false
+    showPasswordTrigger: false,
+    errorMessage: ''
   }),
   created () {
-    this.$store.state.user = {}
+    this.authToken = localStorage.getItem('authToken')
+    if (this.authToken) {
+      this.getUserByToken(this.authToken)
+        .then(res => this.enterApp(res.data))
+        .catch(err => {
+          if (err.response) {
+            if (err.response.status === 403) {
+              this.authToken = localStorage.removeItem('authToken')
+            }
+          } else {
+            this.errorMessage = 'Connection error'
+          }
+        })
+    }
   },
   computed: {
     showPassword () {
@@ -73,17 +89,30 @@ export default {
             if (!res) {
               throw new Error()
             }
-            this.$store.state.user = res.data
-            this.$router.push({name: 'Homepage'})
+            localStorage.setItem('authToken', res.headers['x-auth'])
+            this.enterApp(res.data)
           })
           .catch(err => {
             this.clear()
-            console.log(err.message)
+            this.errorMessage = err.response
+              ? err.response.data
+              : 'Connection error'
           })
       }
     },
     clear () {
       this.$refs.form.reset()
+    },
+    getUserByToken (token) {
+      return axios({
+        method: 'post',
+        url: '/login',
+        headers: {'x-auth': token}
+      })
+    },
+    enterApp (user) {
+      this.$store.state.user = user
+      this.$router.push({name: 'Homepage'})
     }
   }
 }

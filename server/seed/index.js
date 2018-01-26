@@ -1,5 +1,6 @@
-const {ObjectID} = require('mongodb'),
-  mongoose = require('../mongoose')
+const {ObjectID} = require('mongodb')
+require('dotenv').config()
+require('../mongoose')(process.env.MONGODB_URI)
 
 const {User, Board, List, Task} = require('../models')
 

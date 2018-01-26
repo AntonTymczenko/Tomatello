@@ -12,4 +12,8 @@ fs
     require(`./${file}`)(`/${name}`, router)
   })
 
+router.get('*', (req, res) => {
+  res.status(404).send({error: 'Endpoint not found'})
+})
+
 module.exports = router

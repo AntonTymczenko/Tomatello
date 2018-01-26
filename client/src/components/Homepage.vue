@@ -1,5 +1,5 @@
 <template>
-<v-app v-if="user._id">
+<v-app v-if="user">
   <v-navigation-drawer fixed v-model="drawer" app >
     <app-navigation
       :user="user"
@@ -8,9 +8,9 @@
   <v-toolbar color="indigo" dark fixed app>
     <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
     <v-toolbar-title>Turbo Trello</v-toolbar-title>
+    <app-breadcrumbs></app-breadcrumbs>
   </v-toolbar>
   <v-content>
-    <app-breadcrumbs></app-breadcrumbs>
     <v-container fluid fill-height>
       <v-layout justify-center align-center >
         <router-view></router-view>

@@ -1,4 +1,5 @@
-const {User, Board} = require('../models')
+const {User, Board} = require('../models'),
+  middleware = require('../middleware')
 
 module.exports = (prefix, router) => {
   // board CREATE:
@@ -18,7 +19,7 @@ module.exports = (prefix, router) => {
   })
 
   // board SHOW:
-  router.get(`${prefix}/:id`, (req, res) => {
+  router.get(`${prefix}/:id`, middleware.hasAccessToBoard, (req, res) => {
     Board.findById(req.params.id)
       .then(foundBoard => {
         res.status(200).send(foundBoard)
