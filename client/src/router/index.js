@@ -11,7 +11,7 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/login',
       name: 'Auth',
       component: Auth
     },
@@ -21,18 +21,17 @@ export default new Router({
       component: Logout
     },
     {
-      path: '/home',
+      path: '/',
       component: Homepage,
       props: true,
       children: [
         {
-          path: '/',
+          path: 'home',
           name: 'Homepage',
-          props: true,
           component: Dashboard
         },
         {
-          path: '/board/:id',
+          path: 'board/:id',
           name: 'Board',
           props: true,
           component: Board
