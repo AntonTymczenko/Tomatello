@@ -1,4 +1,8 @@
 const {User} = require('../models')
+const worstScenario = (err, res) => {
+  console.log(err)
+  res.status(500).send('Internal server error')
+}
 
 module.exports = (prefix, router) => {
   // signup
@@ -14,10 +18,6 @@ module.exports = (prefix, router) => {
           loginRequired: 'Login is required',
           loginRegistered: 'This login is already registered',
           passwordRequired: 'Password is required'
-        }
-        const worstScenario = (err, res) => {
-          console.log(err)
-          res.status(500).send('Internal server error')
         }
         if (err.errors) {
           if (err.errors.login) {
