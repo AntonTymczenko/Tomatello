@@ -10,8 +10,27 @@ module.exports = (prefix, router) => {
         res.status(200).send(user)
       })
       .catch(err => {
-        console.error(err)
-        res.status(304).send(err.message)
+        const errors = {
+          loginRequired: 'Login is required',
+          loginRegistered: 'This login is already registered',
+          passwordRequired: 'Password is required'
+        }
+        if (err.errors) {
+          if (err.errors.login) {
+            if (err.errors.login.kind == 'required') {
+              res.status(400).send(errors.loginRequired)
+            }
+          } else if (err.errors.password) {
+            if (err.errors.password.kind == 'required') {
+              res.status(400).send(errors.passwordRequired)
+            }
+          }
+        } else if (err.code == 11000) {
+          res.status(400).send(errors.loginRegistered)
+        } else {
+          console.log(err)
+        }
+        res.status(500).send('Internal server error')
       })
   })
 
