@@ -60,8 +60,13 @@ export default {
       this.getUserByToken(this.authToken)
         .then(res => this.enterApp(res.data))
         .catch(err => {
-          console.log(err.response.data)
-          this.authToken = localStorage.removeItem('authToken')
+          if (err.response) {
+            if (err.response.status === 403) {
+              this.authToken = localStorage.removeItem('authToken')
+            }
+          } else {
+            this.errorMessage = 'Connection error'
+          }
         })
     }
   },
