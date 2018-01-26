@@ -54,7 +54,6 @@ export default {
     errorMessage: ''
   }),
   created () {
-    this.$store.state.user = {}
   },
   computed: {
     showPassword () {
