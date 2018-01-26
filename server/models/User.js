@@ -1,5 +1,9 @@
-const mongoose = require('mongoose')
-const bcrypt = require('bcryptjs')
+const mongoose = require('mongoose'),
+  bcrypt = require('bcryptjs'),
+  jwt = require('jsonwebtoken')
+
+require('dotenv').config()
+const {JWT_SECRET} = process.env
 
 const UserSchema = new mongoose.Schema({
   login: {
