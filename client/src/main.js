@@ -7,8 +7,10 @@ import router from './router'
 import store from './store'
 import axios from 'axios'
 
-axios.defaults.baseURL = 'http://localhost:8081'
 axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
+if (process.env.NODE_ENV === 'development') {
+  axios.defaults.baseURL = 'http://localhost:8081'
+}
 axios.defaults.headers.get['Accept'] = 'application/json'
 axios.defaults.headers.put['Content-Type'] = 'application/json'
 
