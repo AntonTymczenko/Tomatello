@@ -6,9 +6,11 @@ const app = require('express')()
 
 // application-level middleware:
 const bodyParser = require('body-parser')
-const cors = require('cors')
-app.use(cors({ exposedHeaders: ['x-auth'] }))
 app.use(bodyParser.json())
+if (NODE_ENV === 'development') {
+  const cors = require('cors')
+  app.use(cors({ exposedHeaders: ['x-auth'] }))
+}
 
 // connect to database:
 require('./mongoose')(MONGODB_URI)
