@@ -5,7 +5,7 @@ const express = require('express'),
   pattern = /^[a-z]+\.js$/
 
 router.get('/', (req, res) => {
-  res.status(200).senFile(path.resolve(__dirname, '../../client/dist/index.html'))
+  res.status(200).sendFile(path.resolve(__dirname, '../../client/dist/index.html'))
 })
 
 fs
