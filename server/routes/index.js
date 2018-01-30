@@ -4,6 +4,10 @@ const express = require('express'),
   path = require('path'),
   pattern = /^[a-z]+\.js$/
 
+router.get('/', (req, res) => {
+  res.status(200).senFile(path.resolve(__dirname, '../../client/dist/index.html'))
+})
+
 fs
   .readdirSync(__dirname)
   .filter(file => (file !== 'index.js') && (pattern.test(file)))
