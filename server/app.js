@@ -2,7 +2,8 @@
 require('dotenv').config()
 const {NODE_ENV, PORT, URL, MONGODB_URI} = process.env
 
-const app = require('express')()
+const express = require('express')
+const app = express()
 
 // application-level middleware:
 const bodyParser = require('body-parser')
