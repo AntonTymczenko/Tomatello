@@ -5,8 +5,8 @@ const {NODE_ENV, PORT, URL, MONGODB_URI} = process.env
 const app = require('express')()
 
 // application-level middleware:
-const bodyParser = require('body-parser'),
-  cors = require('cors')
+const bodyParser = require('body-parser')
+const cors = require('cors')
 app.use(cors({ exposedHeaders: ['x-auth'] }))
 app.use(bodyParser.json())
 
