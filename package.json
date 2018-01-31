@@ -1,5 +1,5 @@
 {
-  "name": "Turbo Trello",
+  "name": "TurboTrello",
   "version": "0.2",
   "description": "Turbo Trello app",
   "main": "server/app.js",
