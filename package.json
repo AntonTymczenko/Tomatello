@@ -2,25 +2,43 @@
   "name": "client",
   "version": "1.0.0",
   "description": "Turbo Trello app",
-  "author": "atomasso <tomas.ante@gmail.com>",
+  "main": "server/app.js",
+  "author": "Chingu Voyage-3 / Geckos-17",
   "private": true,
   "scripts": {
-    "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
-    "start": "npm run dev",
-    "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
-    "e2e": "node test/e2e/runner.js",
+    "dev": "npm run dev:client & npm run dev:server",
+    "dev:client": "webpack-dev-server --inline --progress --config client/build/webpack.dev.conf.js",
+    "dev:server": "nodemon server/app.js",
+    "seed": "node server/seed",
+    "start": "node server/app.js",
+    "unit": "cross-env BABEL_ENV=test karma start client/test/unit/karma.conf.js --single-run",
+    "e2e": "node client/test/e2e/runner.js",
     "test": "npm run unit && npm run e2e",
-    "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs",
-    "build": "node build/build.js"
+    "lint": "eslint --ext .js,.vue src client/test/unit/specs client/test/e2e/specs",
+    "build": "node client/build/build.js",
+    "postinstall": "npm run build"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/chingu-voyage3/geckos-17.git"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chingu-voyage3/geckos-17/issues"
+  },
+  "homepage": "https://github.com/chingu-voyage3/geckos-17#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "jsonwebtoken": "^8.1.1",
+    "mongodb": "^3.0.1",
+    "mongoose": "^4.13.9",
     "axios": "^0.17.1",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "vuetify": "^0.17.6",
-    "vuex": "^3.0.1"
-  },
-  "devDependencies": {
+    "vuex": "^3.0.1",
     "autoprefixer": "^7.1.2",
     "babel-core": "^6.22.1",
     "babel-eslint": "^7.1.1",
@@ -40,6 +58,7 @@
     "cross-env": "^5.0.1",
     "cross-spawn": "^5.0.1",
     "css-loader": "^0.28.0",
+    "dotenv": "^4.0.0",
     "eslint": "^3.19.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-friendly-formatter": "^3.0.0",
@@ -63,7 +82,6 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-spec-reporter": "0.0.31",
     "karma-webpack": "^2.0.2",
-    "mocha": "^3.2.0",
     "nightwatch": "^0.9.12",
     "node-notifier": "^5.1.2",
     "optimize-css-assets-webpack-plugin": "^3.2.0",
@@ -87,6 +105,10 @@
     "webpack-bundle-analyzer": "^2.9.0",
     "webpack-dev-server": "^2.9.1",
     "webpack-merge": "^4.1.0"
+  },
+  "devDependencies": {
+    "cors": "^2.8.4",
+    "mocha": "^3.2.0"
   },
   "engines": {
     "node": ">= 4.0.0",
