@@ -1,4 +1,7 @@
 const {User} = require('../models')
+
+const {authorizedToUpdateUser} = require('../middleware')
+
 const worstScenario = (err, res) => {
   console.log(err)
   res.status(500).send('Internal server error')
@@ -89,7 +92,7 @@ module.exports = (prefix, router) => {
   })
 
   // user UPDATE:
-  router.put(`${prefix}/:id`, (req, res) => {
+  router.put(`${prefix}/:id`, authorizedToUpdateUser, (req, res) => {
     const {publicName, userpic} = req.body
     User.findByIdAndUpdate(req.params.id, {publicName, userpic}, {new: true})
       .then(user => {
