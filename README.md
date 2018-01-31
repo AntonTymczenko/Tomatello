@@ -91,7 +91,7 @@ report.
 
 `npm run start` to start Server just like in production. But you'll have
 to specify `NODE_ENV=production` in your `.env` file. To use this command,
-you have run `build` script first.
+you have to run `build` script first.
 
 `npm run unit` run unit tests
 
