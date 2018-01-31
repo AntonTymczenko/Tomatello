@@ -1,6 +1,6 @@
 {
   "name": "TurboTrello",
-  "version": "0.2",
+  "version": "1.0.2",
   "description": "Turbo Trello app",
   "main": "server/app.js",
   "author": "Chingu Voyage-3 / Geckos-17",
