@@ -17,7 +17,7 @@ fs
   })
 
 router.get('*', (req, res) => {
-  res.status(404).send({error: 'Endpoint not found'})
+  res.status(404).sendFile(path.resolve(__dirname, '../../client/static/404.html'))
 })
 
 module.exports = router
