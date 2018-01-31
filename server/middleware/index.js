@@ -23,7 +23,7 @@ const authenticated = (req, res, next) => {
     })
 }
 
-const authorizedToUpdateUser = (req, res, next) => {
+const authorizedUser = (req, res, next) => {
   authenticated(req, res, () => {
     if (ObjectID.isValid(req.params.id)
       && ObjectID.isValid(req.user._id)
@@ -45,6 +45,6 @@ const hasAccessToBoard = (req, res, next) => {
 }
 
 module.exports = {
-  authorizedToUpdateUser,
+  authorizedUser,
   hasAccessToBoard
 }
