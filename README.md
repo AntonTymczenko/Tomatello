@@ -70,7 +70,7 @@ heroku config:set JWT_SECRET="secret"
 git push heroku master
 ```
 
-Fill all the fields in MONGODB_URI constant accordingly to your database on Mlab.
+Fill all the fields in MONGODB_URI constant accordingly to your database at Mlab.
 
 ## Usage
 
