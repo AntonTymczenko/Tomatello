@@ -104,8 +104,8 @@ module.exports = (prefix, router) => {
   })
 
   // user's boards list:
-  router.get(`${prefix}/:userId/boards`, (req, res) => {
-    User.findById(req.params.userId)
+  router.get(`${prefix}/:id/boards`, authorizedUser, (req, res) => {
+    User.findById(req.params.id)
       .populate('boards', '_id _user boardName')
       .then(user => {
         res.status(200).send(user.boards)
