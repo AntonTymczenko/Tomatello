@@ -46,7 +46,8 @@
 
 #### Configuration for local use
 You can specify your own `PORT`, `URL`, path to Mongo database and other
-configuration stuff using `.env` file in this folder.
+configuration stuff using `.env` file in project's root folder (where the
+`package.json` is).
 
 Attention!
 YOU NEED THIS FILE for local use in development mode. Example of `.env` file:
