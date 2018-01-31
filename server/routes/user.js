@@ -77,7 +77,7 @@ module.exports = (prefix, router) => {
           })
           .catch(err => {
             if (err == 403) {
-              res.status(403).send('JWT invalid signature')
+              res.status(403).send('Invalid token')
             } else {
               worstScenario(err, res)
             }
