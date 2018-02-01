@@ -42,13 +42,20 @@ module.exports = (prefix, router) => {
   })
 
   // task DESTROY:
-  router.delete(`${prefix}/:id`, async (req, res) => {
+  router.delete(`${prefix}/:id`, authenticated, async (req, res) => {
     try {
-      const task = await Task.findByIdAndRemove(req.params.id)
+      let task = await Task.findById(req.params.id)
       const list = await List.findById(task._list)
-      list.tasks = list.tasks.filter(x => x.toString() != task._id.toString())
-      await List.findByIdAndUpdate(list._id, {tasks: list.tasks})
-      res.status(200).send(task._id)
+      if (task._user.toString() !== req.user._id.toString()
+        || list._user.toString() !== req.user._id.toString()
+      ) {
+        res.status(401).send(notAuth)
+      } else {
+        task = await Task.findByIdAndRemove(task._id)
+        list.tasks = list.tasks.filter(x => x.toString() !== task._id.toString())
+        await List.findByIdAndUpdate(list._id, {tasks: list.tasks})
+        res.status(200).send(task._id)
+      }
     } catch (err) {
       console.log(err)
       res.status(304).send(notModified)
