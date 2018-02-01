@@ -1,5 +1,9 @@
 const {List, Task} = require('../models')
 
+const {authenticated} = require('../middleware')
+
+const {notModified, notAuth} = require('../errors.json')
+
 module.exports = (prefix, router) => {
   // task CREATE:
   router.post(`${prefix}/new`, async (req, res) => {
@@ -11,7 +15,7 @@ module.exports = (prefix, router) => {
       res.status(200).send(task._id)
     } catch (err) {
       console.log(err)
-      res.status(304).send(err)
+      res.status(304).send(notModified)
     }
   })
 
@@ -23,7 +27,7 @@ module.exports = (prefix, router) => {
       })
       .catch(err => {
         console.log(err)
-        res.status(304).send(err)
+        res.status(304).send(notModified)
       })
   })
 
@@ -37,7 +41,7 @@ module.exports = (prefix, router) => {
       res.status(200).send(task._id)
     } catch (err) {
       console.log(err)
-      res.status(304).send(err)
+      res.status(304).send(notModified)
     }
   })
 }
