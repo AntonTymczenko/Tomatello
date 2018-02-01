@@ -117,8 +117,7 @@ export default {
       if (this.newItemText !== '') {
         const task = {
           task: this.newItemText,
-          done: false,
-          _user: this._user
+          done: false
         }
         const index = this.list.tasks.length
         this.list.tasks.push(task)
