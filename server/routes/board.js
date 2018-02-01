@@ -40,15 +40,20 @@ module.exports = (prefix, router) => {
   })
 
   // board UPDATE:
-  router.put(`${prefix}/:id`, (req, res) => {
-    Board.findByIdAndUpdate(req.params.id, req.body, {new: true})
-      .then(updatedBoard => {
-        res.status(200).send(updatedBoard)
-      })
-      .catch(err => {
-        console.log(err)
-        res.status(304).send(err)
-      })
+  router.put(`${prefix}/:id`, authenticated, async (req, res) => {
+    try {
+      const id = req.params.id
+      let board = await Board.findById(id)
+      if (board._user.toString() === req.user._id.toString()){
+        board = await Board.findByIdAndUpdate(id, req.body, {new: true})
+        res.status(200).send(board)
+      } else {
+        res.status(401).send(notAuth)
+      }
+    } catch (err) {
+      console.log(err)
+      res.status(304).send(notModified)
+    }
   })
 
   // board DESTROY:

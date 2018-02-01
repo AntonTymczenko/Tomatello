@@ -134,8 +134,11 @@ export default {
     },
     updateBoard () {
       const id = this.boards[this.renamingBoardIndex]._id
-      axios.put(`/board/${id}`, {
-        boardName: this.newBoardName
+      axios({
+        method: 'put',
+        url: `/board/${id}`,
+        headers: {'x-auth': this.authToken},
+        data: {boardName: this.newBoardName}
       })
         .then(res => {
           this.boards[this.renamingBoardIndex].boardName = res.data.boardName
