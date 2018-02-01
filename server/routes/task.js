@@ -6,13 +6,19 @@ const {notModified, notAuth} = require('../errors.json')
 
 module.exports = (prefix, router) => {
   // task CREATE:
-  router.post(`${prefix}/new`, async (req, res) => {
+  router.post(`${prefix}/new`, authenticated, async (req, res) => {
     try {
-      const task = await Task.create(req.body.task)
-      const list = await List.findById(task._list)
-      list.tasks.push(task._id)
-      await List.findByIdAndUpdate(list._id, {tasks: list.tasks})
-      res.status(200).send(task._id)
+      const list = await List.findById(req.body.task._list)
+      if (list._user.toString() !== req.user._id.toString()) {
+        res.status(401).send(notAuth)
+      } else {
+        const taskToSave = req.body.task
+        taskToSave._user = req.user._id
+        const task = await Task.create(taskToSave)
+        list.tasks.push(task._id)
+        await List.findByIdAndUpdate(list._id, {tasks: list.tasks})
+        res.status(200).send(task._id)
+      }
     } catch (err) {
       console.log(err)
       res.status(304).send(notModified)
