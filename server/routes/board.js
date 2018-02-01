@@ -2,6 +2,10 @@ const {User, Board} = require('../models')
 
 const {authenticated} = require('../middleware')
 
+const notAuth = {error: 'Not authorized for this action'},
+  notFound = {error: 'Not found'},
+  notModified = {error: 'Not modified'}
+
 module.exports = (prefix, router) => {
   // board CREATE:
   router.post(`${prefix}/new`, authenticated, async (req, res) => {
@@ -16,7 +20,7 @@ module.exports = (prefix, router) => {
       res.status(200).send(board._id)
     } catch (err) {
       console.log(err)
-      res.status(304).send(err)
+      res.status(304).send(notModified)
     }
   })
 
@@ -27,11 +31,11 @@ module.exports = (prefix, router) => {
         if (board._user.toString() === req.user._id.toString()){
           res.status(200).send(board)
         } else {
-          res.status(401).send({error: 'Not authorized for this action'})
+          res.status(401).send(notAuth)
         }
       })
       .catch(err => {
-        res.status(404).send(err)
+        res.status(404).send(notFound)
       })
   })
 
@@ -57,7 +61,7 @@ module.exports = (prefix, router) => {
       res.status(200).send(board._id)
     } catch (err) {
       console.log(err)
-      res.status(304).send(err)
+      res.status(304).send(notModified)
     }
   })
 }
