@@ -42,6 +42,7 @@ export default {
     if (!this.user) {
       this.$router.push({name: 'Auth'})
     }
+    this.$store.state.authToken = localStorage.getItem('authToken')
   },
   components: {
     appNavigation: Navigation,

@@ -63,6 +63,9 @@ export default {
   computed: {
     _user () {
       return this.$store.state.user._id
+    },
+    authToken () {
+      return this.$store.state.authToken
     }
   },
   created () {

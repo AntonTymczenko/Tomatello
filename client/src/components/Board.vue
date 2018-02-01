@@ -63,7 +63,7 @@ export default {
       return this.$store.state.board
     },
     authToken () {
-      return localStorage.getItem('authToken')
+      return this.$store.state.authToken
     }
   },
   created () {

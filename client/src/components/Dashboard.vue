@@ -74,7 +74,7 @@ export default {
       return this.$store.state.user
     },
     authToken () {
-      return localStorage.getItem('authToken')
+      return this.$store.state.authToken
     }
   },
   created () {
