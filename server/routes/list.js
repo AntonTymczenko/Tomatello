@@ -6,15 +6,20 @@ const {notModified, notAuth, notFound} = require('../errors.json')
 
 module.exports = (prefix, router) => {
   // list CREATE:
-  router.post(`${prefix}/new`, async (req, res) => {
-    const {listName, _user, _board} = req.body,
+  router.post(`${prefix}/new`, authenticated, async (req, res) => {
+    const _user = req.user._id
+    const {listName, _board} = req.body,
       listToSave = {listName, _user, _board}
     try {
-      const list = await List.create(listToSave)
-      const board = await Board.findById(list._board)
-      board.lists.push(list._id)
-      await Board.findByIdAndUpdate(board._id, {lists: board.lists})
-      res.status(200).send(list._id)
+      const board = await Board.findById(_board)
+      if (board._user.toString() !== _user.toString()){
+        res.status(401).send(notAuth)
+      } else {
+        const list = await List.create(listToSave)
+        board.lists.push(list._id)
+        await Board.findByIdAndUpdate(board._id, {lists: board.lists})
+        res.status(200).send(list._id)
+      }
     } catch (err) {
       console.log(err)
       res.status(304).send(notModified)
