@@ -86,7 +86,7 @@ export default {
           password: this.password
         })
           .then(res => {
-            if (!res) {
+            if (!res || !res.headers['x-auth']) {
               throw new Error()
             }
             localStorage.setItem('authToken', res.headers['x-auth'])

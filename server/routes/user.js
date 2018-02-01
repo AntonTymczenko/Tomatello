@@ -1,4 +1,7 @@
 const {User} = require('../models')
+
+const {authorizedUser} = require('../middleware')
+
 const worstScenario = (err, res) => {
   console.log(err)
   res.status(500).send('Internal server error')
@@ -77,7 +80,7 @@ module.exports = (prefix, router) => {
           })
           .catch(err => {
             if (err == 403) {
-              res.status(403).send('JWT invalid signature')
+              res.status(403).send('Invalid token')
             } else {
               worstScenario(err, res)
             }
@@ -89,7 +92,7 @@ module.exports = (prefix, router) => {
   })
 
   // user UPDATE:
-  router.put(`${prefix}/:id`, (req, res) => {
+  router.put(`${prefix}/:id`, authorizedUser, (req, res) => {
     const {publicName, userpic} = req.body
     User.findByIdAndUpdate(req.params.id, {publicName, userpic}, {new: true})
       .then(user => {
@@ -101,8 +104,8 @@ module.exports = (prefix, router) => {
   })
 
   // user's boards list:
-  router.get(`${prefix}/:userId/boards`, (req, res) => {
-    User.findById(req.params.userId)
+  router.get(`${prefix}/:id/boards`, authorizedUser, (req, res) => {
+    User.findById(req.params.id)
       .populate('boards', '_id _user boardName')
       .then(user => {
         res.status(200).send(user.boards)
