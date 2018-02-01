@@ -55,13 +55,18 @@ module.exports = (prefix, router) => {
   })
 
   // board DESTROY:
-  router.delete(`${prefix}/:id`, async (req, res) => {
+  router.delete(`${prefix}/:id`, authenticated, async (req, res) => {
     try {
-      const board = await Board.findByIdAndRemove(req.params.id)
-      const user = await User.findById(board._user)
-      user.boards = user.boards.filter(x => x.toString() != board._id.toString())
-      await User.findByIdAndUpdate(user._id, {boards: user.boards})
-      res.status(200).send(board._id)
+      let board = await Board.findById(req.params.id)
+      if (board._user.toString() === req.user._id.toString()){
+        board = await Board.findByIdAndRemove(req.params.id)
+        const user = await User.findById(req.user._id)
+        user.boards = user.boards.filter(x => x.toString() != board._id.toString())
+        await User.findByIdAndUpdate(user._id, {boards: user.boards})
+        res.status(200).send(board._id)
+      } else {
+        res.status(401).send(notAuth)
+      }
     } catch (err) {
       console.log(err)
       res.status(304).send(notModified)

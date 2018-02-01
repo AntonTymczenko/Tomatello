@@ -150,7 +150,11 @@ export default {
     },
     deleteBoard (index) {
       const id = this.boards[index]._id
-      axios.delete(`/board/${id}`)
+      axios({
+        method: 'delete',
+        url: `/board/${id}`,
+        headers: {'x-auth': this.authToken}
+      })
         .then(res => {
           if (!res.data) {
             throw new Error()
