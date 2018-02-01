@@ -73,7 +73,11 @@ export default {
   },
   methods: {
     fetchList (id) {
-      axios.get(`/list/${id}`)
+      axios({
+        method: 'get',
+        url: `/list/${id}`,
+        headers: {'x-auth': this.authToken}
+      })
         .then(res => {
           this.list = res.data
         })

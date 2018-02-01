@@ -27,11 +27,15 @@ module.exports = (prefix, router) => {
   })
 
   // list SHOW:
-  router.get(`${prefix}/:id`, (req, res) => {
+  router.get(`${prefix}/:id`, authenticated, (req, res) => {
     List.findById(req.params.id)
       .populate('tasks', '_id task done')
-      .then(foundList => {
-        res.status(200).send(foundList)
+      .then(list => {
+        if (list._user.toString() !== req.user._id.toString()) {
+          res.status(401).send(notAuth)
+        } else {
+          res.status(200).send(list)
+        }
       })
       .catch(err => {
         res.status(404).send(notFound)
