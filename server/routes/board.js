@@ -23,8 +23,12 @@ module.exports = (prefix, router) => {
   // board SHOW:
   router.get(`${prefix}/:id`, authenticated, (req, res) => {
     Board.findById(req.params.id)
-      .then(foundBoard => {
-        res.status(200).send(foundBoard)
+      .then(board => {
+        if (board._user.toString() === req.user._id.toString()){
+          res.status(200).send(board)
+        } else {
+          res.status(401).send({error: 'Not authorized for this action'})
+        }
       })
       .catch(err => {
         res.status(404).send(err)
