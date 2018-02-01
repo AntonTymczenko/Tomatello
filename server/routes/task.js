@@ -26,15 +26,19 @@ module.exports = (prefix, router) => {
   })
 
   // task UPDATE:
-  router.put(`${prefix}/:id`, (req, res) => {
-    Task.findByIdAndUpdate(req.params.id, req.body, {new: true})
-      .then(updatedTask => {
-        res.status(200).send(updatedTask)
-      })
-      .catch(err => {
-        console.log(err)
-        res.status(304).send(notModified)
-      })
+  router.put(`${prefix}/:id`, authenticated, async (req, res) => {
+    try {
+      let task = await Task.findById(req.params.id)
+      if (task._user.toString() !== req.user._id.toString()) {
+        res.status(401).send(notAuth)
+      } else {
+        task = await Task.findByIdAndUpdate(task.id, req.body, {new: true})
+        res.status(200).send(task)
+      }
+    } catch (err) {
+      console.log(err)
+      res.status(304).send(notModified)
+    }
   })
 
   // task DESTROY:
