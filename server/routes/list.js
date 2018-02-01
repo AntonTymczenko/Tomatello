@@ -1,5 +1,9 @@
 const {Board, List} = require('../models')
 
+const {authenticated} = require('../middleware')
+
+const {notModified, notAuth, notFound} = require('../errors.json')
+
 module.exports = (prefix, router) => {
   // list CREATE:
   router.post(`${prefix}/new`, async (req, res) => {
@@ -13,7 +17,7 @@ module.exports = (prefix, router) => {
       res.status(200).send(list._id)
     } catch (err) {
       console.log(err)
-      res.status(304).send(err)
+      res.status(304).send(notModified)
     }
   })
 
@@ -25,7 +29,7 @@ module.exports = (prefix, router) => {
         res.status(200).send(foundList)
       })
       .catch(err => {
-        res.status(404).send(err)
+        res.status(404).send(notFound)
       })
   })
 
@@ -37,7 +41,7 @@ module.exports = (prefix, router) => {
       })
       .catch(err => {
         console.log(err)
-        res.status(304).send(err)
+        res.status(304).send(notModified)
       })
   })
 
@@ -50,7 +54,7 @@ module.exports = (prefix, router) => {
       await Board.findByIdAndUpdate(board._id, {lists: board.lists})
       res.status(200).send(list._id)
     } catch (err) {
-      res.status(304).send(err)
+      res.status(304).send(notModified)
     }
   })
 }
