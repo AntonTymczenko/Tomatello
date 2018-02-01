@@ -83,7 +83,11 @@ export default {
   },
   methods: {
     fetchBoards () {
-      axios.get(`/user/${this.user._id}/boards`)
+      axios({
+        method: 'get',
+        url: `/user/${this.user._id}/boards`,
+        headers: {'x-auth': this.authToken}
+      })
         .then(res => {
           if (!res) {
             throw new Error()
