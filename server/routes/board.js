@@ -1,11 +1,12 @@
 const {User, Board} = require('../models')
 
-const {hasAccessToBoard} = require('../middleware')
+const {authenticated, hasAccessToBoard} = require('../middleware')
 
 module.exports = (prefix, router) => {
   // board CREATE:
-  router.post(`${prefix}/new`, async (req, res) => {
-    const {boardName, _user} = req.body,
+  router.post(`${prefix}/new`, authenticated, async (req, res) => {
+    const {boardName} = req.body,
+      _user = req.user._id,
       boardToSave = {boardName, _user}
     try {
       const board = await Board.create(boardToSave)

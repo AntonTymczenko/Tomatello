@@ -45,6 +45,7 @@ const hasAccessToBoard = (req, res, next) => {
 }
 
 module.exports = {
+  authenticated,
   authorizedUser,
   hasAccessToBoard
 }

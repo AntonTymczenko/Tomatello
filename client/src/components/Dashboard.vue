@@ -72,6 +72,9 @@ export default {
   computed: {
     user () {
       return this.$store.state.user
+    },
+    authToken () {
+      return localStorage.getItem('authToken')
     }
   },
   created () {
@@ -108,9 +111,11 @@ export default {
       }
     },
     createBoard () {
-      axios.post('/board/new', {
-        boardName: this.newBoardName,
-        _user: this.user._id
+      axios({
+        method: 'post',
+        url: '/board/new',
+        headers: {'x-auth': this.authToken},
+        data: {boardName: this.newBoardName}
       })
         .then(res => {
           if (!res.data) {
