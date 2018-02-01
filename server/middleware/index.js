@@ -36,16 +36,7 @@ const authorizedUser = (req, res, next) => {
   })
 }
 
-const hasAccessToBoard = (req, res, next) => {
-  if (true) {
-    next()
-  } else {
-    res.status(401).send(error[1])
-  }
-}
-
 module.exports = {
   authenticated,
-  authorizedUser,
-  hasAccessToBoard
+  authorizedUser
 }
