@@ -59,13 +59,18 @@ module.exports = (prefix, router) => {
   })
 
   // list DESTROY:
-  router.delete(`${prefix}/:id`, async (req, res) => {
+  router.delete(`${prefix}/:id`, authenticated, async (req, res) => {
     try {
-      const list = await List.findByIdAndRemove(req.params.id)
-      const board = await Board.findById(list._board)
-      board.lists = board.lists.filter(x => x.toString() != list._id.toString())
-      await Board.findByIdAndUpdate(board._id, {lists: board.lists})
-      res.status(200).send(list._id)
+      let list = await List.findById(req.params.id)
+      if (list._user.toString() !== req.user._id.toString()) {
+        res.status(401).send(notAuth)
+      } else {
+        list = await List.findByIdAndRemove(list._id)
+        const board = await Board.findById(list._board)
+        board.lists = board.lists.filter(x => x.toString() != list._id.toString())
+        await Board.findByIdAndUpdate(board._id, {lists: board.lists})
+        res.status(200).send(list._id)
+      }
     } catch (err) {
       res.status(304).send(notModified)
     }
