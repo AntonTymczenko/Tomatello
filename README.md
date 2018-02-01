@@ -59,7 +59,7 @@ MONGODB_URI="mongodb://localhost:27017/tomatello"
 JWT_SECRET="secret"
 ```
 
-#### Configuration for produciton
+#### Configuration for production
 In production you can specify configurations not in this file but accordingly
 to your provider.
 
