@@ -61,10 +61,17 @@ export default {
     },
     board () {
       return this.$store.state.board
+    },
+    authToken () {
+      return this.$store.state.authToken
     }
   },
   created () {
-    axios.get(`/board/${this.id}`)
+    axios({
+      method: 'get',
+      url: `/board/${this.id}`,
+      headers: {'x-auth': this.authToken}
+    })
       .then(res => {
         if (!res) {
           throw new Error()
@@ -84,10 +91,14 @@ export default {
       if (this.newListName === '') {
         return console.log('Trying to save empty name')
       }
-      axios.post('/list/new', {
-        listName: this.newListName,
-        _user: this.user._id,
-        _board: this.board._id
+      axios({
+        method: 'post',
+        url: '/list/new',
+        headers: {'x-auth': this.authToken},
+        data: {
+          listName: this.newListName,
+          _board: this.board._id
+        }
       })
         .then(res => {
           this.board.lists.push(res.data)

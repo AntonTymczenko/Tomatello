@@ -1,4 +1,3 @@
-const {ObjectID} = require('mongodb')
 require('dotenv').config()
 require('../mongoose')(process.env.MONGODB_URI)
 

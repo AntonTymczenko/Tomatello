@@ -72,6 +72,9 @@ export default {
   computed: {
     user () {
       return this.$store.state.user
+    },
+    authToken () {
+      return this.$store.state.authToken
     }
   },
   created () {
@@ -80,7 +83,11 @@ export default {
   },
   methods: {
     fetchBoards () {
-      axios.get(`/user/${this.user._id}/boards`)
+      axios({
+        method: 'get',
+        url: `/user/${this.user._id}/boards`,
+        headers: {'x-auth': this.authToken}
+      })
         .then(res => {
           if (!res) {
             throw new Error()
@@ -108,9 +115,11 @@ export default {
       }
     },
     createBoard () {
-      axios.post('/board/new', {
-        boardName: this.newBoardName,
-        _user: this.user._id
+      axios({
+        method: 'post',
+        url: '/board/new',
+        headers: {'x-auth': this.authToken},
+        data: {boardName: this.newBoardName}
       })
         .then(res => {
           if (!res.data) {
@@ -125,8 +134,11 @@ export default {
     },
     updateBoard () {
       const id = this.boards[this.renamingBoardIndex]._id
-      axios.put(`/board/${id}`, {
-        boardName: this.newBoardName
+      axios({
+        method: 'put',
+        url: `/board/${id}`,
+        headers: {'x-auth': this.authToken},
+        data: {boardName: this.newBoardName}
       })
         .then(res => {
           this.boards[this.renamingBoardIndex].boardName = res.data.boardName
@@ -138,7 +150,11 @@ export default {
     },
     deleteBoard (index) {
       const id = this.boards[index]._id
-      axios.delete(`/board/${id}`)
+      axios({
+        method: 'delete',
+        url: `/board/${id}`,
+        headers: {'x-auth': this.authToken}
+      })
         .then(res => {
           if (!res.data) {
             throw new Error()
