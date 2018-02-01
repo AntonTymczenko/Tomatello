@@ -61,10 +61,17 @@ export default {
     },
     board () {
       return this.$store.state.board
+    },
+    authToken () {
+      return localStorage.getItem('authToken')
     }
   },
   created () {
-    axios.get(`/board/${this.id}`)
+    axios({
+      method: 'get',
+      url: `/board/${this.id}`,
+      headers: {'x-auth': this.authToken}
+    })
       .then(res => {
         if (!res) {
           throw new Error()
