@@ -43,15 +43,19 @@ module.exports = (prefix, router) => {
   })
 
   // list UPDATE:
-  router.put(`${prefix}/:id`, (req, res) => {
-    List.findByIdAndUpdate(req.params.id, req.body)
-      .then(updatedList => {
-        res.status(200).send(updatedList)
-      })
-      .catch(err => {
-        console.log(err)
-        res.status(304).send(notModified)
-      })
+  router.put(`${prefix}/:id`, authenticated, async (req, res) => {
+    try {
+      let list = await List.findById(req.params.id)
+      if (list._user.toString() !== req.user._id.toString()) {
+        res.status(401).send(notAuth)
+      } else {
+        list = await List.findByIdAndUpdate(list._id, req.body, {new: true})
+        res.status(200).send(list._id)
+      }
+    } catch (err) {
+      console.log(err)
+      res.status(304).send(notModified)
+    }
   })
 
   // list DESTROY:
