@@ -89,12 +89,12 @@ export default {
       const task = this.list.tasks[taskIndex]
       const newState = !task.done
       task.done = newState
-      axios{
+      axios({
         method: 'put',
         url: `/task/${task._id}`,
         headers: {'x-auth': this.authToken},
         data: {done: newState}
-      }
+      })
         .then(res => {
           if (res.data.done !== newState) {
             throw new Error('Something went wrong at server trying to toggle task\'s Completed state')
