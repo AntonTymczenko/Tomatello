@@ -2,9 +2,7 @@ const {User, Board} = require('../models')
 
 const {authenticated} = require('../middleware')
 
-const notAuth = {error: 'Not authorized for this action'},
-  notFound = {error: 'Not found'},
-  notModified = {error: 'Not modified'}
+const {notAuth, notFound, notModified} = require('../errors.json')
 
 module.exports = (prefix, router) => {
   // board CREATE:

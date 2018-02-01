@@ -1,25 +1,20 @@
 const {User, Board, List, Task} = require('../models')
 const {ObjectID} = require('mongodb')
 
-const error = [
-  {},
-  {error: 'Not authorized for this action'},
-  {},
-  {error: 'Access denied'}
-]
+const {notAuth, accessDenied} = require('../errors.json')
 
 const authenticated = (req, res, next) => {
   const token = req.header('x-auth')
   User.findByToken(token)
     .then(user => {
       if (!user) {
-        return Promise.reject(403)
+        return Promise.reject()
       }
       req.user = user
       next()
     })
     .catch(err => {
-      res.status(403).send(error[3])
+      res.status(403).send(accessDenied)
     })
 }
 
@@ -31,7 +26,7 @@ const authorizedUser = (req, res, next) => {
     ){
       next()
     } else {
-      res.status(401).send(error[1])
+      res.status(401).send(notAuth)
     }
   })
 }
