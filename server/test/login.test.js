@@ -25,4 +25,16 @@ describe('Sign-up route in API', () => {
         done()
       })
   })
+
+  it('should not register user with existing login', done => {
+    chai.request(app)
+      .post('/signup')
+      .send(users[0])
+      .end((err, res) => {
+        res.should.have.status(400)
+        res.body.should.be.a('object')
+        res.body.should.be.eql(errors.loginRegistered)
+        done()
+      })
+  })
 })
