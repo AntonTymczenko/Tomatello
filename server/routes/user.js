@@ -1,6 +1,7 @@
 const {User} = require('../models')
 
-const {authorizedUser} = require('../middleware')
+const {authorizedUser} = require('../middleware'),
+  errors = require('../errors.json')
 
 const worstScenario = (err, res) => {
   console.log(err)
@@ -23,11 +24,6 @@ module.exports = (prefix, router) => {
         res.status(200).send(user)
       })
       .catch(err => {
-        const errors = {
-          loginRequired: 'Login is required',
-          loginRegistered: 'This login is already registered',
-          passwordRequired: 'Password is required'
-        }
         if (err.errors) {
           if (err.errors.login) {
             if (err.errors.login.kind == 'required') {
