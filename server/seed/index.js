@@ -1,9 +1,4 @@
-require('dotenv').config()
-require('../mongoose')(process.env.MONGODB_URI)
-
 const {User, Board, List, Task} = require('../models')
-
-const users = require('./users')
 
 const resetAllCollections = async () => {
   try {
@@ -19,7 +14,8 @@ const resetAllCollections = async () => {
 
 const shortenId = id => id.toString().substring(20)
 
-const populateUsers = async users => {
+const populateUsers = async () => {
+  const users = require('./users')
   try {
     for (let user of users) {
       const {login, password, publicName, userpic} = user
@@ -123,10 +119,28 @@ const registerBoardsToUser = async (_user, boards) => {
   }
 }
 
-console.log('Running /seed/index.js')
-;(async () => {
-  await resetAllCollections()
-  await populateUsers(users)
-  console.log('Seeding done')
-  process.exit(0)
-})()
+const seed = async () => {
+  console.log('Running /seed/index.js')
+  require('dotenv').config()
+  require('../mongoose')(process.env.MONGODB_URI)
+  log = true // when running not in tests -- log everything to console
+
+  try {
+    await resetAllCollections()
+    await populateUsers()
+    console.log('Seeding done')
+    process.exit(0)
+  } catch (err) {
+    console.error(err)
+    console.error(`Didn't seed`)
+    process.exit(1)
+  }
+}
+
+
+module.exports = {
+  resetAllCollections,
+  populateUsers,
+  users: require('./users'),
+  seed
+}
