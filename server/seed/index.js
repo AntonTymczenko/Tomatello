@@ -1,4 +1,5 @@
 const {User, Board, List, Task} = require('../models')
+let log = false
 
 const resetAllCollections = async () => {
   try {
@@ -6,7 +7,7 @@ const resetAllCollections = async () => {
     await Board.remove({})
     await List.remove({})
     await Task.remove({})
-    console.log('Removed all database collections')
+    log ? console.log('Removed all database collections') : null
   } catch (err) {
     console.log(err)
   }
@@ -21,7 +22,7 @@ const populateUsers = async () => {
       const {login, password, publicName, userpic} = user
       const userSaved = await User({login, password, publicName, userpic}).save()
       const id = shortenId(userSaved._id)
-      console.log(`+ user "${userSaved.publicName}" ..${id}`)
+      log ? console.log(`+ user "${userSaved.publicName}" ..${id}`) : null
       await populateBoards(userSaved._id, user.boards)
     }
   } catch (err) {
@@ -36,7 +37,7 @@ const populateBoards = async (_user, boards) => {
       const {boardName} = board
       const boardSaved = await Board({boardName, _user}).save()
       const id = shortenId(boardSaved._id)
-      console.log(`  + board "${boardSaved.boardName}" ..${id}`)
+      log ? console.log(`  + board "${boardSaved.boardName}" ..${id}`) : null
       boardsToReturn.push(boardSaved._id)
       await populateLists(_user, boardSaved._id, board.lists)
     }
@@ -53,7 +54,7 @@ const populateLists = async (_user, _board, lists) => {
       const {listName} = list
       const listSaved = await List({listName, _user, _board}).save()
       const id = shortenId(listSaved._id)
-      console.log(`    + list "${listSaved.listName}" ..${id}`)
+      log ? console.log(`    + list "${listSaved.listName}" ..${id}`) : null
       listsToReturn.push(listSaved._id)
       await populateTasks(_user, listSaved._id, list.tasks)
     }
@@ -74,7 +75,7 @@ const populateTasks = async (_user, _list, tasks) => {
         done: false
       }).save()
       const id = shortenId(taskSaved._id)
-      console.log(`      + task "${taskSaved.task}" ..${id}`)
+      log ? console.log(`      + task "${taskSaved.task}" ..${id}`) : null
       tasksToReturn.push(taskSaved._id)
     }
     await registerTasksToList(_list, tasksToReturn)
@@ -85,10 +86,10 @@ const populateTasks = async (_user, _list, tasks) => {
 
 const registerTasksToList = async (_list, tasks) => {
   try {
-    console.log(`writing tasks ${tasks
+    log ? console.log(`writing tasks ${tasks
       .map(id => `..${shortenId(id)}`)
       .reduce((x,y)=> `${x}, ${y}`)
-    } to list ..${shortenId(_list)}`)
+    } to list ..${shortenId(_list)}`) : null
     await List.findByIdAndUpdate(_list, {tasks})
   } catch (err) {
     console.log(err)
@@ -97,10 +98,10 @@ const registerTasksToList = async (_list, tasks) => {
 
 const registerListsToBoard = async (_board, lists) => {
   try {
-    console.log(`writing lists ${lists
+    log ? console.log(`writing lists ${lists
       .map(id => `..${shortenId(id)}`)
       .reduce((x,y)=> `${x}, ${y}`)
-    } to board ..${shortenId(_board)}`)
+    } to board ..${shortenId(_board)}`) : null
     await Board.findByIdAndUpdate(_board, {lists})
   } catch (err) {
     console.log(err)
@@ -109,10 +110,10 @@ const registerListsToBoard = async (_board, lists) => {
 
 const registerBoardsToUser = async (_user, boards) => {
   try {
-    console.log(`writing boards ${boards
+    log ? console.log(`writing boards ${boards
       .map(id => `..${shortenId(id)}`)
       .reduce((x,y)=> `${x}, ${y}`)
-    } to user ..${shortenId(_user)}`)
+    } to user ..${shortenId(_user)}`) : null
     await User.findByIdAndUpdate(_user, {boards})
   } catch (err) {
     console.log(err)
