@@ -1,0 +1,28 @@
+const app = require('../app'),
+  chai = require('chai'),
+  chaiHttp = require('chai-http'),
+  {expect} = require('chai'),
+  should = chai.should(),
+  {resetAllCollections, populateUsers, users} = require('../seed'),
+  errors = require('../errors.json')
+
+chai.use(chaiHttp)
+
+before(resetAllCollections)
+
+describe('Sign-up route in API', () => {
+  before(populateUsers)
+
+  it('should register a proper user', done => {
+    chai.request(app)
+      .post('/signup')
+      .send({
+        login: 'vasa',
+        password: 'pwd'
+      })
+      .end((err, res) => {
+        res.should.have.status(200)
+        done()
+      })
+  })
+})
