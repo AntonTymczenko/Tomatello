@@ -5,5 +5,8 @@
   "accessDenied": {"error": "Access denied"},
   "loginRequired": {"error" : "Login is required"},
   "loginRegistered": {"error" : "This login is already registered"},
-  "passwordRequired": {"error" : "Password is required"}
+  "passwordRequired": {"error" : "Password is required"},
+  "internal": {"error": "Internal server error"},
+  "wrongCredentials": {"error": "Wrong credentials"},
+  "badToken": {"error": "Invalid Authentication Token"}
 }
