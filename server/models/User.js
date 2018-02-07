@@ -28,6 +28,7 @@ const UserSchema = new mongoose.Schema({
   userpic: {
     type: String,
     required: false,
+    default: '',
     trim: true
   },
   boards: [{
