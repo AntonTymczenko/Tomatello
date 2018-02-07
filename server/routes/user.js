@@ -18,10 +18,11 @@ module.exports = (prefix, router) => {
         const token = await user.giveAuthToken()
         if (token) {
           res.header('x-auth', token)
+          res.status(200).send(user)
         } else {
           console.error('No Auth token generated')
+          res.status(500).send(errors.internal)
         }
-        res.status(200).send(user)
       })
       .catch(err => {
         if (err.errors) {
@@ -54,10 +55,11 @@ module.exports = (prefix, router) => {
           const token = await user.giveAuthToken()
           if (token) {
             res.header('x-auth', token)
+            res.status(200).send(user)
           } else {
             console.error('No Auth token generated')
+            res.status(500).send(errors.internal)
           }
-          res.status(200).send(user)
         })
         .catch(err => {
           res.status(403).send(errors.wrongCredentials)
