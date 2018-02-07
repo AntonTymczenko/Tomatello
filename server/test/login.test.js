@@ -1,10 +1,11 @@
 const app = require('../app'),
   chai = require('chai'),
   chaiHttp = require('chai-http'),
-  {expect} = require('chai'),
   should = chai.should(),
-  errors = require('../errors.json')
   {resetAllCollections, users} = require('../seed'),
+  errors = require('../errors.json'),
+  jwt = require('jsonwebtoken'),
+  JWT_SECRET = process.env.JWT_SECRET
 
 chai.use(chaiHttp)
 
