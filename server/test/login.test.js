@@ -12,6 +12,7 @@ before(resetAllCollections)
 
 describe('Sign-up route in API', () => {
   before(populateUsers)
+  const path = '/signup'
 
   it('should register a proper user', done => {
     chai.request(app)
@@ -28,7 +29,7 @@ describe('Sign-up route in API', () => {
 
   it('should not register user with existing login', done => {
     chai.request(app)
-      .post('/signup')
+      .post(path)
       .send(users[0])
       .end((err, res) => {
         res.should.have.status(400)
