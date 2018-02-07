@@ -42,4 +42,16 @@ describe('Sign-up route in API', () => {
         done()
       })
   })
+
+  it('should not register user without login', done => {
+    chai.request(app)
+      .post(path)
+      .send({password: 'some-legit-password'})
+      .end((err, res) => {
+        res.should.have.status(400)
+        res.body.should.be.a('object')
+        res.body.should.be.eql(errors.loginRequired)
+        done()
+      })
+  })
 })
