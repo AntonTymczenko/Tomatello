@@ -5,7 +5,7 @@ const {authorizedUser} = require('../middleware'),
 
 const worstScenario = (err, res) => {
   console.log(err)
-  res.status(500).send('Internal server error')
+  res.status(500).send(errors.internal)
 }
 
 module.exports = (prefix, router) => {
@@ -60,7 +60,7 @@ module.exports = (prefix, router) => {
           res.status(200).send(user)
         })
         .catch(err => {
-          res.status(403).send('Wrong credentials')
+          res.status(403).send(errors.wrongCredentials)
         })
     } else {
       const token = req.header('x-auth')
@@ -69,20 +69,20 @@ module.exports = (prefix, router) => {
         User.findByToken(token)
           .then(user => {
             if (!user) {
-              res.status(403).send('Wrong Auth Token')
+              res.status(403).send(errors.badToken)
             } else {
               res.status(200).send(user)
             }
           })
           .catch(err => {
             if (err == 403) {
-              res.status(403).send('Invalid token')
+              res.status(403).send(errors.badToken)
             } else {
               worstScenario(err, res)
             }
           })
       } else {
-        res.status(403).send('Access denied')
+        res.status(403).send(errors.accessDenied)
       }
     }
   })
@@ -95,7 +95,7 @@ module.exports = (prefix, router) => {
         res.status(200).send(user)
       })
       .catch(err => {
-        res.status(304).send()
+        res.status(304).send(errors.notModified)
       })
   })
 
@@ -107,7 +107,7 @@ module.exports = (prefix, router) => {
         res.status(200).send(user.boards)
       })
       .catch(err => {
-        res.status(404).send(err)
+        res.status(404).send(errors.notFound)
       })
   })
 }
