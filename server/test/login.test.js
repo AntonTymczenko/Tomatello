@@ -14,12 +14,19 @@ before('Pre-test DB reset', resetAllCollections)
 describe('Sign-up route in API', () => {
   const path = '/signup'
 
-  it('should register a proper user', done => {
+  it(`should register and respond with
+        status 200,
+        body (_id, publicName, boards)
+        give AuthToken in headers`, done => {
     chai.request(app)
       .post(path)
       .send(users[0])
       .end((err, res) => {
         res.should.have.status(200)
+        res.body.should.have.all.keys('_id', 'publicName', 'boards', 'userpic')
+        res.should.have.header('x-auth')
+        jwt.decode(res.headers['x-auth'])._id
+          .should.be.eql(res.body._id)
         done()
       })
   })
