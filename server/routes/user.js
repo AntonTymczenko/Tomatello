@@ -11,8 +11,8 @@ const worstScenario = (err, res) => {
 module.exports = (prefix, router) => {
   // signup
   router.post('/signup', (req, res) => {
-    const {login, password} = req.body
-    User.create({login, password})
+    const {login, password, userpic, publicName} = req.body
+    User.create({login, password, userpic, publicName})
       .then(async user => {
         if (!user) throw new Error()
         const token = await user.giveAuthToken()
