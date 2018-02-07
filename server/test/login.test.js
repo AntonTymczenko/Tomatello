@@ -9,7 +9,7 @@ const app = require('../app'),
 
 chai.use(chaiHttp)
 
-before(resetAllCollections)
+before('Pre-test DB reset', resetAllCollections)
 
 describe('Sign-up route in API', () => {
   const path = '/signup'
