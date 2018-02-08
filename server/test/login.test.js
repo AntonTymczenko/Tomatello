@@ -90,9 +90,9 @@ describe('Login route in API', () => {
         res.body.should.have.all
           .keys('_id', 'publicName', 'boards', 'userpic')
         res.should.have.header('x-auth')
-        token = res.headers['x-auth']
-        jwt.decode(res.headers['x-auth'])._id
-          .should.be.eql(res.body._id)
+        user.authToken = res.headers['x-auth']
+        user._id = jwt.decode(res.headers['x-auth'])._id.toString()
+        res.body._id.toString().should.be.eql(user._id)
         done()
       })
   })
@@ -169,14 +169,13 @@ describe('Login route in API', () => {
         body (_id, publicName, userpic, boards)`, done => {
     chai.request(app).post(path)
       .send({})
-      .set('x-auth', token)
+      .set('x-auth', user.authToken)
       .end((err, res) => {
         res.should.have.status(200)
         res.body.should.be.a('object')
         res.body.should.have.all
           .keys('_id', 'publicName', 'boards', 'userpic')
-        jwt.decode(token)._id
-          .should.be.eql(res.body._id)
+        res.body._id.toString().should.be.eql(user._id)
         done()
       })
   })
@@ -198,7 +197,7 @@ describe('Login route in API', () => {
   })
 
   it('should respond 403 to a token with invalid signature', done => {
-    const payload = jwt.decode(token)
+    const payload = jwt.decode(user.authToken)
     const badToken = jwt.sign(payload, 'wrong secret').toString()
     chai.request(app).post(path)
       .send({})
@@ -212,7 +211,7 @@ describe('Login route in API', () => {
   })
 
   it('should respond 403 to a token with wrong _id', done => {
-    const payload = jwt.decode(token)
+    const payload = jwt.decode(user.authToken)
     let wrongId = payload._id.toString()
     wrongId = wrongId.substr(0, wrongId.length - 1 )
       + (parseInt(wrongId.substr(-1), 16) + 1).toString(16)
@@ -230,7 +229,7 @@ describe('Login route in API', () => {
   })
 
   it('should respond 403 to a token with wrong `iat`', done => {
-    const payload = jwt.decode(token)
+    const payload = jwt.decode(user.authToken)
     payload.iat = Math.floor(new Date().getTime() / 1000) + 8
     const badToken = jwt.sign(payload, JWT_SECRET).toString()
     chai.request(app).post(path)
