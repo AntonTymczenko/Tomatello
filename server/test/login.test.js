@@ -19,8 +19,7 @@ describe('Sign-up route in API', () => {
         status 200,
         body (_id, publicName, userpic, boards)
         authToken in 'x-auth' header`, done => {
-    chai.request(app)
-      .post(path)
+    chai.request(app).post(path)
       .send(user)
       .end((err, res) => {
         res.should.have.status(200)
@@ -38,8 +37,7 @@ describe('Sign-up route in API', () => {
   })
 
   it('should not register user with existing login', done => {
-    chai.request(app)
-      .post(path)
+    chai.request(app).post(path)
       .send(user)
       .end((err, res) => {
         res.should.have.status(400)
@@ -50,8 +48,7 @@ describe('Sign-up route in API', () => {
   })
 
   it('should not register user without login', done => {
-    chai.request(app)
-      .post(path)
+    chai.request(app).post(path)
       .send({password: 'some-legit-password'})
       .end((err, res) => {
         res.should.have.status(400)
@@ -62,8 +59,7 @@ describe('Sign-up route in API', () => {
   })
 
   it('should not register user without password', done => {
-    chai.request(app)
-      .post(path)
+    chai.request(app).post(path)
       .send({login: 'some-legit-login'})
       .end((err, res) => {
         res.should.have.status(400)
@@ -82,8 +78,7 @@ describe('Login route in API', () => {
         status 200,
         body (_id, publicName, userpic, boards)
         authToken in 'x-auth' header`, done => {
-    chai.request(app)
-      .post(path)
+    chai.request(app).post(path)
       .send(user)
       .end((err, res) => {
         res.should.have.status(200)
@@ -99,8 +94,7 @@ describe('Login route in API', () => {
   })
 
   it('should respond 403 to empty request', done => {
-    chai.request(app)
-      .post(path)
+    chai.request(app).post(path)
       .send({})
       .end((err, res) => {
         res.should.have.status(403)
@@ -111,8 +105,7 @@ describe('Login route in API', () => {
   })
 
   it('should respond 403 to wrong login', done => {
-    chai.request(app)
-      .post(path)
+    chai.request(app).post(path)
       .send({
         login: 'some-non-existing-login',
         password: 'password'
