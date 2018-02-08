@@ -32,6 +32,9 @@ const populateUser = async (user) => {
   const id = shortenId(userSaved._id)
   log ? console.log(`+ user "${userSaved.publicName}" ..${id}`) : null
   await populateBoards(userSaved._id, user.boards)
+  return new Promise((resolve, reject) => {
+    resolve()
+  })
 }
 
 const populateBoards = async (_user, boards) => {
