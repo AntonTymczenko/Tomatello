@@ -58,6 +58,8 @@ describe('Sign-up route in API', () => {
       })
   })
 
+  xit('should not register user with invalid login')
+
   it('should not register user without password', done => {
     chai.request(app).post(path)
       .send({login: 'some-legit-login'})
@@ -68,6 +70,8 @@ describe('Sign-up route in API', () => {
         done()
       })
   })
+
+  xit('should not register user with invalid password')
 })
 
 describe('Login route in API', () => {
@@ -178,7 +182,7 @@ describe('Login route in API', () => {
         done()
       })
   })
-  
+
   it('should respond 403 to a token with wrong _id', done => {
     const payload = jwt.decode(token)
     let wrongId = payload._id.toString()
@@ -211,4 +215,6 @@ describe('Login route in API', () => {
         done()
       })
   })
+
+  xit('should respond 403 to an expired token')
 })
