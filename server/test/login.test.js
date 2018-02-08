@@ -78,13 +78,18 @@ describe('Login route in API', () => {
   const path = '/login'
   let token = ''
 
-  it(`should login by credentials (login & password) and
-        have authToken in headers`, done => {
+  it(`should login by credentials (login & password) and respond with
+        status 200,
+        body (_id, publicName, userpic, boards)
+        authToken in 'x-auth' header`, done => {
     chai.request(app)
       .post(path)
       .send(user)
       .end((err, res) => {
         res.should.have.status(200)
+        res.body.should.be.a('object')
+        res.body.should.have.all
+          .keys('_id', 'publicName', 'boards', 'userpic')
         res.should.have.header('x-auth')
         jwt.decode(res.headers['x-auth'])._id
           .should.be.eql(res.body._id)
