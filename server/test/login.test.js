@@ -148,4 +148,67 @@ describe('Login route in API', () => {
         done()
       })
   })
+
+  it('should respond 403 to a bad authToken', done => {
+    const badToken = jwt.sign({
+      _id: 'mumbo-jumbo',
+      access: 'blah'
+    }, 'manah-manah').toString()
+    chai.request(app).post(path)
+      .send({})
+      .set('x-auth', badToken)
+      .end((err, res) => {
+        res.should.have.status(403)
+        res.body.should.be.a('object')
+        res.body.should.be.eql(errors.badToken)
+        done()
+      })
+  })
+
+  it('should respond 403 to a token with invalid signature', done => {
+    const payload = jwt.decode(token)
+    const badToken = jwt.sign(payload, 'wrong secret').toString()
+    chai.request(app).post(path)
+      .send({})
+      .set('x-auth', badToken)
+      .end((err, res) => {
+        res.should.have.status(403)
+        res.body.should.be.a('object')
+        res.body.should.be.eql(errors.badToken)
+        done()
+      })
+  })
+  
+  it('should respond 403 to a token with wrong _id', done => {
+    const payload = jwt.decode(token)
+    let wrongId = payload._id.toString()
+    wrongId = wrongId.substr(0, wrongId.length - 1 )
+      + (parseInt(wrongId.substr(-1), 16) + 1).toString(16)
+    payload._id = wrongId
+    const badToken = jwt.sign(payload, JWT_SECRET).toString()
+    chai.request(app).post(path)
+      .send({})
+      .set('x-auth', badToken)
+      .end((err, res) => {
+        res.should.have.status(403)
+        res.body.should.be.a('object')
+        res.body.should.be.eql(errors.badToken)
+        done()
+      })
+  })
+
+  it('should respond 403 to a token with wrong `iat`', done => {
+    const payload = jwt.decode(token)
+    payload.iat = Math.floor(new Date().getTime() / 1000) + 8
+    const badToken = jwt.sign(payload, JWT_SECRET).toString()
+    chai.request(app).post(path)
+      .send({})
+      .set('x-auth', badToken)
+      .end((err, res) => {
+        res.should.have.status(403)
+        res.body.should.be.a('object')
+        res.body.should.be.eql(errors.badToken)
+        done()
+      })
+  })
 })
