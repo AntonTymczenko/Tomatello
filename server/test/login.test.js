@@ -91,6 +91,7 @@ describe('Login route in API', () => {
         res.body.should.have.all
           .keys('_id', 'publicName', 'boards', 'userpic')
         res.should.have.header('x-auth')
+        token = res.headers['x-auth']
         jwt.decode(res.headers['x-auth'])._id
           .should.be.eql(res.body._id)
         done()
@@ -135,6 +136,23 @@ describe('Login route in API', () => {
         res.should.have.status(403)
         res.body.should.be.a('object')
         res.body.should.be.eql(errors.wrongCredentials)
+        done()
+      })
+  })
+
+  it(`should login by authToken and respond with
+        status 200,
+        body (_id, publicName, userpic, boards)`, done => {
+    chai.request(app).post(path)
+      .send({})
+      .set('x-auth', token)
+      .end((err, res) => {
+        res.should.have.status(200)
+        res.body.should.be.a('object')
+        res.body.should.have.all
+          .keys('_id', 'publicName', 'boards', 'userpic')
+        jwt.decode(token)._id
+          .should.be.eql(res.body._id)
         done()
       })
   })
