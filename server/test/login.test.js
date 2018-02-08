@@ -125,9 +125,8 @@ describe('Login route in API', () => {
       })
   })
 
-  it('should respond 403 if password is wrong', done => {
-    chai.request(app)
-      .post(path)
+  it('should respond 403 to wrong password', done => {
+    chai.request(app).post(path)
       .send({
         login: user.login,
         password: 'some-wrong-password'
