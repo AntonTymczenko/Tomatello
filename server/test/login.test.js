@@ -10,6 +10,7 @@ const app = require('../app'),
 chai.use(chaiHttp)
 
 before('Pre-test DB reset', resetAllCollections)
+const user = users[0]
 
 describe('Sign-up route in API', () => {
   const path = '/signup'
@@ -20,7 +21,7 @@ describe('Sign-up route in API', () => {
         give AuthToken in headers`, done => {
     chai.request(app)
       .post(path)
-      .send(users[0])
+      .send(user)
       .end((err, res) => {
         res.should.have.status(200)
         res.body.should.have.all.keys('_id', 'publicName', 'boards', 'userpic')
@@ -34,7 +35,7 @@ describe('Sign-up route in API', () => {
   it('should not register user with existing login', done => {
     chai.request(app)
       .post(path)
-      .send(users[0])
+      .send(user)
       .end((err, res) => {
         res.should.have.status(400)
         res.body.should.be.a('object')
@@ -63,6 +64,67 @@ describe('Sign-up route in API', () => {
         res.should.have.status(400)
         res.body.should.be.a('object')
         res.body.should.be.eql(errors.passwordRequired)
+        done()
+      })
+  })
+})
+
+describe('Login route in API', () => {
+  const path = '/login'
+  let token = ''
+
+  it(`should login by credentials (login & password) and
+        have authToken in headers`, done => {
+    chai.request(app)
+      .post(path)
+      .send(user)
+      .end((err, res) => {
+        res.should.have.status(200)
+        res.should.have.header('x-auth')
+        jwt.decode(res.headers['x-auth'])._id
+          .should.be.eql(res.body._id)
+        done()
+      })
+  })
+
+  it('should respond 403 to empty request', done => {
+    chai.request(app)
+      .post(path)
+      .send({})
+      .end((err, res) => {
+        res.should.have.status(403)
+        res.body.should.be.a('object')
+        res.body.should.be.eql(errors.accessDenied)
+        done()
+      })
+  })
+
+  it('should respond 403 to wrong login', done => {
+    chai.request(app)
+      .post(path)
+      .send({
+        login: 'some-non-existing-login',
+        password: 'password'
+      })
+      .end((err, res) => {
+        res.should.have.status(403)
+        res.body.should.be.a('object')
+        res.body.should.be.eql(errors.wrongCredentials)
+        done()
+      })
+  })
+
+  it('should respond 403 if password is wrong', done => {
+    chai.request(app)
+      .post(path)
+      .send({
+        login: user.login,
+        password: 'some-wrong-password'
+      })
+      .end((err, res) => {
+        res.should.have.status(403)
+        res.body.should.be.a('object')
+        res.body.should.be.eql(errors.wrongCredentials)
         done()
       })
   })
