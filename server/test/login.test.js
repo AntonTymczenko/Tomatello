@@ -17,14 +17,19 @@ describe('Sign-up route in API', () => {
 
   it(`should register and respond with
         status 200,
-        body (_id, publicName, boards)
-        give AuthToken in headers`, done => {
+        body (_id, publicName, userpic, boards)
+        authToken in 'x-auth' header`, done => {
     chai.request(app)
       .post(path)
       .send(user)
       .end((err, res) => {
         res.should.have.status(200)
-        res.body.should.have.all.keys('_id', 'publicName', 'boards', 'userpic')
+        res.body.should.be.a('object')
+        res.body.should.have.all
+          .keys('_id', 'publicName', 'boards', 'userpic')
+        res.body.publicName.should.be.eql(user.publicName)
+        res.body.userpic.should.be.eql(user.userpic)
+        res.body.boards.should.be.eql([])
         res.should.have.header('x-auth')
         jwt.decode(res.headers['x-auth'])._id
           .should.be.eql(res.body._id)
