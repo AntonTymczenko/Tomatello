@@ -122,6 +122,20 @@ describe('Login route in API', () => {
       })
   })
 
+  it('should respond 403 to empty login', done => {
+    chai.request(app).post(path)
+      .send({
+        login: '',
+        password: 'password'
+      })
+      .end((err, res) => {
+        res.should.have.status(403)
+        res.body.should.be.a('object')
+        res.body.should.be.eql(errors.accessDenied)
+        done()
+      })
+  })
+
   it('should respond 403 to wrong password', done => {
     chai.request(app).post(path)
       .send({
@@ -132,6 +146,20 @@ describe('Login route in API', () => {
         res.should.have.status(403)
         res.body.should.be.a('object')
         res.body.should.be.eql(errors.wrongCredentials)
+        done()
+      })
+  })
+
+  it('should respond 403 to empty password', done => {
+    chai.request(app).post(path)
+      .send({
+        login: 'some-login',
+        password: ''
+      })
+      .end((err, res) => {
+        res.should.have.status(403)
+        res.body.should.be.a('object')
+        res.body.should.be.eql(errors.accessDenied)
         done()
       })
   })
