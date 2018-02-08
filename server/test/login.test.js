@@ -2,7 +2,7 @@ const app = require('../app'),
   chai = require('chai'),
   chaiHttp = require('chai-http'),
   should = chai.should(),
-  {resetAllCollections, users} = require('../seed'),
+  {resetAllCollections, populateUser, users} = require('../seed'),
   errors = require('../errors.json'),
   jwt = require('jsonwebtoken'),
   JWT_SECRET = process.env.JWT_SECRET
@@ -244,4 +244,37 @@ describe('Login route in API', () => {
   })
 
   xit('should respond 403 to an expired token')
+})
+
+describe.only('User\'s index of Boards `/user/:id/boards` route', () => {
+  let path = ''
+  let user = {}
+
+  before(done => {
+    user = users[1]
+    populateUser(user)
+      .then(() => {
+        chai.request(app).post('/login')
+          .send(user)
+          .end((err, res) => {
+            user.authToken = res.headers['x-auth']
+            user._id = jwt.decode(user.authToken)._id.toString()
+            path = `/user/${user._id}/boards`
+            done()
+          })
+      })
+  })
+
+  it(`should answer with an array of boards`, done => {
+    chai.request(app).get(path)
+      .set('x-auth', user.authToken)
+      .end((err, res) => {
+        res.should.have.status(200)
+        res.body.should.be.an('array')
+        res.body[0]
+          .should.have.property('boardName')
+          .eql(user.boards[0].boardName)
+        done()
+      })
+  })
 })
