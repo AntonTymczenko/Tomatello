@@ -15,19 +15,23 @@ const resetAllCollections = async () => {
 
 const shortenId = id => id.toString().substring(20)
 
-const populateUsers = async () => {
+const populateUsers = () => {
   const users = require('./users')
   try {
     for (let user of users) {
-      const {login, password, publicName, userpic} = user
-      const userSaved = await User({login, password, publicName, userpic}).save()
-      const id = shortenId(userSaved._id)
-      log ? console.log(`+ user "${userSaved.publicName}" ..${id}`) : null
-      await populateBoards(userSaved._id, user.boards)
+      populateUser(user)
     }
   } catch (err) {
     console.log(err)
   }
+}
+
+const populateUser = async (user) => {
+  const {login, password, publicName, userpic} = user
+  const userSaved = await User({login, password, publicName, userpic}).save()
+  const id = shortenId(userSaved._id)
+  log ? console.log(`+ user "${userSaved.publicName}" ..${id}`) : null
+  await populateBoards(userSaved._id, user.boards)
 }
 
 const populateBoards = async (_user, boards) => {
@@ -141,7 +145,7 @@ const seed = async () => {
 
 module.exports = {
   resetAllCollections,
-  populateUsers,
+  populateUser,
   users: require('./users'),
   seed
 }
