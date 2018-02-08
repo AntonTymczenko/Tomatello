@@ -10,10 +10,10 @@ const app = require('../app'),
 chai.use(chaiHttp)
 
 before('Pre-test DB reset', resetAllCollections)
-const user = users[0]
 
 describe('Sign-up route in API', () => {
   const path = '/signup'
+  const user = users[0]
 
   it(`should register and respond with
         status 200,
@@ -76,7 +76,7 @@ describe('Sign-up route in API', () => {
 
 describe('Login route in API', () => {
   const path = '/login'
-  let token = ''
+  const user = users[0]
 
   it(`should login by credentials (login & password) and respond with
         status 200,
