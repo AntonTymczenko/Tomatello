@@ -1,0 +1,6 @@
+{
+  "notAuth": {"error": "Not authorized for this action"},
+  "notFound": {"error": "Not found"},
+  "notModified": {"error": "Not modified"},
+  "accessDenied": {"error": "Access denied"}
+}

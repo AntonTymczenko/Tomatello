@@ -11,7 +11,8 @@ Our mission is to make a time/task tracking application which would be useful fo
 
 #### Configuration for local use
 You can specify your own `PORT`, `URL`, path to Mongo database and other
-configuration stuff using `.env` file in this folder.
+configuration stuff using `.env` file in project's root folder (where the
+`package.json` is).
 
 Attention!
 YOU NEED THIS FILE for local use in development mode. Example of `.env` file:
@@ -23,7 +24,7 @@ MONGODB_URI="mongodb://localhost:27017/tomatello"
 JWT_SECRET="secret"
 ```
 
-#### Configuration for produciton
+#### Configuration for production
 In production you can specify configurations not in this file but accordingly
 to your provider.
 
@@ -35,7 +36,7 @@ heroku config:set JWT_SECRET="secret"
 git push heroku master
 ```
 
-Fill all the fields in MONGODB_URI constant accordingly to your database on Mlab.
+Fill all the fields in MONGODB_URI constant accordingly to your database at Mlab.
 
 ## Usage
 
@@ -56,7 +57,7 @@ report.
 
 `npm run start` to start Server just like in production. But you'll have
 to specify `NODE_ENV=production` in your `.env` file. To use this command,
-you have run `build` script first.
+you have to run `build` script first.
 
 `npm run unit` run unit tests
 

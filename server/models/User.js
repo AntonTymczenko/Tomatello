@@ -79,11 +79,10 @@ UserSchema.statics.findByToken = function (token) {
   try {
     decoded = jwt.verify(token, JWT_SECRET)
   } catch (err) {
-    if (err.name === 'JsonWebTokenError'
-      && err.message === 'invalid signature') {
+    if (err.name === 'JsonWebTokenError') {
       return Promise.reject(403)
     }
-    return Promise.reject()
+    return Promise.reject(err)
   }
   // TODO: add expiration check
 

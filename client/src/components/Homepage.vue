@@ -18,7 +18,12 @@
     </v-container>
   </v-content>
   <v-footer color="indigo" app>
-    <span class="white--text">&copy; {{ currentYear }}</span>
+    <span class="white--text">&copy; {{ currentYear }}
+      <a href="https://github.com/chingu-voyage3/geckos-17#readme"
+      target="_blank">Chingu Voyage-3/Geckos-17</a>
+    </span>
+    <v-spacer></v-spacer>
+    <span class="white--text text-xs-right">version 0.3</span>
   </v-footer>
 </v-app>
 </template>
@@ -42,6 +47,7 @@ export default {
     if (!this.user) {
       this.$router.push({name: 'Auth'})
     }
+    this.$store.state.authToken = localStorage.getItem('authToken')
   },
   components: {
     appNavigation: Navigation,
@@ -49,3 +55,13 @@ export default {
   }
 }
 </script>
+
+<style lang="css" scoped>
+a {
+  text-decoration: none;
+  color: inherit;
+}
+a:visited {
+  color: inherit;
+}
+</style>
