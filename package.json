@@ -1,9 +1,9 @@
 {
-  "name": "TurboTrello",
-  "version": "1.0.2",
-  "description": "Turbo Trello app",
+  "name": "Tomatello",
+  "version": "1.0.3",
+  "description": "Your everyday assistant. App combines Trello boards and Time-tracking features with Pomodoro timer",
   "main": "server/app.js",
-  "author": "Chingu Voyage-3 / Geckos-17",
+  "author": "Anton Tymczenko <a.tymczenko@gmail.com> (https://tymczenko.tk)",
   "private": true,
   "scripts": {
     "dev": "npm run dev:client & npm run dev:server",
@@ -22,13 +22,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/chingu-voyage3/geckos-17.git"
+    "url": "git@github.com:AntonTymczenko/Tomatello.git"
   },
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/chingu-voyage3/geckos-17/issues"
+    "url": "https://github.com/AntonTymczenko/Tomatello/issues"
   },
-  "homepage": "https://github.com/chingu-voyage3/geckos-17#readme",
+  "homepage": "https://github.com/AntonTymczenko/Tomatello#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.2",
