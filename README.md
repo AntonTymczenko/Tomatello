@@ -1,46 +1,11 @@
-# Trello clone
+# Tomatello
+your everyday assistant
 
-## Introduction
-<div>
-<p> Our mission is to make a time/task tracking application which would be useful for every human being in the Galaxy, especially for people who work in a team.</p>
-</div>
+### Introduction
+Our mission is to make a time/task tracking application which would be useful for every human being in the Galaxy, especially for people who work in a team.
 
-### Team
-<ul>
-  <li><a href="https://github.com/atomasso">Ante Tomas</a> atomasso (Project Manager)</li>
-  <li><a href="https://github.com/Dar0n">Ilya</a> Dar0n</li>
-  <li><a href="https://github.com/AntonTymczenko">Anton Tymczenko</a> AntonTymczenko</li>
-   <li><a href="https://github.com/macrusso">Mac Rusek</a> macrusso</li>
-</ul>
-
-## Changelog
-
-### Version 0.0.1
-<div>
-  <ul>
-    <li>Basic wireframes</li>
-  </ul>
-</div>
-
-### Wireframes
-<div>
-<p>Wireframes are coming soon...</p>
-</div>
-
-### User stories
-
-<div>
-
-| As a user, I can... | Version |
-| --- | --- |
-| User can login and see boards on the homepage | MVP |
-| User can add or remove list on a board | MVP |
-| User can add or remove card on a list | MVP |
-| User can edit her credentials | MVP |
-| User can add other team members to the board | MVP |
-| add time tracking | v2 |
-
-</div>
+### Contributors
+[Anton Tymczenko](https://github.com/AntonTymczenko)
 
 ## Configuration
 
