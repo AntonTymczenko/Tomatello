@@ -17,7 +17,7 @@ describe('Sign-up route in API', () => {
 
   it(`should register and respond with
         status 200,
-        body (_id, publicName, userpic, boards)
+        body (_id, publicName, userpic)
         authToken in 'x-auth' header`, done => {
     chai.request(app).post(path)
       .send(user)
@@ -25,10 +25,9 @@ describe('Sign-up route in API', () => {
         res.should.have.status(200)
         res.body.should.be.a('object')
         res.body.should.have.all
-          .keys('_id', 'publicName', 'boards', 'userpic')
+          .keys('_id', 'publicName', 'userpic')
         res.body.publicName.should.be.eql(user.publicName)
         res.body.userpic.should.be.eql(user.userpic)
-        res.body.boards.should.be.eql([])
         res.should.have.header('x-auth')
         jwt.decode(res.headers['x-auth'])._id
           .should.be.eql(res.body._id)
@@ -80,7 +79,7 @@ describe('Login route in API', () => {
 
   it(`should login by credentials (login & password) and respond with
         status 200,
-        body (_id, publicName, userpic, boards)
+        body (_id, publicName, userpic)
         authToken in 'x-auth' header`, done => {
     chai.request(app).post(path)
       .send(user)
@@ -88,7 +87,7 @@ describe('Login route in API', () => {
         res.should.have.status(200)
         res.body.should.be.a('object')
         res.body.should.have.all
-          .keys('_id', 'publicName', 'boards', 'userpic')
+          .keys('_id', 'publicName', 'userpic')
         res.should.have.header('x-auth')
         user.authToken = res.headers['x-auth']
         users[0].authToken = user.authToken
@@ -168,7 +167,7 @@ describe('Login route in API', () => {
 
   it(`should login by authToken and respond with
         status 200,
-        body (_id, publicName, userpic, boards)`, done => {
+        body (_id, publicName, userpic)`, done => {
     chai.request(app).post(path)
       .send({})
       .set('x-auth', user.authToken)
@@ -176,7 +175,7 @@ describe('Login route in API', () => {
         res.should.have.status(200)
         res.body.should.be.a('object')
         res.body.should.have.all
-          .keys('_id', 'publicName', 'boards', 'userpic')
+          .keys('_id', 'publicName', 'userpic')
         res.body._id.toString().should.be.eql(user._id)
         done()
       })
