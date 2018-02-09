@@ -28,7 +28,6 @@ const UserSchema = new mongoose.Schema({
   userpic: {
     type: String,
     required: false,
-    default: '',
     trim: true
   },
   boards: [{
@@ -48,8 +47,8 @@ const UserSchema = new mongoose.Schema({
 })
 
 UserSchema.methods.toJSON = function () {
-  const {_id, publicName, userpic} = this
-  return {_id, publicName, userpic}
+  const {_id, publicName, boards, userpic} = this
+  return {_id, publicName, boards, userpic}
 }
 
 UserSchema.methods.giveAuthToken = function () {

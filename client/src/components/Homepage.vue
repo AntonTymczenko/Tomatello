@@ -7,7 +7,7 @@
   </v-navigation-drawer>
   <v-toolbar color="indigo" dark fixed app>
     <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-    <v-toolbar-title>Tomatello</v-toolbar-title>
+    <v-toolbar-title>Turbo Trello</v-toolbar-title>
     <app-breadcrumbs></app-breadcrumbs>
   </v-toolbar>
   <v-content>
@@ -19,8 +19,8 @@
   </v-content>
   <v-footer color="indigo" app>
     <span class="white--text">&copy; {{ currentYear }}
-      <a href="https://github.com/AntonTymczenko/Tomatello#readme"
-      target="_blank">Anton Tymczenko</a>
+      <a href="https://github.com/chingu-voyage3/geckos-17#readme"
+      target="_blank">Chingu Voyage-3/Geckos-17</a>
     </span>
     <v-spacer></v-spacer>
     <span class="white--text text-xs-right">version 0.3</span>

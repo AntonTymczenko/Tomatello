@@ -1,5 +1,9 @@
+require('dotenv').config()
+require('../mongoose')(process.env.MONGODB_URI)
+
 const {User, Board, List, Task} = require('../models')
-let log = false
+
+const users = require('./users')
 
 const resetAllCollections = async () => {
   try {
@@ -7,7 +11,7 @@ const resetAllCollections = async () => {
     await Board.remove({})
     await List.remove({})
     await Task.remove({})
-    log ? console.log('Removed all database collections') : null
+    console.log('Removed all database collections')
   } catch (err) {
     console.log(err)
   }
@@ -15,24 +19,18 @@ const resetAllCollections = async () => {
 
 const shortenId = id => id.toString().substring(20)
 
-const populateUsers = () => {
-  const users = require('./users')
+const populateUsers = async users => {
   try {
     for (let user of users) {
-      populateUser(user)
+      const {login, password, publicName, userpic} = user
+      const userSaved = await User({login, password, publicName, userpic}).save()
+      const id = shortenId(userSaved._id)
+      console.log(`+ user "${userSaved.publicName}" ..${id}`)
+      await populateBoards(userSaved._id, user.boards)
     }
   } catch (err) {
     console.log(err)
   }
-}
-
-const populateUser = async (user) => {
-  const {login, password, publicName, userpic} = user
-  const userSaved = await User({login, password, publicName, userpic}).save()
-  const id = shortenId(userSaved._id)
-  log ? console.log(`+ user "${userSaved.publicName}" ..${id}`) : null
-  await populateBoards(userSaved._id, user.boards)
-  return new Promise((resolve, reject) => resolve())
 }
 
 const populateBoards = async (_user, boards) => {
@@ -42,7 +40,7 @@ const populateBoards = async (_user, boards) => {
       const {boardName} = board
       const boardSaved = await Board({boardName, _user}).save()
       const id = shortenId(boardSaved._id)
-      log ? console.log(`  + board "${boardSaved.boardName}" ..${id}`) : null
+      console.log(`  + board "${boardSaved.boardName}" ..${id}`)
       boardsToReturn.push(boardSaved._id)
       await populateLists(_user, boardSaved._id, board.lists)
     }
@@ -59,7 +57,7 @@ const populateLists = async (_user, _board, lists) => {
       const {listName} = list
       const listSaved = await List({listName, _user, _board}).save()
       const id = shortenId(listSaved._id)
-      log ? console.log(`    + list "${listSaved.listName}" ..${id}`) : null
+      console.log(`    + list "${listSaved.listName}" ..${id}`)
       listsToReturn.push(listSaved._id)
       await populateTasks(_user, listSaved._id, list.tasks)
     }
@@ -80,7 +78,7 @@ const populateTasks = async (_user, _list, tasks) => {
         done: false
       }).save()
       const id = shortenId(taskSaved._id)
-      log ? console.log(`      + task "${taskSaved.task}" ..${id}`) : null
+      console.log(`      + task "${taskSaved.task}" ..${id}`)
       tasksToReturn.push(taskSaved._id)
     }
     await registerTasksToList(_list, tasksToReturn)
@@ -91,10 +89,10 @@ const populateTasks = async (_user, _list, tasks) => {
 
 const registerTasksToList = async (_list, tasks) => {
   try {
-    log ? console.log(`writing tasks ${tasks
+    console.log(`writing tasks ${tasks
       .map(id => `..${shortenId(id)}`)
       .reduce((x,y)=> `${x}, ${y}`)
-    } to list ..${shortenId(_list)}`) : null
+    } to list ..${shortenId(_list)}`)
     await List.findByIdAndUpdate(_list, {tasks})
   } catch (err) {
     console.log(err)
@@ -103,10 +101,10 @@ const registerTasksToList = async (_list, tasks) => {
 
 const registerListsToBoard = async (_board, lists) => {
   try {
-    log ? console.log(`writing lists ${lists
+    console.log(`writing lists ${lists
       .map(id => `..${shortenId(id)}`)
       .reduce((x,y)=> `${x}, ${y}`)
-    } to board ..${shortenId(_board)}`) : null
+    } to board ..${shortenId(_board)}`)
     await Board.findByIdAndUpdate(_board, {lists})
   } catch (err) {
     console.log(err)
@@ -115,38 +113,20 @@ const registerListsToBoard = async (_board, lists) => {
 
 const registerBoardsToUser = async (_user, boards) => {
   try {
-    log ? console.log(`writing boards ${boards
+    console.log(`writing boards ${boards
       .map(id => `..${shortenId(id)}`)
       .reduce((x,y)=> `${x}, ${y}`)
-    } to user ..${shortenId(_user)}`) : null
+    } to user ..${shortenId(_user)}`)
     await User.findByIdAndUpdate(_user, {boards})
   } catch (err) {
     console.log(err)
   }
 }
 
-const seed = async () => {
-  console.log('Running /seed/index.js')
-  require('dotenv').config()
-  require('../mongoose')(process.env.MONGODB_URI)
-  log = true // when running not in tests -- log everything to console
-
-  try {
-    await resetAllCollections()
-    await populateUsers()
-    console.log('Seeding done')
-    process.exit(0)
-  } catch (err) {
-    console.error(err)
-    console.error(`Didn't seed`)
-    process.exit(1)
-  }
-}
-
-
-module.exports = {
-  resetAllCollections,
-  populateUser,
-  users: require('./users'),
-  seed
-}
+console.log('Running /seed/index.js')
+;(async () => {
+  await resetAllCollections()
+  await populateUsers(users)
+  console.log('Seeding done')
+  process.exit(0)
+})()

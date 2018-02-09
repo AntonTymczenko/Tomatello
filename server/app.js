@@ -24,5 +24,3 @@ app.use('/', routes)
 // fire application:
 app.listen(PORT, () => console.log(`Your application \
 is running in ${NODE_ENV} mode here: ${URL}:${PORT}`))
-
-module.exports = app
