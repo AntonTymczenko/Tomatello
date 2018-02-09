@@ -247,6 +247,20 @@ describe('Login route in API', () => {
   xit('should respond 403 to an expired token')
 })
 
+xdescribe('User UPDATE route', () => {
+  const user = {_id: '1'}
+  const path = `/user/${user._id}`
+
+  it('should do something', done => {
+    chai.request(app).put(path)
+      .send({})
+      .set()
+      .end((err, res) => {
+        done()
+      })
+  })
+})
+
 describe('User\'s index of Boards `/user/:id/boards` route', () => {
   let path = ''
   let user = {}
