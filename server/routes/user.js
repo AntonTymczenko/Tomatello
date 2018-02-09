@@ -1,33 +1,30 @@
 const {User} = require('../models')
 
-const {authorizedUser} = require('../middleware')
+const {authorizedUser} = require('../middleware'),
+  errors = require('../errors.json')
 
 const worstScenario = (err, res) => {
   console.log(err)
-  res.status(500).send('Internal server error')
+  res.status(500).send(errors.internal)
 }
 
 module.exports = (prefix, router) => {
   // signup
   router.post('/signup', (req, res) => {
-    const {login, password} = req.body
-    User.create({login, password})
+    const {login, password, userpic, publicName} = req.body
+    User.create({login, password, userpic, publicName})
       .then(async user => {
         if (!user) throw new Error()
         const token = await user.giveAuthToken()
         if (token) {
           res.header('x-auth', token)
+          res.status(200).send(user)
         } else {
           console.error('No Auth token generated')
+          res.status(500).send(errors.internal)
         }
-        res.status(200).send(user)
       })
       .catch(err => {
-        const errors = {
-          loginRequired: 'Login is required',
-          loginRegistered: 'This login is already registered',
-          passwordRequired: 'Password is required'
-        }
         if (err.errors) {
           if (err.errors.login) {
             if (err.errors.login.kind == 'required') {
@@ -58,13 +55,14 @@ module.exports = (prefix, router) => {
           const token = await user.giveAuthToken()
           if (token) {
             res.header('x-auth', token)
+            res.status(200).send(user)
           } else {
             console.error('No Auth token generated')
+            res.status(500).send(errors.internal)
           }
-          res.status(200).send(user)
         })
         .catch(err => {
-          res.status(403).send('Wrong credentials')
+          res.status(403).send(errors.wrongCredentials)
         })
     } else {
       const token = req.header('x-auth')
@@ -73,20 +71,20 @@ module.exports = (prefix, router) => {
         User.findByToken(token)
           .then(user => {
             if (!user) {
-              res.status(403).send('Wrong Auth Token')
+              res.status(403).send(errors.badToken)
             } else {
               res.status(200).send(user)
             }
           })
           .catch(err => {
             if (err == 403) {
-              res.status(403).send('Invalid token')
+              res.status(403).send(errors.badToken)
             } else {
               worstScenario(err, res)
             }
           })
       } else {
-        res.status(403).send('Access denied')
+        res.status(403).send(errors.accessDenied)
       }
     }
   })
@@ -99,7 +97,7 @@ module.exports = (prefix, router) => {
         res.status(200).send(user)
       })
       .catch(err => {
-        res.status(304).send()
+        res.status(304).send(errors.notModified)
       })
   })
 
@@ -111,7 +109,7 @@ module.exports = (prefix, router) => {
         res.status(200).send(user.boards)
       })
       .catch(err => {
-        res.status(404).send(err)
+        res.status(404).send(errors.notFound)
       })
   })
 }
