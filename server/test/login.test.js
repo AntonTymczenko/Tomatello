@@ -91,7 +91,9 @@ describe('Login route in API', () => {
           .keys('_id', 'publicName', 'boards', 'userpic')
         res.should.have.header('x-auth')
         user.authToken = res.headers['x-auth']
+        users[0].authToken = user.authToken
         user._id = jwt.decode(res.headers['x-auth'])._id.toString()
+        users[0]._id = user._id
         res.body._id.toString().should.be.eql(user._id)
         done()
       })
@@ -246,7 +248,7 @@ describe('Login route in API', () => {
   xit('should respond 403 to an expired token')
 })
 
-describe.only('User\'s index of Boards `/user/:id/boards` route', () => {
+describe('User\'s index of Boards `/user/:id/boards` route', () => {
   let path = ''
   let user = {}
 
@@ -258,7 +260,10 @@ describe.only('User\'s index of Boards `/user/:id/boards` route', () => {
           .send(user)
           .end((err, res) => {
             user.authToken = res.headers['x-auth']
+            const payload = jwt.decode(user.authToken)
+            user.badToken = jwt.sign(payload, 'wrong secret')
             user._id = jwt.decode(user.authToken)._id.toString()
+            users[1]._id = user._id
             path = `/user/${user._id}/boards`
             done()
           })
@@ -274,6 +279,35 @@ describe.only('User\'s index of Boards `/user/:id/boards` route', () => {
         res.body[0]
           .should.have.property('boardName')
           .eql(user.boards[0].boardName)
+        done()
+      })
+  })
+
+  it(`should respond with 403 if no authToken`, done => {
+    chai.request(app).get(path)
+      .end((err, res) => {
+        res.should.have.status(403)
+        res.body.should.eql(errors.accessDenied)
+        done()
+      })
+  })
+
+  it(`should respond with 403 if bad authToken`, done => {
+    chai.request(app).get(path)
+      .set('x-auth', user.badToken)
+      .end((err, res) => {
+        res.should.have.status(403)
+        res.body.should.eql(errors.accessDenied)
+        done()
+      })
+  })
+
+  it(`should respond with 401 if User is not an owner`, done => {
+    chai.request(app).get(path)
+      .set('x-auth', users[0].authToken)
+      .end((err, res) => {
+        res.should.have.status(401)
+        res.body.should.eql(errors.notAuth  )
         done()
       })
   })
