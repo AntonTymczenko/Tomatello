@@ -9,7 +9,10 @@ const app = require('../app'),
 
 chai.use(chaiHttp)
 
-before('Pre-test DB reset', resetAllCollections)
+before('Pre-test DB reset', () => {
+  resetAllCollections()
+  return populateUser(users[1])
+})
 
 describe('Sign-up route in API', () => {
   const path = '/signup'
@@ -253,6 +256,8 @@ describe('User UPDATE route', () => {
   const user = users[0]
   let path = '/user/'
 
+  const hacker = users[1]
+
   before(done => {
     chai.request(app).post('/login')
       .send(user)
@@ -260,7 +265,14 @@ describe('User UPDATE route', () => {
         user._id = res.body._id
         user.authToken = res.headers['x-auth']
         path += user._id
-        done()
+
+        chai.request(app).post('/login')
+          .send(hacker)
+          .end((err, res) => {
+            hacker._id = res.body._id
+            hacker.authToken = res.headers['x-auth']
+            done()
+          })
       })
   })
 
@@ -347,6 +359,17 @@ describe('User UPDATE route', () => {
         done()
       })
   })
+
+  it('should respond 401 if different user tries to reach', done => {
+    chai.request(app).put(path)
+      .send({publicName: `I'm hacked`})
+      .set('x-auth', hacker.authToken)
+      .end((err, res) => {
+        res.should.have.status(401)
+        res.body.should.eql(errors.notAuth)
+        done()
+      })
+  })
 })
 
 describe('User\'s index of Boards `/user/:id/boards` route', () => {
@@ -355,19 +378,16 @@ describe('User\'s index of Boards `/user/:id/boards` route', () => {
 
   before(done => {
     user = users[1]
-    populateUser(user)
-      .then(() => {
-        chai.request(app).post('/login')
-          .send(user)
-          .end((err, res) => {
-            user.authToken = res.headers['x-auth']
-            const payload = jwt.decode(user.authToken)
-            user.badToken = jwt.sign(payload, 'wrong secret')
-            user._id = jwt.decode(user.authToken)._id.toString()
-            users[1]._id = user._id
-            path = `/user/${user._id}/boards`
-            done()
-          })
+    chai.request(app).post('/login')
+      .send(user)
+      .end((err, res) => {
+        user.authToken = res.headers['x-auth']
+        const payload = jwt.decode(user.authToken)
+        user.badToken = jwt.sign(payload, 'wrong secret')
+        user._id = jwt.decode(user.authToken)._id.toString()
+        users[1]._id = user._id
+        path = `/user/${user._id}/boards`
+        done()
       })
   })
 
