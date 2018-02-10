@@ -9,6 +9,22 @@ const app = require('../app'),
 
 chai.use(chaiHttp)
 
-describe('Board create route', () => {
+before(() => {
   
+})
+
+describe('Board create route', () => {
+
+})
+
+describe('Board read route', () => {
+
+})
+
+describe('Board update route', () => {
+
+})
+
+describe('Board destroy route', () => {
+
 })
