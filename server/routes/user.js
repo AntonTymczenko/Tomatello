@@ -92,7 +92,20 @@ module.exports = (prefix, router) => {
   // user UPDATE:
   router.put(`${prefix}/:id`, authorizedUser, (req, res) => {
     const {publicName, userpic} = req.body
-    User.findByIdAndUpdate(req.params.id, {publicName, userpic}, {new: true})
+    // if some of these properties is not passed
+    // make sure not to overwrite it with null
+    // only empty strings ('') are allowed
+    const userToUpdate = {}
+    if (publicName !== undefined) userToUpdate.publicName = publicName
+    if (userpic !== undefined) userToUpdate.userpic = userpic
+
+    if (userToUpdate.userpic === undefined &&
+      userToUpdate.publicName === undefined
+    ) {
+      return res.status(400).send(errors.badRequest)
+    }
+
+    User.findByIdAndUpdate(req.params.id, userToUpdate, {new: true})
       .then(user => {
         res.status(200).send(user)
       })
