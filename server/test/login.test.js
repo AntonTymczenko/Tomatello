@@ -249,15 +249,101 @@ describe('Login route in API', () => {
   xit('should respond 403 to an expired token')
 })
 
-xdescribe('User UPDATE route', () => {
-  const user = {_id: '1'}
-  const path = `/user/${user._id}`
+describe('User UPDATE route', () => {
+  const user = users[0]
+  let path = '/user/'
 
-  it('should do something', done => {
+  before(done => {
+    chai.request(app).post('/login')
+      .send(user)
+      .end((err, res) => {
+        user._id = res.body._id
+        user.authToken = res.headers['x-auth']
+        path += user._id
+        done()
+      })
+  })
+
+  it('should update `publicName` and not overwirte other public info', done => {
+    const publicName = ''
+    user.publicName = publicName
+
+    chai.request(app).put(path)
+      .send({publicName})
+      .set('x-auth', user.authToken)
+      .end((err, res) => {
+        res.should.have.status(200)
+        res.body.should.be.an('object')
+        res.body.should.have.property('publicName').eql(publicName)
+        res.body.should.have.property('userpic').eql(user.userpic)
+        done()
+      })
+  })
+
+  it('should update `userpic` and not overwirte other public info', done => {
+    const userpic = 'https://some-new-path.to/userpic.jpg'
+    user.userpic = userpic
+
+    chai.request(app).put(path)
+      .send({userpic})
+      .set('x-auth', user.authToken)
+      .end((err, res) => {
+        res.should.have.status(200)
+        res.body.should.be.an('object')
+        res.body.should.have.property('userpic').eql(userpic)
+        res.body.should.have.property('publicName').eql(user.publicName)
+        done()
+      })
+  })
+
+  it('should update both `userpic` and `publicName`', done => {
+    user.userpic += 'blah'
+    user.publicName += 'blah'
+
+    chai.request(app).put(path)
+      .send({
+        userpic: user.userpic,
+        publicName: user.publicName
+      })
+      .set('x-auth', user.authToken)
+      .end((err, res) => {
+        res.should.have.status(200)
+        res.body.should.be.an('object')
+        res.body.should.have.property('userpic').eql(user.userpic)
+        res.body.should.have.property('publicName').eql(user.publicName)
+        done()
+      })
+  })
+
+  it('should not update User without authToken', done => {
     chai.request(app).put(path)
       .send({})
-      .set()
       .end((err, res) => {
+        res.should.have.status(403)
+        res.body.should.eql(errors.accessDenied)
+        done()
+      })
+  })
+
+  it('should respond 403 to a bad authToken', done => {
+    const badToken = user.authToken.split('').reverse().join('')
+    chai.request(app).put(path)
+      .send({})
+      .set('x-auth', badToken)
+      .end((err, res) => {
+        res.should.have.status(403)
+        res.body.should.eql(errors.accessDenied)
+        done()
+      })
+  })
+
+  it('should respond 400 to empty body', done => {
+    chai.request(app).put(path)
+      .send({})
+      .set('x-auth', user.authToken)
+      .end((err, res) => {
+        res.should.have.status(400)
+        res.body.should.eql(errors.badRequest)
         done()
       })
   })
