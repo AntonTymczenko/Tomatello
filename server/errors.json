@@ -8,5 +8,6 @@
   "passwordRequired": {"error" : "Password is required"},
   "internal": {"error": "Internal server error"},
   "wrongCredentials": {"error": "Wrong credentials"},
-  "badToken": {"error": "Invalid Authentication Token"}
+  "badToken": {"error": "Invalid Authentication Token"},
+  "badRequest": {"error": "Bad request"}
 }
