@@ -285,7 +285,7 @@ describe('User\'s index of Boards `/user/:id/boards` route', () => {
       })
   })
 
-  it(`should answer with an array of boards`, done => {
+  it(`should respond with an array of boards`, done => {
     chai.request(app).get(path)
       .set('x-auth', user.authToken)
       .end((err, res) => {
@@ -298,7 +298,7 @@ describe('User\'s index of Boards `/user/:id/boards` route', () => {
       })
   })
 
-  it(`should respond with 403 if no authToken`, done => {
+  it(`should respond 403 if no authToken`, done => {
     chai.request(app).get(path)
       .end((err, res) => {
         res.should.have.status(403)
@@ -307,7 +307,7 @@ describe('User\'s index of Boards `/user/:id/boards` route', () => {
       })
   })
 
-  it(`should respond with 403 if bad authToken`, done => {
+  it(`should respond 403 to a bad authToken`, done => {
     chai.request(app).get(path)
       .set('x-auth', user.badToken)
       .end((err, res) => {
@@ -317,7 +317,7 @@ describe('User\'s index of Boards `/user/:id/boards` route', () => {
       })
   })
 
-  it(`should respond with 401 if User is not an owner`, done => {
+  it(`should respond 401 if User is not an owner`, done => {
     chai.request(app).get(path)
       .set('x-auth', users[0].authToken)
       .end((err, res) => {
