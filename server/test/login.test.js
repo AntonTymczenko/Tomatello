@@ -214,8 +214,10 @@ describe('Login route in API', () => {
   it('should respond 403 to a token with wrong _id', done => {
     const payload = jwt.decode(user.authToken)
     let wrongId = payload._id.toString()
-    wrongId = wrongId.substr(0, wrongId.length - 1 )
-      + (parseInt(wrongId.substr(-1), 16) + 1).toString(16)
+    const headOfWrongId = wrongId.substr(0, wrongId.length - 1)
+    const tailOfWrongId = parseInt(wrongId.substr(-1), 16) - 1
+    wrongId =  headOfWrongId +
+      (tailOfWrongId*Math.sign(tailOfWrongId)).toString(16)
     payload._id = wrongId
     const badToken = jwt.sign(payload, JWT_SECRET).toString()
     chai.request(app).post(path)
