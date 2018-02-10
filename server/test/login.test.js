@@ -9,8 +9,8 @@ const app = require('../app'),
 
 chai.use(chaiHttp)
 
-before('Pre-test DB reset', () => {
-  resetAllCollections()
+before('Pre-test DB reset', async () => {
+  await resetAllCollections()
   return populateUser(users[1])
 })
 
@@ -265,7 +265,6 @@ describe('User UPDATE route', () => {
         user._id = res.body._id
         user.authToken = res.headers['x-auth']
         path += user._id
-
         chai.request(app).post('/login')
           .send(hacker)
           .end((err, res) => {
@@ -273,7 +272,7 @@ describe('User UPDATE route', () => {
             hacker.authToken = res.headers['x-auth']
             done()
           })
-      })
+        })
   })
 
   it('should update `publicName` and not overwirte other public info', done => {
