@@ -5,7 +5,8 @@ const app = require('../app'),
   {resetAllCollections, populateUser, users} = require('../seed'),
   errors = require('../errors.json'),
   jwt = require('jsonwebtoken'),
-  JWT_SECRET = process.env.JWT_SECRET
+  JWT_SECRET = process.env.JWT_SECRET,
+  {ObjectID} = require('mongodb')
 
 chai.use(chaiHttp)
 
