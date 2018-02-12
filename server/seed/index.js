@@ -8,18 +8,20 @@ const resetAllCollections = async () => {
     await List.remove({})
     await Task.remove({})
     log ? console.log('Removed all database collections') : null
+    return Promise.resolve()
   } catch (err) {
     console.log(err)
+    return Promise.reject(err)
   }
 }
 
 const shortenId = id => id.toString().substring(20)
 
-const populateUsers = () => {
+const populateUsers = async () => {
   const users = require('./users')
   try {
     for (let user of users) {
-      populateUser(user)
+      await populateUser(user)
     }
   } catch (err) {
     console.log(err)
@@ -32,7 +34,7 @@ const populateUser = async (user) => {
   const id = shortenId(userSaved._id)
   log ? console.log(`+ user "${userSaved.publicName}" ..${id}`) : null
   await populateBoards(userSaved._id, user.boards)
-  return new Promise((resolve, reject) => resolve())
+  return Promise.resolve()
 }
 
 const populateBoards = async (_user, boards) => {
