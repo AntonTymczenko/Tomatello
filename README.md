@@ -2,10 +2,16 @@
 your everyday assistant
 
 ### Introduction
-Our mission is to make a time/task tracking application which would be useful for every human being in the Galaxy, especially for people who work in a team.
+A cross of Trello boards, time tracking app and your daily habits tracker. Share your business tasks with colleagues, track your daily routines or new habits.
 
-### Contributors
-[Anton Tymczenko](https://github.com/AntonTymczenko)
+Developers are welcome! Our mission is to make a time/task tracking application which would be useful for every human being in the Galaxy, especially for people who work in a team.
+
+Current production version is [here](https://tomatello.herokuapp.com/)
+
+Public Trello scrum board is [here](https://trello.com/b/oqfUgn3U/tomatello)
+
+### Author
+[Anton Tymczenko](https://github.com/AntonTymczenko). Full-stack web-developer from Ukraine. Contact [e-mail](mailto:a.tymczenko@gmail.com?Subject=Tomatello).
 
 ## Configuration
 
