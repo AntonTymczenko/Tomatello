@@ -268,6 +268,7 @@ describe('User UPDATE route', () => {
         chai.request(app).post('/login')
           .send(hacker)
           .end((err, res) => {
+            res.should.have.status(200)
             hacker._id = res.body._id
             hacker.authToken = res.headers['x-auth']
             done()
