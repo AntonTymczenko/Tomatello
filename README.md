@@ -10,9 +10,8 @@ Current production version is [here](https://tomatello.herokuapp.com/)
 
 Public Trello scrum board is [here](https://trello.com/b/oqfUgn3U/tomatello)
 
-### Contributors
-[Anton Tymczenko](https://github.com/AntonTymczenko)
-contact e-mail: [a.tymczenko@gmail.com](mailto:a.tymczenko@gmail.com?Subject=Tomatello)
+### Author
+[Anton Tymczenko](https://github.com/AntonTymczenko). Full-stack web-developer from Ukraine. Contact [e-mail](mailto:a.tymczenko@gmail.com?Subject=Tomatello).
 
 ## Configuration
 
