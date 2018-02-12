@@ -9,6 +9,7 @@ const app = require('../app'),
 
 chai.use(chaiHttp)
 
+describe('USER ROUTES', () => {
 before('Pre-test DB reset', async () => {
   await resetAllCollections()
   return populateUser(users[1])
@@ -432,4 +433,5 @@ describe('User\'s index of Boards `/user/:id/boards` route', () => {
         done()
       })
   })
+})
 })
