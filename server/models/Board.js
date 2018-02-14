@@ -15,6 +15,8 @@ const BoardSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'List'
   }]
+}, {
+  usePushEach: true
 })
 
 module.exports = mongoose.model('Board', BoardSchema)
