@@ -20,6 +20,8 @@ const ListSchema = new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Task'
   }]
+}, {
+  usePushEach: true
 })
 
 module.exports = mongoose.model('List', ListSchema)
