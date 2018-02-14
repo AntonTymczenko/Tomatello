@@ -22,6 +22,8 @@ const TaskSchema = new mongoose.Schema({
     ref: 'User',
     required: true
   }
+}, {
+  usePushEach: true
 })
 
 module.exports = mongoose.model('Task', TaskSchema)
