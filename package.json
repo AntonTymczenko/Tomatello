@@ -16,7 +16,7 @@
     "test": "npm run unit && npm run e2e",
     "test:server": "mocha server/**/*.test.js",
     "test:watch": "nodemon --exec \"npm run test:server\"",
-    "lint": "eslint --ext .js,.vue src client/test/unit/specs client/test/e2e/specs",
+    "lint": "eslint --ext .js,.vue server client/src client/test/unit/specs client/test/e2e/specs",
     "build": "node client/build/build.js",
     "postinstall": "npm run build"
   },

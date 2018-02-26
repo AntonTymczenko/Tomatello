@@ -1,6 +1,5 @@
 const fs = require('fs'),
-  path = require('path'),
-  pattern = /\.json$/
+  pattern = /\.json$/,
   users = []
 
 fs

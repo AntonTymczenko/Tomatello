@@ -1,4 +1,4 @@
-const {User, Board, List, Task} = require('../models')
+const {User} = require('../models')
 const {ObjectID} = require('mongodb')
 
 const {notAuth, accessDenied} = require('../errors.json')
@@ -13,7 +13,7 @@ const authenticated = (req, res, next) => {
       req.user = user
       next()
     })
-    .catch(err => {
+    .catch(() => {
       res.status(403).send(accessDenied)
     })
 }
