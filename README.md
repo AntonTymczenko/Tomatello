@@ -70,3 +70,24 @@ you have to run `build` script first.
 `npm run e2e` run e2e tests
 
 `npm test` run all tests
+
+## Workflow
+
+**Backlog**: list of tasks and user stories / epics. All items of Backlog are placed not in order of priority, but categorized by some app feature or logical part of a developing process.
+
+**Next**: list of prioritized stories which should be done in next Sprint. Most important ones are at the top of the list, less important go below.
+
+**In Progress**: list of tasks for current Sprint
+
+**Code review**: list of committed and pushed code. Separators with names of branches should be used.
+
+**Done**: list of all done tasks/stories
+
+
+## Roadmap
+
+Milestones at GitHub and Waffle.io are named in format `v.0.3.1` and their due dates are set accordingly to the dates listed below.
+
+**9 Feb 2018** – fork from `Chingu-Voyage-3/geckos-17`. Basic to-do list functionality.
+
+**5 Mar 2018** – version 0.3.1 release. Secured API.
